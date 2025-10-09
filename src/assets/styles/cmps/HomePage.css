@@ -1,2 +1,12 @@
 .home {
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(auto,28rem) 1fr minmax(auto,25rem);
+  grid-template-areas: "leftpanel mainview rightpanel";
+  gap: 5px;
+  background: black;
+  > * {
+    color: white;
+    background: #111;
+  }
 }
