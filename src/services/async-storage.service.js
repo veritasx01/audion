@@ -16,7 +16,7 @@ function get(entityType, entityId) {
     const entity = entities.find((entity) => entity._id === entityId);
     if (!entity)
       throw new Error(
-        `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`,
+        `Get failed, cannot find entity with id: ${entityId} in: ${entityType}`
       );
     return entity;
   });
@@ -34,11 +34,11 @@ function post(entityType, newEntity) {
 function put(entityType, updatedEntity) {
   return query(entityType).then((entities) => {
     const idx = entities.findIndex(
-      (entity) => entity._id === updatedEntity._id,
+      (entity) => entity._id === updatedEntity._id
     );
     if (idx < 0)
       throw new Error(
-        `Update failed, cannot find entity with id: ${updatedEntity._id} in: ${entityType}`,
+        `Update failed, cannot find entity with id: ${updatedEntity._id} in: ${entityType}`
       );
     const entityToUpdate = { ...entities[idx], ...updatedEntity };
     entities.splice(idx, 1, entityToUpdate);
@@ -52,7 +52,7 @@ function remove(entityType, entityId) {
     const idx = entities.findIndex((entity) => entity._id === entityId);
     if (idx < 0)
       throw new Error(
-        `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`,
+        `Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`
       );
     entities.splice(idx, 1);
     _save(entityType, entities);
@@ -66,9 +66,9 @@ function _save(entityType, entities) {
 }
 
 function _makeId(length = 5) {
-  var text = "";
+  var text = '';
   var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (var i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }

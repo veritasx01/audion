@@ -16,7 +16,7 @@ root.render(
     <Router>
       <RootCmp />
     </Router>
-  </Provider>,
+  </Provider>
 );
 
 // If you want your app to work offline and load faster, you can change

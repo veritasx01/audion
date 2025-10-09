@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const useForm = (initialState) => {
   const [fields, setFields] = useState(initialState);
@@ -7,13 +7,13 @@ export const useForm = (initialState) => {
     let { value, name: field, type, checked } = target;
     // value = (type === 'number') ? +value : value
     switch (type) {
-      case "number":
-      case "range":
+      case 'number':
+      case 'range':
         value = +value;
         break;
-      case "checkbox":
+      case 'checkbox':
         value = checked;
-
+        break;
       default:
         break;
     }
