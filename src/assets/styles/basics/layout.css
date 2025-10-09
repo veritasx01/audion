@@ -1,9 +1,10 @@
 .main-container {
   display: grid;
-  grid-template-columns: 1rem 1fr 1rem;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  width: 100%;
 
   > * {
-    grid-column: 2;
 
     &.full {
       grid-column: 1 / -1;
