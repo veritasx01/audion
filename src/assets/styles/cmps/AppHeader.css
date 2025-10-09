@@ -2,7 +2,8 @@
   display: flex;
   min-height: 3.5rem;
 
-  background-color: var(--clr4);
+  background-color: black;
+  color: white;
   padding: 0.8rem 1rem;
 
   & nav {

@@ -1,12 +1,16 @@
 .app-footer {
   display: flex;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 
-  min-height: 3.5rem;
+  min-height: 4.5rem;
 
   padding: 0.8rem 1rem;
-  background-color: var(--clr4);
+  background-color: black;
+  color: white;
 
   & p {
     margin: 0;
