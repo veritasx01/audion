@@ -1,7 +1,6 @@
 .app-header {
   display: flex;
-  min-height: 3.5rem;
-
+  height: 64px;
   background-color: black;
   color: white;
   justify-content: space-between;
