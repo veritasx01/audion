@@ -1,10 +1,7 @@
-import { Routes, Route } from "react-router";
-
-import { HomePage } from "./pages/HomePage";
-
 import { AppHeader } from "./cmps/AppHeader";
 import { AppFooter } from "./cmps/AppFooter";
 import { UserMsg } from "./cmps/UserMsg.jsx";
+import { MainView } from "./cmps/MainView.jsx";
 
 export function RootCmp() {
   return (
@@ -12,9 +9,7 @@ export function RootCmp() {
       <AppHeader />
       <UserMsg />
       <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+        <MainView />
       </main>
       <AppFooter />
     </div>

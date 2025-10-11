@@ -8,8 +8,8 @@
 
 @import "RootCmp";
 
-@import "cmps/HomePage";
 
+@import "cmps/MainView";
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
 @import "cmps/UserMsg";
