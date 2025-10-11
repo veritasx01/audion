@@ -1,11 +1,16 @@
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export function HomeButton() {
   const path = useLocation().pathname;
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate("/");
+  };
 
   if (path === "/") {
     return (
-      <button className="home-button">
+      <button className="home-button hov-enlarge">
         <span style={{ height: "24px", width: "24px" }}>
           <svg
             data-encore-id="icon"
@@ -22,7 +27,7 @@ export function HomeButton() {
   }
 
   return (
-    <button className="home-button">
+    <button className="home-button hov-enlarge" onClick={goHome}>
       <span style={{ height: "24px", width: "24px" }}>
         <svg
           data-encore-id="icon"

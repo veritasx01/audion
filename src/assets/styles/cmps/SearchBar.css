@@ -1,0 +1,25 @@
+.main-searchbar {
+  border-radius: 100px;
+  padding: 12px 96px 12px 48px;
+  height: 3rem;
+  background: #1e1e1e;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  outline: 2px solid transparent;
+  transition: box-shadow 0.22s ease-in, background 0.22s ease-in,
+    color 0.22s ease-in, -webkit-box-shadow 0.22s ease-in,
+    outline-color 0.22s ease-in-out;
+}
+
+.main-searchbar:hover {
+  background: #282828;
+}
+
+.main-searchbar:focus {
+  outline: 2px white solid;
+}
+ 
+.main-searchbar::placeholder {
+  color: #b3b3b3;
+}

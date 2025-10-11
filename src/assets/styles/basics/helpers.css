@@ -19,6 +19,11 @@
   }
 }
 
+.hov-enlarge:hover {
+  transition-duration: 50ms;
+  transform: scale(1.04);
+}
+
 /* Simple and useful CSS Debugging Technique */
 .debug * {
   outline: 1px solid gold;
