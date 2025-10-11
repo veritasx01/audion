@@ -4,15 +4,15 @@ import { TestPage } from "../pages/TestPage";
 
 export function MainView() {
   const [nowPlayingbar, setnowPlayingbar] = useState(true);
-  const twoCols = nowPlayingbar
-    ? {}
-    : { gridTemplateColumns: "minmax(284px, 26.25rem) 1fr" };
+  const [libraryBar, setLibraryBar] = useState(true);
+  const twoCols = nowPlayingbar ? {} : { gridTemplateColumns: "auto 1fr" };
   const isHidden = nowPlayingbar ? {} : { display: "none" };
   const toggleNowPlaying = () => setnowPlayingbar((p) => !p);
 
   return (
     <section className="home" style={twoCols}>
-      <div className="library-view">
+      <div className={libraryBar ? "library-view" : "library-view mini"}>
+        <button onClick={() => setLibraryBar((p) => !p)}>mini</button>
         <h1>
           left view,
           <br />
@@ -21,7 +21,7 @@ export function MainView() {
       </div>
       <div className="main-view">
         <Routes>
-          <Route path="/" element={<TestPage toggle={toggleNowPlaying}/>} />
+          <Route path="/" element={<TestPage toggle={toggleNowPlaying} />} />
         </Routes>
       </div>
       <div className="song-view" style={isHidden}>

@@ -1,12 +1,26 @@
 .home {
   display: grid;
   height: 100%;
-  grid-template-columns: minmax(284px, 26.25rem) 1fr minmax(284px, 26.25rem);
+  grid-template-columns: auto 1fr minmax(284px, 26.25rem);
   grid-template-areas: "leftpanel mainview rightpanel";
-  gap: 5px;
+  padding: 0px 8px 8px 8px;
+  gap: 8px;
   background: black;
   > * {
     color: white;
     background: #121212;
   }
+}
+
+.library-view {
+  width: 420px;
+  border-radius: 8px;
+}
+.library-view.mini {
+  width: 72px;
+}
+
+.main-view {
+  border-radius: 8px;
+  width: 100%;
 }

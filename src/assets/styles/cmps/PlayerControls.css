@@ -1,4 +1,8 @@
-.controls-container {
+.player-container {
+  margin-bottom: 8px;
+}
+
+.generals-container {
   flex-flow: row nowrap;
   margin-bottom: 8px;
   gap: 0px;
