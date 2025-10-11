@@ -24,3 +24,11 @@
 .main-searchbar::placeholder {
   color: #b3b3b3;
 }
+
+.size-48 svg {
+  transition: fill 0.22s ease-in-out;
+}
+
+.search-form:hover .size-48 svg {
+  fill: white;
+}

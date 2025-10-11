@@ -1,6 +1,10 @@
 export function SearchBar() {
   return (
-    <form className="flex align-center" style={{ position: "relative" }}>
+    <form
+      className="search-form flex align-center"
+      style={{ position: "relative" }}
+    >
+      {/* search button */}
       <span
         className="size-48 flex justify-center align-center"
         style={{ position: "absolute" }}
@@ -19,6 +23,7 @@ export function SearchBar() {
         type="text"
         placeholder="What do you want to play?"
       ></input>
+      {/* browse button */}
       <div
         className="size-48 flex justify-center align-center"
         style={{ position: "absolute", right: "0px" }}
