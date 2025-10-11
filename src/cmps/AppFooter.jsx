@@ -1,9 +1,11 @@
+import { PlayerControls } from "./PlayerControls";
+
 export function AppFooter() {
 
   return (
     <footer className="app-footer full">
       <p>should contain music details</p>
-      <p>should contain video player</p>
+      <PlayerControls></PlayerControls>
       <p>should contain audio controls</p>
     </footer>
   );

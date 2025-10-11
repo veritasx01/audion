@@ -1,0 +1,38 @@
+.controls-container {
+  flex-flow: row nowrap;
+  margin-bottom: 8px;
+  gap: 0px;
+}
+
+.player-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  & svg {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+}
+
+.player-button:hover {
+  background: white;
+}
+
+.smaller-button {
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  background: black;
+}
+.smaller-button:hover {
+  background: black;
+}
+.smaller-button svg:hover {
+  fill: white;
+}

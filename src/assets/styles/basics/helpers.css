@@ -29,6 +29,21 @@
   transform: scale(1);
 }
 
+.size-16 {
+  width: 16px;
+  height: 16px;
+}
+
+.size-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.size-32 {
+  width: 32px;
+  height: 32px;
+}
+
 .two-cols {
   grid-template-columns: minmax(284px, 26.25rem) 1fr;
 }

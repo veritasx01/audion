@@ -1,6 +1,14 @@
+import { useState } from "react";
+
 export function HomePage() {
+  const [nowPlayingbar, setnowPlayingbar] = useState(true);
+  const twoCols = nowPlayingbar
+    ? {}
+    : { gridTemplateColumns: "minmax(284px, 26.25rem) 1fr" };
+  const isHidden = nowPlayingbar ? {} : { display: "none" };
+
   return (
-    <section className="home">
+    <section className="home" style={twoCols}>
       <div className="library-view">
         <h1>
           left view,
@@ -14,8 +22,9 @@ export function HomePage() {
           <br />
           pages get rendered inside here
         </h1>
+        <button onClick={() => setnowPlayingbar((p) => !p)}>toggle right</button>
       </div>
-      <div className="song-view">
+      <div className="song-view" style={isHidden}>
         <h1>
           right view
           <br />
