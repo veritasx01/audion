@@ -1,9 +1,19 @@
+import { HomeButton } from "./HomeButton";
+import { SearchBar } from "./SearchBar";
+
 export function AppHeader() {
   return (
     <header className="app-header full">
-      <p>logo goes here</p>
-      <h1>search bar goes here</h1>
-      <p>nav goes here</p>
+      <div>
+        <p>logo goes here</p>
+      </div>
+      <div className="flex row">
+        <HomeButton />
+        <SearchBar />
+      </div>
+      <div>
+        <p>nav goes here</p>
+      </div>
     </header>
   );
 }

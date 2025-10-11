@@ -1,0 +1,23 @@
+.home-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  color: #b2b2b2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  & svg {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+}
+
+.home-button:hover {
+  color: #fff;
+  background: #282828;
+  & svg {
+    fill: white;
+  }
+}
