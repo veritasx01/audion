@@ -2,6 +2,7 @@
   border-radius: 100px;
   padding: 12px 96px 12px 48px;
   height: 3rem;
+  min-width: 474px;
   background: #1e1e1e;
   color: white;
   font-size: 1rem;
