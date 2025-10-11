@@ -24,6 +24,15 @@
   transform: scale(1.04);
 }
 
+.hov-enlarge:active {
+  opacity: 0.7;
+  transform: scale(1);
+}
+
+.two-cols {
+  grid-template-columns: minmax(284px, 26.25rem) 1fr;
+}
+
 /* Simple and useful CSS Debugging Technique */
 .debug * {
   outline: 1px solid gold;
