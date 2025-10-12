@@ -1,0 +1,26 @@
+.progress-container {
+  display: flex;
+  gap: 8px;
+  margin: 0 auto;
+}
+
+.playback-position {
+  width: 50px;
+  height: 17px;
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.playback-duration {
+  width: 50px;
+  height: 17px;
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.progress-bar {
+  background: #4c4c4c;
+  border-radius: 8px;
+  width: 600px;
+  height: 4px;
+}

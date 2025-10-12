@@ -15,4 +15,5 @@
 @import "cmps/UserMsg";
 @import "cmps/HomeButton";
 @import "cmps/SearchBar";
-@import "cmps/PlayerControls.css"
+@import "cmps/PlayerControls";
+@import "cmps/SongProgress";

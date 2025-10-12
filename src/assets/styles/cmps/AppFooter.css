@@ -24,4 +24,10 @@
       color: --var(clr5);
     }
   }
+  > * {
+    flex: 571.2 0 0;
+  }
+  > *:nth-child(2) {
+    flex: 722 0 0;
+  }
 }

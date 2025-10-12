@@ -1,11 +1,17 @@
 .player-container {
   margin-bottom: 8px;
+  min-width: 500px;
+}
+.player-container > * {
+  flex: 1;
 }
 
 .generals-container {
+  display: flex;
   flex-flow: row nowrap;
   margin-bottom: 8px;
   gap: 0px;
+  justify-content: center;
 }
 
 .player-button {
@@ -32,6 +38,7 @@
   width: 32px;
   height: 32px;
   padding: 8px;
+  margin: 0;
   background: black;
 }
 .smaller-button:hover {
