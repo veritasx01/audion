@@ -15,5 +15,3 @@ export function createDummySongs(amount = 10) {
   }
   return songs;
 }
-
-window.cds = createDummySongs();
