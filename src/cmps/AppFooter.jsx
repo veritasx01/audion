@@ -1,10 +1,11 @@
 import { PlayerControls } from "./PlayerControls";
 import { SongControls } from "./SongControls";
+import { SongWidget } from "./SongWidget";
 
 export function AppFooter() {
   return (
     <footer className="app-footer full">
-      <p>should contain music details</p>
+      <SongWidget></SongWidget>
       <PlayerControls></PlayerControls>
       <SongControls></SongControls>
     </footer>

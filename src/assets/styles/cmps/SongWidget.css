@@ -1,0 +1,37 @@
+.add-button {
+  width: 16px;
+  height: 32px;
+  padding: 8px 0;
+  margin: 0;
+  background: black;
+  will-change: transform;
+}
+
+.song-controls-container {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  > :first-child {
+    margin-right: 8px;
+  }
+  img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.song-description {
+  justify-self: start;
+  margin: 0 8px;
+}
+
+.song-heading {
+  font-size: 0.875rem;
+  padding-right: 8px;
+}
+
+.song-artist {
+  font-size: 0.75rem;
+  padding-right: 8px;
+  color: #b2b2b2;
+}
