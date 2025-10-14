@@ -1,0 +1,24 @@
+.controls-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.controls-button {
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  margin: 0;
+  background: black;
+  will-change: transform;
+}
+.controls-button:hover {
+  background: black;
+}
+.controls-button svg:hover {
+  fill: white;
+}
+.trans3 {
+  transition-duration: 150ms;
+}
