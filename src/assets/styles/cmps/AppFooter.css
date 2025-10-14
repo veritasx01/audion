@@ -31,3 +31,18 @@
     flex: 722 0 0;
   }
 }
+
+.smaller-button {
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  margin: 0;
+  background: black;
+  will-change: transform;
+}
+.smaller-button:hover {
+  background: black;
+}
+.smaller-button svg:hover {
+  fill: white;
+}

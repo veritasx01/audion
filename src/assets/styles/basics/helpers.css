@@ -19,7 +19,7 @@
   }
 }
 
-.hov-enlarge:hover {
+.hov-enlarge:hover svg {
   transition-duration: 50ms;
   transform: scale(1.04);
 }
