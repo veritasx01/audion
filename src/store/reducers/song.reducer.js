@@ -3,6 +3,7 @@ export const SET_SONG = 'SET_SONG';
 const initialState = {
   currentSong: null,
   isPlaying: false,
+  currentDuration: 0,
 };
 
 export function songReducer(state = initialState, action) {
