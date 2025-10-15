@@ -1,12 +1,16 @@
-import { legacy_createStore as createStore, combineReducers } from "redux";
+import {
+  legacy_createStore as createStore,
+  combineReducers,
+  compose,
+} from 'redux';
+import { songReducer } from './reducers/song.reducer';
 
 const rootReducer = combineReducers({
+  songModule: songReducer,
 });
 
-const middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-  : undefined;
-export const store = createStore(rootReducer, middleware);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export const store = createStore(rootReducer, composeEnhancers());
 
 // For debug:
 // store.subscribe(() => {
