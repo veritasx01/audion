@@ -1,6 +1,6 @@
 import { storageService } from "./async-storage.service.js";
 import { createDummySongs } from "./song.service.js";
-import { getRandomIntInclusive, makeId } from "./util.service";
+import { utilService } from "./util.service";
 import { faker } from "@faker-js/faker";
 
 export const playlistService = {
@@ -22,21 +22,22 @@ _createPlaylists();
 function createPlaylist(
   title = faker.lorem.words({ min: 2, max: 6 }),
   description = faker.lorem.sentence(),
-  createdBy = makeId(),
+  createdBy = utilService.makeId(),
   createdAt = new Date(),
   songs
 ) {
-  const playlistSongs = songs ?? createDummySongs(getRandomIntInclusive(3, 10));
+  const playlistSongs =
+    songs ?? createDummySongs(utilService.getRandomIntInclusive(3, 10));
 
   // add the current date as addedAt for each song
   playlistSongs.map((song) => ({ ...song, addedAt: new Date() }));
 
   const newPlaylist = {
-    _id: makeId(),
-    title: faker.lorem.words({ min: 2, max: 6 }),
-    description: faker.lorem.sentence(),
-    createdAt: new Date(),
-    createdBy: makeId(),
+    _id: utilService.makeId(),
+    title,
+    description,
+    createdBy,
+    createdAt,
     songs: playlistSongs,
     thumbnail: playlistSongs[0]?.thumbnail,
   };
@@ -96,7 +97,7 @@ function remove(id) {
 
 // save playlist to storage (add new or update existing)
 function save(playlistToSave) {
-  if (playlistToSave.id) {
+  if (playlistToSave._id) {
     return storageService.put(STORAGE_KEY, playlistToSave);
   } else {
     return storageService.post(STORAGE_KEY, playlistToSave);
