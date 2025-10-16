@@ -6,15 +6,16 @@
   width: 93px;
   height: 4px;
   background: #4c4c4c;
-  background: red;
   border-radius: 8px;
 }
 .ball {
+  position: relative;
+  top: -8px;
   background-color: #fff;
+  display: none;
   border: 0;
   border-radius: 50%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  display: none;
   height: 12px;
   width: 12px;
   justify-content: center;
@@ -31,6 +32,15 @@
   transform: translateX(calc(-100% + 50%));
   border-radius: 4px;
 }
+.volumebar-container:hover {
+  cursor: pointer;
+}
 .volumebar-container:hover .bar {
-  background: var(--spotify-green);
+  background: #1db954;
+}
+.volumebar-container:hover .ball {
+  display: block;
+}
+.ball:active .bar {
+  background: #1db954;
 }
