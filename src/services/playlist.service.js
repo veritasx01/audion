@@ -66,13 +66,14 @@ function query(filterBy) {
     .query(STORAGE_KEY)
     .then((playlists) => {
       if (filterBy) {
-        let { title = "", description = "" } = filterBy;
+        let { title = "", description = "", createdBy = "" } = filterBy;
         playlists = playlists.filter(
           (playlist) =>
-            playlist.title.toLowerCase().includes(title.toLowerCase()) ||
+            playlist.title.toLowerCase().includes(title.toLowerCase()) &&
             playlist.description
               .toLowerCase()
-              .includes(description.toLowerCase())
+              .includes(description.toLowerCase()) &&
+            playlist.createdBy.toLowerCase().includes(createdBy.toLowerCase())
         );
       }
       return playlists;
