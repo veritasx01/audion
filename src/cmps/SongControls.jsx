@@ -1,3 +1,5 @@
+import { VolumeBar } from "./VolumeBar";
+
 export function SongControls() {
   return (
     <div>
@@ -30,6 +32,7 @@ export function SongControls() {
             </svg>
           </span>
         </button>
+        <VolumeBar></VolumeBar>
         <button className="controls-button hov-enlarge trans3">
           <span className="size-32" aria-hidden="true">
             <svg
