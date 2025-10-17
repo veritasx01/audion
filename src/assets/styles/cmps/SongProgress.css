@@ -2,6 +2,16 @@
   display: flex;
   gap: 8px;
   margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  height: 12px;
+  position: relative;
+  top: -2px;
 }
 
 .playback-position {
@@ -23,4 +33,17 @@
   border-radius: 8px;
   width: 600px;
   height: 4px;
+}
+
+.progress-container:hover {
+  cursor: pointer;
+}
+.progress-container:hover .bar {
+  background: #1db954;
+}
+.progress-container:hover .ball {
+  display: block;
+}
+.progress-container.active .ball {
+  display: block;
 }
