@@ -38,9 +38,9 @@ export function VolumeBar() {
   };
 
   return (
-    <div className="volumebar-container">
+    <div className="volumebar-container" onMouseDown={handleMouseDown}>
       <div className="volumebar" ref={barRef}>
-        <div className="bar-container" onMouseDown={handleMouseDown}>
+        <div className="bar-container">
           <div
             className={`bar ${dragging ? "active" : ""}`}
             style={{ transform: `translateX(calc(-100% + ${volume}%))` }}
