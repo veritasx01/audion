@@ -1,4 +1,4 @@
-import { chooseFromArray, getRandomIntInclusive, makeId } from './util.service';
+import { getRandomValues, getRandomIntInclusive, makeId } from './util.service';
 import { faker } from '@faker-js/faker';
 
 export function createDummySongs(amount = 10) {
@@ -39,9 +39,9 @@ export function createDummySongs(amount = 10) {
       artist: faker.person.fullname,
       duration: getRandomIntInclusive(5, 15),
       albumName: faker.music.album(),
-      songThumbnail: chooseFromArray(thumbnails),
+      songThumbnail: getRandomValues(thumbnails, 1)[0],
       releaseDate: new Date(),
-      genres: [chooseFromArray(genres)]
+      genres: [...getRandomValues(genres, 3)],
     });
   }
   return songs;
