@@ -5,17 +5,20 @@ export function VolumeBar() {
   const [dragging, setDragging] = useState(false);
   const barRef = useRef(null);
 
+  const updateVolumeFromClientX = (clientX) => {
+    if (!barRef.current) return;
+    const rect = barRef.current.getBoundingClientRect();
+    let newPos = ((clientX - rect.left) / rect.width) * 100;
+    newPos = Math.max(0, Math.min(100, newPos));
+    setVolume(newPos);
+  };
+
   const handleMouseDown = (e) => {
     e.preventDefault();
     setDragging(true);
+    updateVolumeFromClientX(e.clientX);
 
-    const onMove = (moveEvent) => {
-      if (!barRef.current) return;
-      const rect = barRef.current.getBoundingClientRect();
-      let newPos = ((moveEvent.clientX - rect.left) / rect.width) * 100;
-      newPos = Math.max(0, Math.min(100, newPos));
-      setVolume(newPos);
-    };
+    const onMove = (moveEvent) => updateVolumeFromClientX(moveEvent.clientX);
 
     const onUp = () => {
       setDragging(false);
@@ -30,9 +33,9 @@ export function VolumeBar() {
   return (
     <div className="volumebar-container">
       <div className="volumebar" ref={barRef}>
-        <div className="bar-container">
+        <div className="bar-container" onMouseDown={handleMouseDown}>
           <div
-            className="bar"
+            className={`bar ${dragging ? "active" : ""}`}
             style={{ transform: `translateX(calc(-100% + ${volume}%))` }}
           ></div>
         </div>

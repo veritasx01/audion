@@ -41,6 +41,6 @@
 .volumebar-container:hover .ball {
   display: block;
 }
-.ball:active .bar {
-  background: #1db954;
+.bar.active {
+  background-color: #1db954; /* green when dragging */
 }
