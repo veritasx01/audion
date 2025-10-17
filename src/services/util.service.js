@@ -94,3 +94,9 @@ export function loadFromStorage(key) {
   const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : undefined;
 }
+
+export function chooseFromArray(array) {
+  if (!Array.isArray(array) || array.length === 0) return undefined;
+  const idx = getRandomIntInclusive(0,array.length-1);
+  return array[idx];
+}
