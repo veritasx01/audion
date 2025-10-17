@@ -1,3 +1,5 @@
+import { VolumeBar } from "./VolumeBar";
+
 export function SongControls() {
   return (
     <div>
@@ -23,13 +25,7 @@ export function SongControls() {
             </svg>
           </span>
         </button>
-        <button className="controls-button hov-enlarge">
-          <span className="size-32" aria-hidden="true">
-            <svg id="volume-icon" viewBox="0 0 16 16" fill="#b2b2b2">
-              <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 6.087a4.502 4.502 0 0 0 0-8.474v1.65a3 3 0 0 1 0 5.175z"></path>
-            </svg>
-          </span>
-        </button>
+        <VolumeBar></VolumeBar>
         <button className="controls-button hov-enlarge trans3">
           <span className="size-32" aria-hidden="true">
             <svg

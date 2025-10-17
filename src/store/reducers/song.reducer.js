@@ -4,6 +4,7 @@ const initialState = {
   currentSong: null,
   isPlaying: false,
   currentDuration: 0,
+  volume: 100,
 };
 
 export function songReducer(state = initialState, action) {

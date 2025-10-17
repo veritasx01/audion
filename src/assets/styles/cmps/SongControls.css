@@ -3,6 +3,7 @@
   justify-content: flex-end;
   align-items: center;
   flex-grow: 1;
+  padding-bottom: 15px;
 }
 
 .controls-button {
