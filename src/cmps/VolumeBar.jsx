@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateCurrentSong } from "../store/actions/song.action";
+import { updateVolume } from "../store/actions/song.action";
 
 export function VolumeBar() {
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(100);
   const [dragging, setDragging] = useState(false);
   const barRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(updateCurrentSong({ volume }));
+    dispatch(updateVolume(volume / 100));
   }, [volume, dispatch]);
 
   const updateVolumeFromClientX = (clientX) => {
