@@ -12,7 +12,6 @@ export function makeId(length = 16) {
   var txt = '';
   var possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
   for (var i = 0; i < length; i++) {
     txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -95,16 +94,31 @@ export function loadFromStorage(key) {
   return data ? JSON.parse(data) : undefined;
 }
 
-export function getRandomValues(arr, m = 1) {
-  if (m > arr.length) {
-    throw new Error('m cannot be larger than array length');
-  }
+function extractYouTubeId(url) {
+  const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
+  return match ? match[1] : null;
+}
+const key = import.meta.env.VITE_YOUTUBE_API_KEY;
+export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
+  const videoId = extractYouTubeId(videoUrl);
+  if (!videoId) throw new Error('Invalid YouTube URL');
 
-  const indices = Array.from({ length: arr.length }, (_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]]; // shuffle
-  }
+  const response = await fetch(
+    `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${apiKey}`
+  );
+  const data = await response.json();
 
-  return indices.slice(0, m).map((i) => arr[i]);
+  const isoDuration = data.items?.[0]?.contentDetails?.duration;
+  if (!isoDuration) throw new Error('Duration not found');
+
+  // Convert ISO 8601 duration (e.g., PT4M13S) → seconds
+  return isoDurationToSeconds(isoDuration);
+}
+
+function isoDurationToSeconds(iso) {
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const hours = parseInt(match[1] || 0);
+  const minutes = parseInt(match[2] || 0);
+  const seconds = parseInt(match[3] || 0);
+  return hours * 3600 + minutes * 60 + seconds;
 }

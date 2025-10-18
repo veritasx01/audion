@@ -1,8 +1,12 @@
+import { togglePlaying } from "../store/actions/song.action";
 import { SongProgress } from "./SongProgress";
+import { useDispatch } from "react-redux";
 
 export function PlayerControls() {
   // TODO: spotify has a diffrent div for the smaller buttons on each side for different gaps from the play button
   // this is not currently the case as the gap is equal, also the buttons don't have margins
+
+  const dispatch = useDispatch();
   return (
     <div className="player-container flex column">
       <div className="generals-container flex align-center">
@@ -26,7 +30,10 @@ export function PlayerControls() {
           </button>
         </div>
         {/* play song button */}
-        <button className="player-button hov-enlarge">
+        <button
+          className="player-button hov-enlarge"
+          onClick={() => dispatch(togglePlaying())}
+        >
           <span className="size-16" aria-hidden="true">
             <svg aria-hidden="true" viewBox="0 0 16 16" fill="black">
               <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"></path>
@@ -37,8 +44,8 @@ export function PlayerControls() {
         <div style={{ marginLeft: "8px", display: "flex", gap: "8px" }}>
           <button className="smaller-button hov-enlarge">
             <span className="size-16" aria-hidden="true">
-                <svg aria-hidden="true" viewBox="0 0 16 16" fill="#b2b2b2">
-                  <path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z"></path>
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="#b2b2b2">
+                <path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z"></path>
               </svg>
             </span>
           </button>
