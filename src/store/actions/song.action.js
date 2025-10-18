@@ -1,7 +1,11 @@
-import { SET_SONG, SET_VOLUME, TOGGLE_PLAYING } from '../reducers/song.reducer';
+import { SET_SONG, SET_VOLUME, TOGGLE_PLAYING, SET_DURATION } from '../reducers/song.reducer';
 
 export function updateCurrentSong(song) {
   return { type: SET_SONG, payload: song };
+}
+
+export function updateCurrentDuration(duration) {
+  return { type: SET_DURATION, payload: duration };
 }
 
 export function togglePlaying() {
