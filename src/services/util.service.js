@@ -9,10 +9,9 @@ export const utilService = {
 };
 
 export function makeId(length = 16) {
-  var txt = "";
+  var txt = '';
   var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (var i = 0; i < length; i++) {
     txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -22,43 +21,43 @@ export function makeId(length = 16) {
 
 export function makeLorem(size = 100) {
   var words = [
-    "The sky",
-    "above",
-    "the port",
-    "was",
-    "the color of television",
-    "tuned",
-    "to",
-    "a dead channel",
-    ".",
-    "All",
-    "this happened",
-    "more or less",
-    ".",
-    "I",
-    "had",
-    "the story",
-    "bit by bit",
-    "from various people",
-    "and",
-    "as generally",
-    "happens",
-    "in such cases",
-    "each time",
-    "it",
-    "was",
-    "a different story",
-    ".",
-    "It",
-    "was",
-    "a pleasure",
-    "to",
-    "burn",
+    'The sky',
+    'above',
+    'the port',
+    'was',
+    'the color of television',
+    'tuned',
+    'to',
+    'a dead channel',
+    '.',
+    'All',
+    'this happened',
+    'more or less',
+    '.',
+    'I',
+    'had',
+    'the story',
+    'bit by bit',
+    'from various people',
+    'and',
+    'as generally',
+    'happens',
+    'in such cases',
+    'each time',
+    'it',
+    'was',
+    'a different story',
+    '.',
+    'It',
+    'was',
+    'a pleasure',
+    'to',
+    'burn',
   ];
-  var txt = "";
+  var txt = '';
   while (size > 0) {
     size--;
-    txt += words[Math.floor(Math.random() * words.length)] + " ";
+    txt += words[Math.floor(Math.random() * words.length)] + ' ';
   }
   return txt;
 }
@@ -93,4 +92,33 @@ export function saveToStorage(key, value) {
 export function loadFromStorage(key) {
   const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : undefined;
+}
+
+function extractYouTubeId(url) {
+  const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
+  return match ? match[1] : null;
+}
+const key = import.meta.env.VITE_YOUTUBE_API_KEY;
+export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
+  const videoId = extractYouTubeId(videoUrl);
+  if (!videoId) throw new Error('Invalid YouTube URL');
+
+  const response = await fetch(
+    `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${apiKey}`
+  );
+  const data = await response.json();
+
+  const isoDuration = data.items?.[0]?.contentDetails?.duration;
+  if (!isoDuration) throw new Error('Duration not found');
+
+  // Convert ISO 8601 duration (e.g., PT4M13S) → seconds
+  return isoDurationToSeconds(isoDuration);
+}
+
+function isoDurationToSeconds(iso) {
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const hours = parseInt(match[1] || 0);
+  const minutes = parseInt(match[2] || 0);
+  const seconds = parseInt(match[3] || 0);
+  return hours * 3600 + minutes * 60 + seconds;
 }

@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 export function SongProgress() {
   const [progress, SetProgress] = useState(50);
   const [dragging, setDragging] = useState(false);
   const progressRef = useRef(null);
+  const duration = useSelector((state) => state.songModule.currentDuration);
 
   const updateVolumeFromClientX = (clientX) => {
     if (!progressRef.current) return;
@@ -52,7 +54,9 @@ export function SongProgress() {
           ></div>
         </div>
       </div>
-      <div className="playback-duration">00:00</div>
+      <div className="playback-duration">
+        {Math.floor(duration / 60)}:{duration % 60}
+      </div>
     </div>
   );
 }
