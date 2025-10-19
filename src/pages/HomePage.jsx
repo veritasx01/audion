@@ -1,4 +1,4 @@
-export function TestPage({ toggle }) {
+export function HomePage() {
   return (
     <>
       <h1>
@@ -6,7 +6,6 @@ export function TestPage({ toggle }) {
         <br />
         pages get rendered inside here
       </h1>
-      <button onClick={toggle}>toggle right</button>
     </>
   );
 }
