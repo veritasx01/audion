@@ -1,18 +1,24 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router";
-import { TestPage } from "../pages/TestPage";
+import { useDispatch, useSelector } from "react-redux";
+import { HomePage } from "../pages/HomePage";
+import { toggleLibrary } from "../store/actions/system.reducer";
 
 export function MainView() {
-  const [nowPlayingbar, setnowPlayingbar] = useState(true);
-  const [libraryBar, setLibraryBar] = useState(true);
-  const twoCols = nowPlayingbar ? {} : { gridTemplateColumns: "auto 1fr" };
-  const isHidden = nowPlayingbar ? {} : { display: "none" };
-  const toggleNowPlaying = () => setnowPlayingbar((p) => !p);
+  const nowPlayingView = useSelector(
+    (state) => state.systemModule.nowPlayingView
+  );
+  const libraryView = useSelector((state) => state.systemModule.libraryView);
+  const twoCols = nowPlayingView ? {} : { gridTemplateColumns: "auto 1fr" };
+  const isHidden = nowPlayingView ? {} : { display: "none" };
+  const dispatch = useDispatch();
+  const toggleLib = () => {
+    dispatch(toggleLibrary());
+  };
 
   return (
     <section className="home" style={twoCols}>
-      <div className={libraryBar ? "library-view" : "library-view mini"}>
-        <button onClick={() => setLibraryBar((p) => !p)}>mini</button>
+      <div className={libraryView ? "library-view" : "library-view mini"}>
+        <button onClick={toggleLib}>mini</button>
         <h1>
           left view,
           <br />
@@ -21,7 +27,7 @@ export function MainView() {
       </div>
       <div className="main-view">
         <Routes>
-          <Route path="/" element={<TestPage toggle={toggleNowPlaying} />} />
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </div>
       <div className="song-view" style={isHidden}>

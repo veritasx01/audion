@@ -5,10 +5,12 @@ import {
 } from "redux";
 import { songReducer } from "./reducers/song.reducer";
 import { playlistReducer } from "./reducers/playlist.reducer";
+import { systemReducer } from "./reducers/system.reducer";
 
 const rootReducer = combineReducers({
   songModule: songReducer,
   playlistModule: playlistReducer,
+  systemModule: systemReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
