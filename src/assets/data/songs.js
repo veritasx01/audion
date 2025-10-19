@@ -1,4 +1,4 @@
-const songs = [
+export const songs = [
   {
     _id: "1",
     title: "Stairway to Heaven",
