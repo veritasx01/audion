@@ -8,7 +8,7 @@ export function YourLibraryList({
 }) {
   return (
     <div className="scrollable-library-list">
-      <ul className="your-library-list">
+      <ul className={`your-library-list ${isMinimized ? "minimized" : ""}`}>
         {items.map((item) => (
           <li key={item._id}>
             <YourLibraryPreview {...item} isMinimized={isMinimized} />
