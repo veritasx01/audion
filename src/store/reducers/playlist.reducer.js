@@ -2,7 +2,6 @@ export const SET_PLAYLISTS = "SET_PLAYLISTS";
 export const REMOVE_PLAYLIST = "REMOVE_PLAYLIST";
 export const ADD_PLAYLIST = "ADD_PLAYLIST";
 export const EDIT_PLAYLIST_DETAILS = "EDIT_PLAYLIST_DETAILS";
-export const EDIT_PLAYLIST = "EDIT_PLAYLIST";
 export const ADD_SONG = "ADD_SONG";
 export const REMOVE_SONG = "REMOVE_SONG";
 export const SET_FILTER = "SET_FILTER";
@@ -37,7 +36,7 @@ export function playlistReducer(state = initialState, action) {
         ...state,
         playlists: [...state.playlists, action.payload],
       };
-    case EDIT_PLAYLIST:
+    case EDIT_PLAYLIST_DETAILS:
       return {
         ...state,
         playlists: state.playlists.map((playlist) =>

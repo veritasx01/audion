@@ -5,12 +5,12 @@ import {
   SET_PLAYLISTS,
   REMOVE_PLAYLIST,
   ADD_PLAYLIST,
-  EDIT_PLAYLIST,
+  EDIT_PLAYLIST_DETAILS,
   ADD_SONG,
   REMOVE_SONG,
   SET_FILTER,
-  UNDO_CHANGES,
   SET_IS_LOADING,
+  // UNDO_CHANGES, // for rollingback an optimistic update implementation
 } from "../reducers/playlist.reducers";
 
 // load playlists from backend to the store
