@@ -1,0 +1,86 @@
+.your-library-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: calc(75vh - 120px); /* adjust based on layout */
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+  flex: 1;
+}
+
+.your-library-list li {
+  width: 100%;
+}
+
+.your-library-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.your-library-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+.your-library-list-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  color: #fff;
+  width: 100%;
+}
+
+.your-library-list-preview:hover {
+  background-color: #2a2a2a;
+}
+
+.your-library-list-preview > div {
+  display: flex;
+  gap: 8px;
+}
+
+.your-library-list-preview button {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.your-library-list-preview button:hover {
+  background-color: #3a3a3a;
+  color: #fff;
+}
+
+.scrollable-library-list {
+  max-height: calc(80vh - 120px);
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+  width: 100%;
+  flex: 1;
+  height: 100%;
+}
+
+.scrollable-library-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-library-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+.scrollable-library-list::-webkit-scrollbar-track {
+  background: transparent;
+}
