@@ -11,7 +11,7 @@ import {
   SET_FILTER,
   SET_IS_LOADING,
   // UNDO_CHANGES, // for rollingback an optimistic update implementation
-} from "../reducers/playlist.reducers";
+} from "../reducers/playlist.reducer.js";
 
 // load playlists from backend to the store
 export function loadPlaylists() {
