@@ -1,0 +1,28 @@
+import { Link } from "react-router-dom";
+
+export const YourLibraryPreview = ({
+  _id,
+  title,
+  type: itemType, // playlist, artist, album, etc.
+  createdBy,
+  thumbnail,
+  isMinimized,
+}) => {
+  return (
+    <Link to={`/${itemType}/${_id}`} className="your-library-preview">
+      <img
+        src={thumbnail}
+        alt={`${title} thumbnail`}
+        className="your-library-thumbnail"
+      />
+      {!isMinimized && (
+        <div className="your-library-info">
+          <h4 className="your-library-title">{title}</h4>
+          <p className="your-library-meta">
+            {itemType} • {createdBy}
+          </p>
+        </div>
+      )}
+    </Link>
+  );
+};
