@@ -8,7 +8,6 @@
 
 @import "RootCmp";
 
-
 @import "cmps/MainView";
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
@@ -20,3 +19,6 @@
 @import "cmps/SongControls";
 @import "cmps/SongWidget";
 @import "cmps/VolumeBar";
+@import "cmps/YourLibrary.css";
+@import "cmps/YourLibraryPreview.css";
+@import "cmps/YourLibraryList.css";
