@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
-export const YourLibraryPreview = ({
+export function YourLibraryPreview({
   _id,
   title,
   type: itemType, // playlist, artist, album, etc.
   createdBy,
   thumbnail,
   isMinimized,
-}) => {
+}) {
   return (
     <Link to={`/${itemType}/${_id}`} className="your-library-preview">
       <img
@@ -25,4 +25,4 @@ export const YourLibraryPreview = ({
       )}
     </Link>
   );
-};
+}
