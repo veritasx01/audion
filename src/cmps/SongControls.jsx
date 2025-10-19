@@ -1,5 +1,5 @@
 import { VolumeBar } from "./VolumeBar";
-import { toggleNowPlaying } from "../store/actions/system.reducer";
+import { toggleNowPlaying } from "../store/actions/system.action";
 import nowPlayingViewIcon from "../assets/icons/now-playing-view.svg";
 import queueIcon from "../assets/icons/queue.svg";
 import enterFullScreenIcon from "../assets/icons/enter-full-screen.svg";

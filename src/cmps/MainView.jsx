@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { HomePage } from "../pages/HomePage";
-import { toggleLibrary } from "../store/actions/system.reducer";
+import { toggleLibrary } from "../store/actions/system.action";
 
 export function MainView() {
   const nowPlayingView = useSelector(
