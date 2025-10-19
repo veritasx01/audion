@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateVolume } from "../store/actions/song.action";
+import noVolumeIcon from "../assets/icons/volume-none.svg";
 import lowVolumeIcon from "../assets/icons/volume-low.svg";
 import midVolumeIcon from "../assets/icons/volume-mid.svg";
 import highVolumeIcon from "../assets/icons/volume-high.svg";
@@ -75,7 +76,9 @@ function getCurrentVolSvg(volume) {
     return <img src={highVolumeIcon} alt="High volume icon" />;
   } else if (volume > 33) {
     return <img src={midVolumeIcon} alt="Medium volume icon" />;
-  } else {
+  } else if (volume > 0) {
     return <img src={lowVolumeIcon} alt="Low volume icon" />;
+  } else {
+    return <img src={noVolumeIcon} alt="no volume icon" />;
   }
 }
