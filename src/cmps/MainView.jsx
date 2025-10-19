@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { HomePage } from "../pages/HomePage";
-import { toggleLibrary } from "../store/actions/system.action";
+import { YourLibrary } from "./YourLibrary";
 
 export function MainView() {
   const nowPlayingView = useSelector(
@@ -11,19 +11,11 @@ export function MainView() {
   const twoCols = nowPlayingView ? {} : { gridTemplateColumns: "auto 1fr" };
   const isHidden = nowPlayingView ? {} : { display: "none" };
   const dispatch = useDispatch();
-  const toggleLib = () => {
-    dispatch(toggleLibrary());
-  };
 
   return (
     <section className="home" style={twoCols}>
       <div className={libraryView ? "library-view" : "library-view mini"}>
-        <button onClick={toggleLib}>mini</button>
-        <h1>
-          left view,
-          <br />
-          library view
-        </h1>
+        <YourLibrary />
       </div>
       <div className="main-view">
         <Routes>
