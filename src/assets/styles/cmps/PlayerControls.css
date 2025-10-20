@@ -25,6 +25,7 @@
   justify-content: center;
   border: none;
   cursor: pointer;
+  will-change: transform;
   & svg {
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
