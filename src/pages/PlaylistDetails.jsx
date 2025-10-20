@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { playlistService } from "../services/playlist.service";
+import checkmarkIcon from "../assets/icons/checkmark.svg";
+import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 
 const ALL_COLUMNS = [
-  { key: "title", label: "Title" },
-  { key: "artist", label: "Artist" },
   { key: "album", label: "Album" },
   { key: "dateAdded", label: "Date Added" },
   { key: "duration", label: "Duration" },
@@ -14,7 +14,6 @@ export function PlaylistDetails() {
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
   const [hoveredRow, setHoveredRow] = useState(null);
-  const [viewMode, setViewMode] = useState("detailed"); // "compact" or "detailed"
   const [visibleColumns, setVisibleColumns] = useState(
     ALL_COLUMNS.map((c) => c.key)
   );
@@ -40,10 +39,27 @@ export function PlaylistDetails() {
     return `${minutes}:${secondsRemainder.toString().padStart(2, "0")}`;
   }
 
-  let relevantColumns =
-    viewMode === "compact"
-      ? ALL_COLUMNS
-      : ALL_COLUMNS.filter((c) => c.key !== "artist");
+  function formatPlaylistDuration() {
+    const totalDurationSeconds = playlist.songs.reduce(
+      (acc, song) => acc + song.duration,
+      0
+    );
+    const hours = Math.floor(totalDurationSeconds / 3600);
+    const minutes = Math.floor((totalDurationSeconds % 3600) / 60);
+    const seconds = totalDurationSeconds % 60;
+    const hoursStr = hours > 0 ? `${hours} hr${hours > 1 ? "s" : ""} ` : "";
+    const minutesStr = minutes > 0 ? `${minutes} min ` : "";
+    const secondsStr = seconds > 0 ? `${seconds} sec` : "";
+    return `${hoursStr}${minutesStr}${secondsStr}`.trim();
+  }
+
+  function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
 
   return (
     <div className="playlist-details">
@@ -54,6 +70,8 @@ export function PlaylistDetails() {
           background: `url(${playlist.thumbnail}) center/cover no-repeat`,
         }}
       />
+
+      {/* Playlist Header */}
       <div className="playlist-header">
         <img
           className="playlist-cover"
@@ -69,18 +87,7 @@ export function PlaylistDetails() {
               {playlist.createdBy} • {playlist.songs.length}{" "}
               {playlist.songs.length > 1 ? "songs" : "song"},{" "}
               {/* Playlist duration */}
-              {playlist.duration.hours > 0 && (
-                <>
-                  {playlist.duration.hours} hr
-                  {playlist.duration.hours > 1 ? "s" : ""}{" "}
-                </>
-              )}
-              {playlist.duration.minutes > 0 && (
-                <>{playlist.duration.minutes} min </>
-              )}
-              {playlist.duration.seconds > 0 && (
-                <>{playlist.duration.seconds} sec</>
-              )}
+              {formatPlaylistDuration()}
             </p>
           ) : (
             /* If playlist contains no songs, display just the creator */
@@ -89,40 +96,42 @@ export function PlaylistDetails() {
         </div>
       </div>
 
-      {/* Column toggles */}
-      <div className="playlist-cols-toggle">
-        {relevantColumns.map((column) => (
-          <label key={column.key}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.includes(column.key)}
-              onChange={() => toggleColumns(column.key)}
-            />
-            {column.label}
-          </label>
-        ))}
-        {/* Toggle view button */}
-        <button
-          onClick={() => {
-            setViewMode((viewMode) =>
-              viewMode === "compact" ? "detailed" : "compact"
-            );
-          }}
-        >
-          {viewMode === "compact" ? "Detailed View" : "Compact View"}
-        </button>
-      </div>
+      {/* Controls Section */}
+      <section className="playlist-controls">
+        <div className="playlist-controls-buttons">
+          <button className="playlist-btn" disabled>
+            Shuffle
+          </button>
+          <button className="playlist-btn" disabled>
+            Sort
+          </button>
+        </div>
+        <div className="playlist-cols-toggle">
+          {ALL_COLUMNS.map((column) => (
+            <label key={column.key}>
+              <input
+                type="checkbox"
+                checked={visibleColumns.includes(column.key)}
+                onChange={() => toggleColumns(column.key)}
+              />
+              {column.label}
+            </label>
+          ))}
+        </div>
+      </section>
+
       <div className="playlist-table-wrapper">
-        <table className={`playlist-table ${viewMode}`}>
+        <table className="playlist-table">
           <thead>
             <tr>
               <th className="song-number-col">#</th>
-              {relevantColumns
-                .filter((col) => visibleColumns.includes(col.key))
-                .map((col) => (
+              <th className="playlist-song-title">Title</th>
+              {ALL_COLUMNS.map((col) =>
+                visibleColumns.includes(col.key) ? (
                   <th key={col.key}>{col.label}</th>
-                ))}
-              <th></th> {/* Actions column */}
+                ) : null
+              )}
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -133,48 +142,39 @@ export function PlaylistDetails() {
                 onMouseEnter={() => setHoveredRow(idx)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
-                <td className="song-number-col">{idx + 1}</td>
-                {visibleColumns.includes("title") ? (
-                  <td className="playlist-song-title">
-                    {viewMode === "detailed" ? (
-                      <>
-                        <img
-                          src={song.thumbnail}
-                          alt={song.title}
-                          className="song-thumb"
-                        />
-                        <div>
-                          <div className="song-title">{song.title}</div>
-                          <div className="song-artist">{song.artist}</div>
-                        </div>
-                      </>
-                    ) : (
-                      <span>{song.title}</span>
-                    )}
-                  </td>
-                ) : null}
-                {viewMode === "compact" ? (
-                  visibleColumns.includes("artist") ? (
-                    <td>{song.artist}</td>
-                  ) : null
-                ) : null}
-                {visibleColumns.includes("album") ? (
-                  <td>{song.albumName}</td>
-                ) : null}
-                {visibleColumns.includes("dateAdded") ? (
-                  <td>
-                    {song.addedAt
-                      ? new Date(song.addedAt).toLocaleDateString()
-                      : ""}
-                  </td>
-                ) : null}
-                {visibleColumns.includes("duration") ? (
-                  <td>
-                    {song.duration ? formatSongDuration(song.duration) : ""}
-                  </td>
-                ) : null}
-                <td className="playlist-table-actions">
-                  {hoveredRow === idx ? (
+                {[
+                  <td className="song-number-col" key="num">
+                    {idx + 1}
+                  </td>,
+                  <td className="playlist-song-title" key="title">
+                    <img
+                      src={song.thumbnail}
+                      alt={song.title}
+                      className="song-thumb"
+                    />
+                    <div>
+                      <div className="song-title">{song.title}</div>
+                      <div className="song-artist">{song.artist}</div>
+                    </div>
+                  </td>,
+                  visibleColumns.includes("album") ? (
+                    <td key="album">
+                      <div className="song-album">{song.albumName}</div>
+                    </td>
+                  ) : null,
+                  visibleColumns.includes("dateAdded") ? (
+                    <td key="dateAdded">
+                      <div className="song-date-added">
+                        {song.addedAt ? formatDate(song.addedAt) : ""}
+                      </div>
+                    </td>
+                  ) : null,
+                  visibleColumns.includes("duration") ? (
+                    <td key="duration">
+                      {song.duration ? formatSongDuration(song.duration) : ""}
+                    </td>
+                  ) : null,
+                  <td className="playlist-table-actions" key="actions">
                     <div
                       className="playlist-row-actions"
                       style={{
@@ -184,47 +184,17 @@ export function PlaylistDetails() {
                       }}
                     >
                       <button className="add-btn" title="Add to playlist">
-                        {/* Plus SVG */}
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                        >
-                          <rect
-                            x="7"
-                            y="2"
-                            width="2"
-                            height="12"
-                            rx="1"
-                            fill="currentColor"
-                          />
-                          <rect
-                            x="2"
-                            y="7"
-                            width="12"
-                            height="2"
-                            rx="1"
-                            fill="currentColor"
-                          />
-                        </svg>
+                        <img src={checkmarkIcon} alt="Add" />
                       </button>
-                      <button className="menu-btn" title="More">
-                        {/* Three dots SVG */}
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                        >
-                          <circle cx="3" cy="8" r="1.5" fill="currentColor" />
-                          <circle cx="8" cy="8" r="1.5" fill="currentColor" />
-                          <circle cx="13" cy="8" r="1.5" fill="currentColor" />
-                        </svg>
+                      <button
+                        className="menu-btn"
+                        title={`More options for ${song.title} by ${song.artist}`}
+                      >
+                        <img src={moreOptionsIcon} alt="More" />
                       </button>
                     </div>
-                  ) : null}
-                </td>
+                  </td>,
+                ]}
               </tr>
             ))}
           </tbody>

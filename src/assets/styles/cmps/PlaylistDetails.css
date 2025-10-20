@@ -24,15 +24,15 @@
   background: url("THUMBNAIL_URL") center/cover no-repeat;
   filter: blur(40px) brightness(0.6);
   opacity: 0.7;
-  pointer-events: none; /* Prevent blocking clicks */
+  pointer-events: none;
 }
 
 /* Header layout */
 .playlist-header {
   display: flex;
-  flex-direction: row;
+  flex-direction: flex-end; /* Align items to the bottom */
   align-items: center;
-  gap: 32px;
+  gap: 16px;
   margin-bottom: 32px;
   position: relative;
   z-index: 1;
@@ -51,20 +51,66 @@
 .playlist-meta {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  justify-content: center;
+  gap: 8px;
+  justify-content: flex-end; /* Push content to bottom */
+  min-height: 180px; /* Match thumbnail height */
 }
 
 .playlist-meta h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 5rem;
+  font-weight: 750;
   margin: 0;
+  line-height: 1.1;
+}
+
+.playlist-meta h3 {
+  font-size: 1rem;
+  color: #b3b3b3;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .playlist-meta p {
   font-size: 1.1rem;
   color: #b3b3b3;
   margin: 0;
+  font-weight: 550;
+}
+
+.playlist-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.playlist-controls-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.playlist-btn {
+  background: #282828;
+  color: #b3b3b3;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 1em;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Column toggles */
+.playlist-cols-toggle {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  font-size: 1.1em;
+  position: relative;
+  z-index: 1;
 }
 
 /* Table wrapper */
@@ -83,7 +129,7 @@
   width: 100%;
   border-collapse: collapse;
   color: #fff;
-  min-width: 600px;
+  min-width: 700px;
 }
 
 .playlist-table th,
@@ -116,39 +162,38 @@
   background: #282828;
 }
 
-/* Detailed view styles */
-.playlist-table.detailed .playlist-song-title {
+/* Song title/artist/thumbnail cell */
+.playlist-song-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
-.playlist-table.detailed .song-thumb {
+.song-thumb {
   width: 40px;
   height: 40px;
   object-fit: cover;
   border-radius: 4px;
   margin-right: 8px;
   flex-shrink: 0;
+  background: #181818;
 }
 
-.playlist-table.detailed .song-title {
+.song-title {
   font-weight: 500;
+  font-size: 1.05rem;
 }
 
-.playlist-table.detailed .song-artist {
+.song-artist {
   color: #b3b3b3;
   font-size: 0.95em;
 }
 
-/* Compact view styles */
-.playlist-table.compact .playlist-song-title {
-  display: block;
-}
-
-.playlist-table.compact td {
-  padding-top: 8px;
-  padding-bottom: 8px;
+/* Album, date, duration columns */
+.song-album,
+.song-date-added {
+  color: #b3b3b3;
+  font-size: 0.97em;
 }
 
 /* Actions column */
@@ -161,10 +206,9 @@
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  min-width: 64px; /* Reserve enough space for buttons */
-  height: 32px; /* Optional: fixes row height */
+  min-width: 95px;
+  height: 32px;
   align-items: center;
-  /* Always reserve space, even when hidden */
 }
 
 .add-btn,
@@ -185,18 +229,8 @@
   color: #fff;
 }
 
-/* Column toggles */
-.playlist-cols-toggle {
-  margin-bottom: 12px;
-  display: flex;
-  gap: 16px;
-  font-size: 0.95em;
-  position: relative;
-  z-index: 1;
-}
-
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .playlist-header {
     flex-direction: column;
     align-items: center;
