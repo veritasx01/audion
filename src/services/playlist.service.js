@@ -88,19 +88,7 @@ function query(filterBy) {
 
 // get playlist by id from storage
 function getById(id) {
-  return storageService.get(STORAGE_KEY, id).then((playlist) => {
-    const totalDurationSeconds = playlist.songs.reduce(
-      (acc, song) => acc + song.duration,
-      0
-    );
-    const duration = {
-      hours: Math.floor(totalDurationSeconds / 3600),
-      minutes: Math.floor((totalDurationSeconds % 3600) / 60),
-      seconds: totalDurationSeconds % 60,
-    };
-    playlist.duration = duration;
-    return playlist;
-  });
+  return storageService.get(STORAGE_KEY, id);
 }
 
 // delete playlist from storage
