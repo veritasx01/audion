@@ -27,6 +27,7 @@ export function SongProgress() {
 
   useEffect(() => {
     setSecs(0);
+    SetProgress(0);
   }, [song]);
 
   const updateVolumeFromClientX = (clientX) => {
