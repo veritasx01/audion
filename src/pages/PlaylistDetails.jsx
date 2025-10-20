@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { playlistService } from "../services/playlist.service";
+import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
 import playIcon from "../assets/icons/play.svg";
-
 import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 
@@ -12,19 +12,30 @@ const ALL_COLUMNS = [
   { key: "duration", label: "Duration" },
 ];
 
-export function PlaylistDetails() {
+export function PlaylistDetails({ onAddSong, onRemoveSong }) {
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [visibleColumns, setVisibleColumns] = useState(
     ALL_COLUMNS.map((c) => c.key)
   );
 
   useEffect(() => {
-    playlistService.getById(playlistId).then(setPlaylist);
+    loadPlaylist();
   }, [playlistId]);
 
   if (!playlist) return <div>Loading...</div>;
+
+  function loadPlaylist() {
+    playlistService
+      .getById(playlistId)
+      .then(setPlaylist)
+      .catch((err) => {
+        console.error("Error loading playlist to playlist details:", err);
+        navigate("/");
+      });
+  }
 
   function toggleColumns(columnKey) {
     setVisibleColumns((columns) =>
@@ -72,7 +83,6 @@ export function PlaylistDetails() {
           background: `url(${playlist.thumbnail}) center/cover no-repeat`,
         }}
       />
-
       {/* Playlist Header Section */}
       <div className="playlist-header">
         <img
@@ -81,8 +91,15 @@ export function PlaylistDetails() {
           alt={playlist.title}
         />
         <div className="playlist-meta">
-          <h2>{playlist.title}</h2>
+          <button
+            className="playlist-title-btn"
+            onClick={() => setShowEditModal(true)}
+            title="Edit playlist details"
+          >
+            {playlist.title}
+          </button>
           <h3>{playlist.description}</h3>
+
           {/* creator & duration */}
           {playlist.songs.length > 0 ? (
             <p>
@@ -97,7 +114,6 @@ export function PlaylistDetails() {
           )}
         </div>
       </div>
-
       {/* Controls Section */}
       <section className="playlist-controls">
         <div className="playlist-controls-buttons">
@@ -124,7 +140,6 @@ export function PlaylistDetails() {
           ))}
         </div>
       </section>
-
       {/* Song List Table */}
       <div className="playlist-table-wrapper">
         <table className="playlist-table">
@@ -208,6 +223,53 @@ export function PlaylistDetails() {
           </tbody>
         </table>
       </div>
+      /* Edit Playlist Modal */
+      {showEditModal && (
+        <div className="playlist-edit-modal">
+          <div className="modal-content">
+            <h2>Edit Details</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                updatePlaylistDetails({ ...playlist });
+                setShowEditModal(false);
+              }}
+              autoComplete="off"
+            >
+              <div className="modal-field">
+                <input
+                  id="playlist-title"
+                  value={playlist.title}
+                  onChange={(e) =>
+                    setPlaylist({ ...playlist, title: e.target.value })
+                  }
+                  placeholder=" "
+                  required
+                />
+                <label htmlFor="playlist-title">Title</label>
+              </div>
+              <div className="modal-field">
+                <textarea
+                  id="playlist-description"
+                  value={playlist.description}
+                  onChange={(e) =>
+                    setPlaylist({ ...playlist, description: e.target.value })
+                  }
+                  placeholder=" "
+                  rows={3}
+                />
+                <label htmlFor="playlist-description">Description</label>
+              </div>
+              <div className="modal-actions">
+                <button type="button" onClick={() => setShowEditModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
