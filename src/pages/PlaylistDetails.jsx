@@ -83,6 +83,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           background: `url(${playlist.thumbnail}) center/cover no-repeat`,
         }}
       />
+
       {/* Playlist Header Section */}
       <div className="playlist-header">
         <img
@@ -91,6 +92,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           alt={playlist.title}
         />
         <div className="playlist-meta">
+          {/* Playlist Title and Description */}
           <button
             className="playlist-title-btn"
             onClick={() => setShowEditModal(true)}
@@ -100,20 +102,21 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           </button>
           <h3>{playlist.description}</h3>
 
-          {/* creator & duration */}
-          {playlist.songs.length > 0 ? (
-            <p>
-              {playlist.createdBy} • {playlist.songs.length}{" "}
-              {playlist.songs.length > 1 ? "songs" : "song"},{" "}
-              {/* Playlist duration */}
-              {formatPlaylistDuration()}
-            </p>
-          ) : (
-            /* If playlist contains no songs, display just the creator */
-            <p>{playlist.createdBy}</p>
-          )}
+          {/* creator, # of songs and duration */}
+          <p>
+            {playlist.createdBy}
+            {playlist.songs.length > 0 && (
+              <span>
+                {" • "}
+                {playlist.songs.length}{" "}
+                {playlist.songs.length > 1 ? "songs" : "song"},{" "}
+                {formatPlaylistDuration()}
+              </span>
+            )}
+          </p>
         </div>
       </div>
+
       {/* Controls Section */}
       <section className="playlist-controls">
         <div className="playlist-controls-buttons">
@@ -140,6 +143,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           ))}
         </div>
       </section>
+
       {/* Song List Table */}
       <div className="playlist-table-wrapper">
         <table className="playlist-table">
@@ -223,7 +227,8 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           </tbody>
         </table>
       </div>
-      /* Edit Playlist Modal */
+
+      {/*Edit Playlist Modal*/}
       {showEditModal && (
         <div className="playlist-edit-modal">
           <div className="modal-content">
