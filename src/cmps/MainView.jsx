@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { HomePage } from "../pages/HomePage";
 import { YourLibrary } from "./YourLibrary";
 
@@ -10,7 +10,6 @@ export function MainView() {
   const libraryView = useSelector((state) => state.systemModule.libraryView);
   const twoCols = nowPlayingView ? {} : { gridTemplateColumns: "auto 1fr" };
   const isHidden = nowPlayingView ? {} : { display: "none" };
-  const dispatch = useDispatch();
 
   return (
     <section className="home" style={twoCols}>

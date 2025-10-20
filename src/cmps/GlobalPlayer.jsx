@@ -10,10 +10,9 @@ import { useEffect } from "react";
 export function GlobalPlayer() {
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const volume = useSelector((state) => state.songModule.volume);
+  const globalSong = useSelector(state => state.songModule.currentSong);
   const dispatch = useDispatch();
   useEffect(() => {
-    const globalSong = "https://www.youtube.com/watch?v=3mbBbFH9fAg";
-
     async function fetchYoutube() {
       try {
         const retValue = await fetchYouTubeDuration(globalSong);
@@ -25,7 +24,7 @@ export function GlobalPlayer() {
     }
 
     fetchYoutube();
-  }, [dispatch]);
+  }, [globalSong, dispatch]);
   return (
     <div className="debug">
       <div
@@ -37,7 +36,7 @@ export function GlobalPlayer() {
         }}
       >
         <ReactPlayer
-          src="https://www.youtube.com/watch?v=3mbBbFH9fAg"
+          src={globalSong}
           playing={isPlaying}
           volume={volume}
         />
