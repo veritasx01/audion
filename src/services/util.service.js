@@ -136,3 +136,10 @@ export function getRandomValues(arr, m = 1) {
 
   return indices.slice(0, m).map((i) => arr[i]);
 }
+
+export function formatTimeFromSecs(secs) {
+  const minutes = String(Math.floor(secs / 60)).padStart(2, '0');
+  const seconds = String(secs % 60).padStart(2, '0');
+  const formattedTime = `${minutes}:${seconds}`;
+  return formattedTime;
+}

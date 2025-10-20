@@ -6,6 +6,12 @@
   background: black;
   will-change: transform;
 }
+.add-button:hover {
+  background: black;
+}
+.add-button svg:hover {
+  fill: white;
+}
 
 .song-controls-container {
   display: flex;
