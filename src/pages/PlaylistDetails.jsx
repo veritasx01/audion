@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { playlistService } from "../services/playlist.service";
+import playIcon from "../assets/icons/play.svg";
+
 import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 
@@ -63,7 +65,7 @@ export function PlaylistDetails() {
 
   return (
     <div className="playlist-details">
-      {/* Optional blurred thumbnail background */}
+      {/* Background Blur Setup // TODO: replace with Gradient */}
       <div
         className="playlist-bg"
         style={{
@@ -71,7 +73,7 @@ export function PlaylistDetails() {
         }}
       />
 
-      {/* Playlist Header */}
+      {/* Playlist Header Section */}
       <div className="playlist-header">
         <img
           className="playlist-cover"
@@ -99,11 +101,14 @@ export function PlaylistDetails() {
       {/* Controls Section */}
       <section className="playlist-controls">
         <div className="playlist-controls-buttons">
-          <button className="playlist-btn" disabled>
-            Shuffle
+          <button className="spotify-play-pause-btn">
+            <img src={playIcon} alt="Play" />
           </button>
-          <button className="playlist-btn" disabled>
-            Sort
+          <button
+            className="menu-btn"
+            title={`More options for ${playlist.title}`}
+          >
+            <img src={moreOptionsIcon} alt="More" />
           </button>
         </div>
         <div className="playlist-cols-toggle">
@@ -120,6 +125,7 @@ export function PlaylistDetails() {
         </div>
       </section>
 
+      {/* Song List Table */}
       <div className="playlist-table-wrapper">
         <table className="playlist-table">
           <thead>
