@@ -9,11 +9,14 @@ export function YourLibraryPreview({
   isMinimized,
 }) {
   return (
-    <Link to={`/${itemType}/${_id}`} className="your-library-preview">
+    <Link
+      to={`/${itemType}/${_id}`}
+      className={`your-library-preview${isMinimized ? " minimized" : ""}`}
+    >
       <img
         src={thumbnail}
         alt={`${title} thumbnail`}
-        className="your-library-thumbnail"
+        className={`your-library-thumbnail${isMinimized ? " minimized" : ""}`}
       />
       {!isMinimized && (
         <div className="your-library-info">
