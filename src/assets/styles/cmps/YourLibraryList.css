@@ -59,14 +59,20 @@
 }
 
 .scrollable-library-list {
+  min-height: 0;
   max-height: calc(70vh - 120px);
-  overflow-y: auto;
+  overflow-y: hidden;
+  transition: overflow 0.2s;
   padding-right: 4px;
   scrollbar-width: thin;
   scrollbar-color: #555 transparent;
   width: 100%;
   flex: 1;
   height: 100%;
+}
+
+.library-container:hover .scrollable-library-list {
+  overflow-y: auto;
 }
 
 .scrollable-library-list::-webkit-scrollbar {
