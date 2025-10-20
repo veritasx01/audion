@@ -19,6 +19,7 @@
 @import "cmps/SongControls";
 @import "cmps/SongWidget";
 @import "cmps/VolumeBar";
-@import "cmps/YourLibrary.css";
-@import "cmps/YourLibraryPreview.css";
-@import "cmps/YourLibraryList.css";
+@import "cmps/YourLibrary";
+@import "cmps/YourLibraryPreview";
+@import "cmps/YourLibraryList";
+@import "cmps/SongList";
