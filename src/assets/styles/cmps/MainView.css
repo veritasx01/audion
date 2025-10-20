@@ -14,7 +14,7 @@
 
 .library-view {
   width: 420px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .library-view.mini {
   width: 72px;

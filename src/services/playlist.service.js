@@ -2,6 +2,7 @@ import { storageService } from "./async-storage.service.js";
 import { createDummySongs } from "./song.service.js";
 import { utilService } from "./util.service";
 import { faker } from "@faker-js/faker";
+import { songs } from "../assets/data/songs.js";
 
 export const playlistService = {
   createPlaylist,
@@ -109,9 +110,96 @@ function _createPlaylists() {
   let playlists = utilService.loadFromStorage(STORAGE_KEY);
   if (!playlists || !playlists.length) {
     playlists = [];
-    for (let i = 0; i < 10; i++) {
-      playlists.push(createPlaylist());
-    }
+    const rockSongs = songs.filter((song) => song.genres.includes("rock"));
+    const popSongs = songs.filter((song) => song.genres.includes("pop"));
+    const jazzSongs = songs.filter((song) => song.genres.includes("jazz"));
+    const bluesSongs = songs.filter((song) => song.genres.includes("blues"));
+    const beatlesSongs = songs.filter((s) => s.artist.includes("Beatles"));
+    const psychedelicRockSongs = songs.filter(
+      (s) => s.genres.includes("rock") && s.genres.includes("psychedelic")
+    );
+    const folkSongs = songs.filter((song) => song.genres.includes("folk"));
+    const soulSongs = songs.filter((song) => song.genres.includes("soul"));
+
+    playlists.push(
+      createPlaylist(
+        "Rock Classics",
+        "Best of rock music",
+        "user1",
+        new Date(),
+        rockSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Pop Hits",
+        "Top pop songs",
+        "user2",
+        new Date(),
+        popSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+    playlists.push(
+      createPlaylist(
+        "Jazz Vibes",
+        "Smooth jazz tunes",
+        "user3",
+        new Date(),
+        jazzSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Blues Essentials",
+        "Classic blues tracks",
+        "user4",
+        new Date(),
+        bluesSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Folk Favorites",
+        "Timeless folk songs",
+        "user5",
+        new Date(),
+        folkSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Soulful Sounds",
+        "Best of soul music",
+        "user6",
+        new Date(),
+        soulSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "The Beatles Collection",
+        "Hits from The Beatles and solo works",
+        "SYSTEM",
+        new Date(),
+        beatlesSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Psychedelic Rock",
+        "Trippy and mind-bending rock tunes",
+        "SYSTEM",
+        new Date(),
+        psychedelicRockSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
     utilService.saveToStorage(STORAGE_KEY, playlists);
   }
   return playlists;
