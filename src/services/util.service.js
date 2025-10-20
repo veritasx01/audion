@@ -122,3 +122,17 @@ function isoDurationToSeconds(iso) {
   const seconds = parseInt(match[3] || 0);
   return hours * 3600 + minutes * 60 + seconds;
 }
+
+export function getRandomValues(arr, m = 1) {
+  if (m > arr.length) {
+    throw new Error('m cannot be larger than array length');
+  }
+
+  const indices = Array.from({ length: arr.length }, (_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]]; // shuffle
+  }
+
+  return indices.slice(0, m).map((i) => arr[i]);
+}
