@@ -1,15 +1,19 @@
+import { useSelector } from "react-redux";
+import fallbackImage from "../assets/images/black_image.jpg";
+
 export function SongWidget() {
+  const songObj = useSelector((state) => state.songModule.songObj);
   return (
     <div className="song-controls-container">
       <div>
-        <img src="https://i.scdn.co/image/ab67616d00004851384765aca7a4341b9652d29e"></img>
+        <img src={songObj.thumbnail || fallbackImage} alt="song widget photo"></img>
       </div>
       <div className="song-description">
-        <p className="song-heading">Black Hole Sun</p>
-        <p className="song-artist">Soundgarden</p>
+        <p className="song-heading">{songObj.title || "----------"}</p>
+        <p className="song-artist">{songObj.artist || "-------"}</p>
       </div>
       <div style={{ height: "32px", justifySelf: "center", margin: "0 8px" }}>
-        <button className="add-button">
+        <button className="add-button hov-enlarge">
           <span className="size-32" aria-hidden="true">
             <svg aria-hidden="true" viewBox="0 0 16 16" fill="#b0b0b0">
               <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"></path>

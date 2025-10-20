@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { updateCurrentSong } from "../store/actions/song.action";
+import { updateCurrentSong, updateSongObject } from "../store/actions/song.action";
 
 export function SongList({ songs }) {
   const dispatch = useDispatch();
-  const changeToSong = (url) => {
+  const changeToSong = (url, songObj) => {
     dispatch(updateCurrentSong(url));
+    dispatch(updateSongObject(songObj));
   };
 
   return (
@@ -15,7 +16,7 @@ export function SongList({ songs }) {
             className="song-list-image"
             src={pl.thumbnail}
             alt={pl.title}
-            onClick={() => changeToSong(pl.url)}
+            onClick={() => changeToSong(pl.url, pl)}
           />
           <p className="song-list-title">{pl.title}</p>
         </div>
