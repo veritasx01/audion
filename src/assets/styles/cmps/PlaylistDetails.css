@@ -148,6 +148,7 @@
   border-collapse: collapse;
   color: #fff;
   min-width: 700px;
+  table-layout: fixed;
 }
 
 .playlist-table th,
@@ -156,6 +157,9 @@
   text-align: left;
   border-bottom: 1px solid #333;
   vertical-align: middle;
+  box-sizing: border-box;
+  max-height: 56px;
+  overflow: hidden;
 }
 
 .playlist-table th {
@@ -175,16 +179,35 @@
   background: #181818;
 }
 
+.playlist-table tr {
+  height: 56px;
+}
+
 .playlist-table tr.hovered,
 .playlist-table tr:hover {
   background: #282828;
 }
 
-/* Song title/artist/thumbnail cell */
-.playlist-song-title {
+.playlist-title-content {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 14px;
+  height: 56px;
+  overflow: hidden;
+}
+
+.playlist-table th.playlist-song-title,
+.playlist-table td.playlist-song-title {
+  width: 260px; /* Adjust as needed */
+  min-width: 180px;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 56px;
+  max-height: 56px;
+  box-sizing: border-box;
+  gap: 12px;
+  align-items: center;
 }
 
 .song-thumb {
@@ -192,9 +215,16 @@
   height: 40px;
   object-fit: cover;
   border-radius: 4px;
-  margin-right: 8px;
   flex-shrink: 0;
   background: #181818;
+}
+
+.song-title,
+.song-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .song-title {
@@ -205,6 +235,15 @@
 .song-artist {
   color: #b3b3b3;
   font-size: 0.95em;
+}
+
+.song-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 40px;
+  overflow: hidden;
+  margin-left: 12px;
 }
 
 /* Album, date, duration columns */
@@ -249,22 +288,21 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .playlist-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-  .playlist-cover {
-    width: 120px;
-    height: 120px;
-  }
   .playlist-table th,
   .playlist-table td {
     padding: 8px 6px;
-    vertical-align: middle;
+  }
+  .playlist-table th.playlist-song-title,
+  .playlist-table td.playlist-song-title {
+    width: 140px;
+    min-width: 80px;
+    max-width: 180px;
+    height: 40px;
+    max-height: 40px;
   }
   .song-thumb {
     width: 28px;
     height: 28px;
+    max-height: 28px;
   }
 }

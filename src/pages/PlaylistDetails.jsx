@@ -153,14 +153,16 @@ export function PlaylistDetails() {
                     {idx + 1}
                   </td>,
                   <td className="playlist-song-title" key="title">
-                    <img
-                      src={song.thumbnail}
-                      alt={song.title}
-                      className="song-thumb"
-                    />
-                    <div>
-                      <div className="song-title">{song.title}</div>
-                      <div className="song-artist">{song.artist}</div>
+                    <div className="playlist-title-content">
+                      <img
+                        src={song.thumbnail}
+                        alt={song.title}
+                        className="song-thumb"
+                      />
+                      <div className="song-text">
+                        <span className="song-title">{song.title}</span>
+                        <span className="song-artist">{song.artist}</span>
+                      </div>
                     </div>
                   </td>,
                   visibleColumns.includes("album") ? (
