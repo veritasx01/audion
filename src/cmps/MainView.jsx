@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router";
 import { useSelector } from "react-redux";
 import { HomePage } from "../pages/HomePage";
 import { YourLibrary } from "./YourLibrary";
+import { PlaylistDetails } from "../pages/PlaylistDetails";
 
 export function MainView() {
   const nowPlayingView = useSelector(
@@ -19,6 +20,7 @@ export function MainView() {
       <div className="main-view">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
         </Routes>
       </div>
       <div className="song-view" style={isHidden}>
