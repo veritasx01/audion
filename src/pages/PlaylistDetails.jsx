@@ -232,12 +232,7 @@ export function PlaylistDetails() {
                 onMouseLeave={() => setHoveredRow(null)}
               >
                 {[
-                  <td
-                    className={`song-number-col ${
-                      playingSongId === song._id ? "active" : ""
-                    }`}
-                    key="num"
-                  >
+                  <td className={"song-number-col"} key="num">
                     {hoveredRow === idx ? (
                       playingSongId === song._id && isPlaying ? (
                         <button
@@ -250,7 +245,13 @@ export function PlaylistDetails() {
                       ) : (
                         <button
                           className="song-play-pause-btn"
-                          onClick={() => setCurrentSong(song)}
+                          onClick={() => {
+                            if (playingSongId === song._id && !isPlaying) {
+                              dispatch(togglePlaying());
+                            } else {
+                              setCurrentSong(song);
+                            }
+                          }}
                           title="Play"
                         >
                           <img src={playIcon} alt="Play" />
