@@ -233,6 +233,11 @@
   font-weight: 500;
   font-size: 1.05rem;
 }
+.song-number-col.active,
+.song-title.active {
+  color: #1ed760;
+  font-weight: 600;
+}
 
 .song-artist {
   color: #b3b3b3;
@@ -278,6 +283,17 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+}
+
+.song-play-pause-btn,
+.song-play-pause-btn:hover,
+.song-play-pause-btn:focus {
+  background: none !important;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
   padding: 0;
 }
 
