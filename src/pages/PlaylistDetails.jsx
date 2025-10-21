@@ -257,7 +257,21 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
                         transition: "opacity 0.2s",
                       }}
                     >
-                      <button className="add-btn" title="Add to playlist">
+                      <button
+                        className="add-btn"
+                        title="Add to playlist"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // Position the dropdown near the button
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setPlaylistDropdown({
+                            visible: true,
+                            x: rect.left - 150, // or rect.left, adjust as needed
+                            y: rect.bottom, // or rect.bottom
+                            song,
+                          });
+                        }}
+                      >
                         <img src={checkmarkIcon} alt="Add" />
                       </button>
                       <button
@@ -371,7 +385,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
         </ul>
       )}
 
-      {/* Add to Playlist Dropdown */}
+      {/* Playlist Dropdown for adding a song to a playlist*/}
       {playlistDropdown.visible && (
         <ul
           className="playlist-dropdown-menu"
