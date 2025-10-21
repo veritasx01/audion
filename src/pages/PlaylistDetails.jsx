@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { playlistService } from "../services/playlist.service";
@@ -7,6 +7,12 @@ import {
   removeSong,
   updatePlaylistDetails,
 } from "../store/actions/playlist.action.js";
+
+import {
+  updateCurrentSong,
+  updateSongObject,
+  togglePlaying,
+} from "../store/actions/song.action";
 import playIcon from "../assets/icons/play.svg";
 import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
@@ -17,16 +23,18 @@ const ALL_COLUMNS = [
   { key: "duration", label: "Duration" },
 ];
 
-export function PlaylistDetails({ onAddSong, onRemoveSong }) {
+export function PlaylistDetails() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const isPlaying = useSelector((store) => store.songModule.isPlaying);
+  const playingSongId = useSelector((store) => store.songModule.songObj._id);
   const otherPlaylists = useSelector((store) =>
     store.playlistModule.playlists
       .filter((pl) => pl._id !== playlistId)
       .map((pl) => ({ _id: pl._id, title: pl.title }))
   );
-
   const [hoveredRow, setHoveredRow] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [contextMenu, setContextMenu] = useState({
@@ -59,6 +67,11 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
         console.error("Error loading playlist to playlist details:", err);
         navigate("/");
       });
+  }
+
+  function setCurrentSong(song) {
+    dispatch(updateCurrentSong(song.url));
+    dispatch(updateSongObject(song));
   }
 
   function toggleColumns(columnKey) {
@@ -167,7 +180,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
       {/* Controls Section */}
       <section className="playlist-controls">
         <div className="playlist-controls-buttons">
-          <button className="spotify-play-pause-btn">
+          <button className="playlist-play-pause-btn">
             <img src={playIcon} alt="Play" />
           </button>
           <button
@@ -216,7 +229,76 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
               >
                 {[
                   <td className="song-number-col" key="num">
-                    {idx + 1}
+                    {hoveredRow === idx ? (
+                      playingSongId === song._id ? (
+                        <button
+                          className="song-play-pause-btn"
+                          onClick={() => dispatch(togglePlaying())}
+                          title="Pause"
+                        >
+                          {/* Pause SVG */}
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <rect x="3" y="2" width="3" height="12" rx="1" />
+                            <rect x="10" y="2" width="3" height="12" rx="1" />
+                          </svg>
+                        </button>
+                      ) : (
+                        <button
+                          className="song-play-pause-btn"
+                          onClick={() => setCurrentSong(song)}
+                          title="Play"
+                        >
+                          {/* Play SVG */}
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <path d="M3 2l10 6-10 6V2z" />
+                          </svg>
+                        </button>
+                      )
+                    ) : playingSongId === song._id && isPlaying ? (
+                      <span
+                        className="now-playing-animation"
+                        title="Now Playing"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 20 20">
+                          <rect
+                            className="bar bar1"
+                            x="3"
+                            y="6"
+                            width="3"
+                            height="8"
+                            rx="1"
+                          />
+                          <rect
+                            className="bar bar2"
+                            x="9"
+                            y="3"
+                            width="3"
+                            height="14"
+                            rx="1"
+                          />
+                          <rect
+                            className="bar bar3"
+                            x="15"
+                            y="8"
+                            width="3"
+                            height="6"
+                            rx="1"
+                          />
+                        </svg>
+                      </span>
+                    ) : (
+                      idx + 1
+                    )}
                   </td>,
                   <td className="playlist-song-title" key="title">
                     <div className="playlist-title-content">
