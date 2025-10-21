@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatTimeFromSecs } from "../services/util.service";
 import { updateSongObject } from "../store/actions/song.action";
 
@@ -10,23 +10,26 @@ export function SongProgress() {
   const duration = useSelector((state) => state.songModule.currentDuration);
   const song = useSelector((state) => state.songModule.currentSong);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
+  const dispatch = useDispatch();
 
   const [secs, setSecs] = useState(0);
   let animationFrameId = useRef(null);
-  const startTimeRef = useRef(null);
+  const lastTimeRef = useRef(0);
 
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+      lastTimeRef.current = secs;
+      return;
+    }
+    if (dragging) return;
 
-    startTimeRef.current = startTimeRef.current
-      ? startTimeRef.current
-      : performance.now();
-    let startTime = startTimeRef.current;
+    let startTime = performance.now();
 
     const tick = (now) => {
       const elapsed = (now - startTime) / 1000; // seconds
-      setSecs(elapsed);
-      setProgress((elapsed / duration) * 100);
+      const updatedSecs = lastTimeRef.current + elapsed;
+      setSecs(updatedSecs);
+      setProgress((updatedSecs / duration) * 100);
 
       animationFrameId.current = requestAnimationFrame(tick);
     };
@@ -34,12 +37,13 @@ export function SongProgress() {
     animationFrameId.current = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(animationFrameId.current);
-  }, [isPlaying, duration]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying, duration, dragging]);
 
   useEffect(() => {
     setSecs(0);
     setProgress(0);
-    startTimeRef.current = null;
+    lastTimeRef.current = 0;
   }, [song]);
 
   const updateVolumeFromClientX = (clientX) => {
@@ -47,11 +51,12 @@ export function SongProgress() {
     const rect = progressRef.current.getBoundingClientRect();
     let newPos = ((clientX - rect.left) / rect.width) * 100;
     newPos = Math.max(0, Math.min(100, newPos));
-    const newSecs = Math.round((newPos * duration) / 100);
-    const newProg = Math.round((newSecs / duration) * 100); // lock to seconds
+    const newSecs = (newPos * duration) / 100;
+    const newProg = (newSecs / duration) * 100; // lock to seconds
     setSecs(newSecs);
     setProgress(newProg);
-    updateSongObject({ secs: newSecs });
+    lastTimeRef.current = newSecs;
+    dispatch(updateSongObject({ secs: newSecs }));
   };
 
   const handleMouseDown = (e) => {
