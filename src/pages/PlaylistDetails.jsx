@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { playlistService } from "../services/playlist.service";
 import {
-  updatePlaylistDetails,
+  addSong,
   removeSong,
+  updatePlaylistDetails,
 } from "../store/actions/playlist.action.js";
 import playIcon from "../assets/icons/play.svg";
 import checkmarkIcon from "../assets/icons/checkmark.svg";
@@ -19,9 +21,20 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
   const navigate = useNavigate();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const playlists = useSelector((store) => store.playlistModule.playlists);
+  const existingPlaylists = useMemo(
+    () => playlists.filter((playlist) => playlist._id !== playlistId),
+    [playlists]
+  );
   const [hoveredRow, setHoveredRow] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    song: null,
+  });
+  const [playlistDropdown, setPlaylistDropdown] = useState({
     visible: false,
     x: 0,
     y: 0,
@@ -325,12 +338,17 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           }
         >
           <li
-            onClick={() => {
-              /* handle add to playlist */
-              setContextMenu({
-                ...contextMenu,
-                visible: false,
+            onClick={(e) => {
+              // Estimate context menu height (e.g., 90px for 2 items, adjust as needed)
+              const contextMenuHeight = 90;
+              const contextMenuWidth = 180;
+              setPlaylistDropdown({
+                visible: true,
+                x: contextMenu.x - contextMenuWidth,
+                y: contextMenu.y - contextMenuHeight,
+                song: contextMenu.song,
               });
+              setContextMenu({ ...contextMenu, visible: false });
             }}
           >
             Add to Playlist
@@ -349,6 +367,35 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
           >
             Remove from Playlist
           </li>
+        </ul>
+      )}
+
+      {/* Add to Playlist Dropdown */}
+      {playlistDropdown.visible && (
+        <ul
+          className="playlist-dropdown-menu"
+          style={{
+            position: "fixed",
+            top: playlistDropdown.y,
+            left: playlistDropdown.x,
+            zIndex: 2100,
+            minWidth: "200px",
+          }}
+          onMouseLeave={() =>
+            setPlaylistDropdown({ ...playlistDropdown, visible: false })
+          }
+        >
+          {playlists.map((playlist) => (
+            <li
+              key={playlist._id}
+              onClick={() => {
+                addSong(playlist._id, playlistDropdown.song);
+                setPlaylistDropdown({ ...playlistDropdown, visible: false });
+              }}
+            >
+              {playlist.title}
+            </li>
+          ))}
         </ul>
       )}
     </div>

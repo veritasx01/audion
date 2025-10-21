@@ -457,6 +457,25 @@
   color: #1ed760;
 }
 
+.playlist-dropdown-menu {
+  background: #232323;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  padding: 8px 0;
+  list-style: none;
+  margin: 0;
+}
+.playlist-dropdown-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.playlist-dropdown-menu li:hover {
+  background: #333;
+  color: #1ed760;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .playlist-table th,
