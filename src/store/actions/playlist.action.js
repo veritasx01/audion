@@ -21,7 +21,6 @@ export function loadPlaylists() {
     .query(filterBy)
     .then((playlists) => {
       store.dispatch({ type: SET_PLAYLISTS, payload: playlists });
-      console.log("Playlist Actions: Playlists loaded", playlists);
     })
     .catch((err) => {
       console.log(
