@@ -21,11 +21,12 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
   const navigate = useNavigate();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
-  const playlists = useSelector((store) => store.playlistModule.playlists);
-  const existingPlaylists = useMemo(
-    () => playlists.filter((playlist) => playlist._id !== playlistId),
-    [playlists]
+  const otherPlaylists = useSelector((store) =>
+    store.playlistModule.playlists
+      .filter((pl) => pl._id !== playlistId)
+      .map((pl) => ({ _id: pl._id, title: pl.title }))
   );
+
   const [hoveredRow, setHoveredRow] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [contextMenu, setContextMenu] = useState({
@@ -385,7 +386,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
             setPlaylistDropdown({ ...playlistDropdown, visible: false })
           }
         >
-          {playlists.map((playlist) => (
+          {otherPlaylists.map((playlist) => (
             <li
               key={playlist._id}
               onClick={() => {
