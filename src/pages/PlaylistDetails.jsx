@@ -14,6 +14,7 @@ import {
   togglePlaying,
 } from "../store/actions/song.action";
 import playIcon from "../assets/icons/play.svg";
+import pauseIcon from "../assets/icons/pause.svg";
 import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 
@@ -30,10 +31,13 @@ export function PlaylistDetails() {
   const [playlist, setPlaylist] = useState(null);
   const isPlaying = useSelector((store) => store.songModule.isPlaying);
   const playingSongId = useSelector((store) => store.songModule.songObj._id);
-  const otherPlaylists = useSelector((store) =>
-    store.playlistModule.playlists
-      .filter((pl) => pl._id !== playlistId)
-      .map((pl) => ({ _id: pl._id, title: pl.title }))
+  const playlists = useSelector((store) => store.playlistModule.playlists);
+  const otherPlaylists = useMemo(
+    () =>
+      playlists
+        .filter((pl) => pl._id !== playlistId)
+        .map((pl) => ({ _id: pl._id, title: pl.title })),
+    [playlists, playlistId]
   );
   const [hoveredRow, setHoveredRow] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -228,24 +232,20 @@ export function PlaylistDetails() {
                 onMouseLeave={() => setHoveredRow(null)}
               >
                 {[
-                  <td className="song-number-col" key="num">
+                  <td
+                    className={`song-number-col ${
+                      playingSongId === song._id ? "active" : ""
+                    }`}
+                    key="num"
+                  >
                     {hoveredRow === idx ? (
-                      playingSongId === song._id ? (
+                      playingSongId === song._id && isPlaying ? (
                         <button
                           className="song-play-pause-btn"
                           onClick={() => dispatch(togglePlaying())}
                           title="Pause"
                         >
-                          {/* Pause SVG */}
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                          >
-                            <rect x="3" y="2" width="3" height="12" rx="1" />
-                            <rect x="10" y="2" width="3" height="12" rx="1" />
-                          </svg>
+                          <img src={pauseIcon} alt="Pause" />
                         </button>
                       ) : (
                         <button
@@ -253,15 +253,7 @@ export function PlaylistDetails() {
                           onClick={() => setCurrentSong(song)}
                           title="Play"
                         >
-                          {/* Play SVG */}
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                          >
-                            <path d="M3 2l10 6-10 6V2z" />
-                          </svg>
+                          <img src={playIcon} alt="Play" />
                         </button>
                       )
                     ) : playingSongId === song._id && isPlaying ? (
@@ -297,7 +289,13 @@ export function PlaylistDetails() {
                         </svg>
                       </span>
                     ) : (
-                      idx + 1
+                      <span
+                        className={`song-number-col ${
+                          playingSongId === song._id ? "active" : ""
+                        }`}
+                      >
+                        {idx + 1}
+                      </span>
                     )}
                   </td>,
                   <td className="playlist-song-title" key="title">
@@ -308,7 +306,13 @@ export function PlaylistDetails() {
                         className="song-thumb"
                       />
                       <div className="song-text">
-                        <span className="song-title">{song.title}</span>
+                        <span
+                          className={`song-title ${
+                            playingSongId === song._id ? "active" : ""
+                          }`}
+                        >
+                          {song.title}
+                        </span>
                         <span className="song-artist">{song.artist}</span>
                       </div>
                     </div>
