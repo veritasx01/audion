@@ -13,11 +13,15 @@ export function SongProgress() {
 
   const [secs, setSecs] = useState(0);
   let animationFrameId = useRef(null);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
     if (!isPlaying) return;
 
-    let startTime = performance.now();
+    startTimeRef.current = startTimeRef.current
+      ? startTimeRef.current
+      : performance.now();
+    let startTime = startTimeRef.current;
 
     const tick = (now) => {
       const elapsed = (now - startTime) / 1000; // seconds
@@ -35,6 +39,7 @@ export function SongProgress() {
   useEffect(() => {
     setSecs(0);
     setProgress(0);
+    startTimeRef.current = null;
   }, [song]);
 
   const updateVolumeFromClientX = (clientX) => {
