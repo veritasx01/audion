@@ -118,8 +118,6 @@ function _createPlaylists() {
     const psychedelicRockSongs = songs.filter(
       (s) => s.genres.includes("rock") && s.genres.includes("psychedelic")
     );
-    const folkSongs = songs.filter((song) => song.genres.includes("folk"));
-    const soulSongs = songs.filter((song) => song.genres.includes("soul"));
 
     playlists.push(
       createPlaylist(
@@ -157,26 +155,6 @@ function _createPlaylists() {
         "user4",
         new Date(),
         bluesSongs.map((song) => ({ ...song, addedAt: new Date() }))
-      )
-    );
-
-    playlists.push(
-      createPlaylist(
-        "Folk Favorites",
-        "Timeless folk songs",
-        "user5",
-        new Date(),
-        folkSongs.map((song) => ({ ...song, addedAt: new Date() }))
-      )
-    );
-
-    playlists.push(
-      createPlaylist(
-        "Soulful Sounds",
-        "Best of soul music",
-        "user6",
-        new Date(),
-        soulSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
     );
 
