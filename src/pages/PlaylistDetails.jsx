@@ -6,8 +6,8 @@ import {
   addSong,
   removeSong,
   updatePlaylistDetails,
+  removePlaylist,
 } from "../store/actions/playlist.action.js";
-
 import {
   updateCurrentSong,
   updateSongObject,
@@ -41,6 +41,7 @@ export function PlaylistDetails() {
   );
   const [hoveredRow, setHoveredRow] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [headerMenu, setHeaderMenu] = useState({ visible: false, x: 0, y: 0 });
   const [contextMenu, setContextMenu] = useState({
     visible: false,
     x: 0,
@@ -189,7 +190,16 @@ export function PlaylistDetails() {
           </button>
           <button
             className="menu-btn"
-            title={`More options for ${playlist.title}`}
+            title="More options"
+            onClick={(e) => {
+              // Show a header context menu at the button position
+              const rect = e.currentTarget.getBoundingClientRect();
+              setHeaderMenu({
+                visible: true,
+                x: rect.left,
+                y: rect.bottom,
+              });
+            }}
           >
             <img src={moreOptionsIcon} alt="More" />
           </button>
@@ -423,6 +433,36 @@ export function PlaylistDetails() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Header Context Menu */}
+      {headerMenu.visible && (
+        <ul
+          className="playlist-header-context-menu"
+          style={{
+            position: "fixed",
+            top: headerMenu.y,
+            left: headerMenu.x,
+            zIndex: 2100,
+            minWidth: "160px",
+          }}
+          onMouseLeave={() => setHeaderMenu({ ...headerMenu, visible: false })}
+        >
+          <li
+            onClick={() => {
+              setHeaderMenu({ ...headerMenu, visible: false });
+              if (
+                window.confirm("Are you sure you want to delete this playlist?")
+              ) {
+                removePlaylist(playlist._id).then(() => {
+                  navigate("/");
+                });
+              }
+            }}
+          >
+            Delete Playlist
+          </li>
+        </ul>
       )}
 
       {/* Songs Context Menu */}
