@@ -1,7 +1,10 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { playlistService } from "../services/playlist.service";
-import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
+import {
+  updatePlaylistDetails,
+  removeSong,
+} from "../store/actions/playlist.action.js";
 import playIcon from "../assets/icons/play.svg";
 import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
@@ -13,10 +16,17 @@ const ALL_COLUMNS = [
 ];
 
 export function PlaylistDetails({ onAddSong, onRemoveSong }) {
+  const navigate = useNavigate();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    song: null,
+  });
   const [visibleColumns, setVisibleColumns] = useState(
     ALL_COLUMNS.map((c) => c.key)
   );
@@ -43,6 +53,29 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
         ? columns.filter((c) => c !== columnKey)
         : [...columns, columnKey]
     );
+  }
+
+  function handleOnSongMoreOptionsClick(e, song) {
+    e.preventDefault();
+    const menuWidth = 180; // should match with CSS min-width
+    const menuHeight = 90;
+    let x = e.clientX;
+    let y = e.clientY;
+
+    // Adjust if menu would overflow right
+    if (x + menuWidth > window.innerWidth) {
+      x = window.innerWidth - menuWidth - 10;
+    }
+    // Adjust if menu would overflow bottom
+    if (y + menuHeight > window.innerHeight) {
+      y = window.innerHeight - menuHeight - 10;
+    }
+    setContextMenu({
+      visible: true,
+      x,
+      y,
+      song,
+    });
   }
 
   function formatSongDuration(totalSeconds) {
@@ -216,6 +249,7 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
                       <button
                         className="menu-btn"
                         title={`More options for ${song.title} by ${song.artist}`}
+                        onClick={(e) => handleOnSongMoreOptionsClick(e, song)}
                       >
                         <img src={moreOptionsIcon} alt="More" />
                       </button>
@@ -274,6 +308,48 @@ export function PlaylistDetails({ onAddSong, onRemoveSong }) {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Songs Context Menu */}
+      {contextMenu.visible && (
+        <ul
+          className="song-context-menu"
+          style={{
+            top: contextMenu.y,
+            left: contextMenu.x,
+            position: "fixed",
+            zIndex: 2000,
+          }}
+          onMouseLeave={() =>
+            setContextMenu({ ...contextMenu, visible: false })
+          }
+        >
+          <li
+            onClick={() => {
+              /* handle add to playlist */
+              setContextMenu({
+                ...contextMenu,
+                visible: false,
+              });
+            }}
+          >
+            Add to Playlist
+          </li>
+          <li
+            onClick={() => {
+              /* handle remove */
+              removeSong(playlist._id, contextMenu.song._id).then(() =>
+                loadPlaylist()
+              );
+              setContextMenu({
+                ...contextMenu,
+                visible: false,
+              });
+            }}
+          >
+            Remove from Playlist
+          </li>
+        </ul>
       )}
     </div>
   );
