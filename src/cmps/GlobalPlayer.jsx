@@ -29,7 +29,9 @@ export function GlobalPlayer() {
   }, [globalSong, dispatch]);
 
   useEffect(() => {
-    playerRef.current.seekTo(secs, "seconds");
+    if (playerRef.current.api?.seekTo) {
+      playerRef.current.api.seekTo(secs, "seconds");
+    }
   }, [secs]);
 
   return (
