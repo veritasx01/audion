@@ -6,7 +6,7 @@ export const SET_DURATION = 'SET_DURATION';
 
 const initialState = {
   currentSong: null,
-  songObj: {},
+  songObj: { secs: 0, ended: false },
   isPlaying: false,
   currentDuration: 0,
   volume: 1,
