@@ -21,13 +21,21 @@ export function SongProgress() {
       lastTimeRef.current = secs;
       return;
     }
-    if (dragging) return;
+    if (dragging || secs >= duration) return;
 
     let startTime = performance.now();
 
     const tick = (now) => {
       const elapsed = (now - startTime) / 1000; // seconds
       const updatedSecs = lastTimeRef.current + elapsed;
+
+      if (updatedSecs >= duration) {
+        setSecs(duration);
+        setProgress(100);
+        cancelAnimationFrame(animationFrameId.current);
+        return; // stop ticking
+      }
+
       setSecs(updatedSecs);
       setProgress((updatedSecs / duration) * 100);
 
@@ -37,7 +45,7 @@ export function SongProgress() {
     animationFrameId.current = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(animationFrameId.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying, duration, dragging]);
 
   useEffect(() => {
