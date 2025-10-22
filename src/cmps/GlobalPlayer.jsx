@@ -5,12 +5,14 @@ import {
   updateCurrentDuration,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function GlobalPlayer() {
+  const playerRef = useRef(null);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const volume = useSelector((state) => state.songModule.volume);
-  const globalSong = useSelector(state => state.songModule.currentSong);
+  const globalSong = useSelector((state) => state.songModule.currentSong);
+  const secs = useSelector((state) => state.songModule.songObj.secs);
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchYoutube() {
@@ -25,6 +27,13 @@ export function GlobalPlayer() {
 
     fetchYoutube();
   }, [globalSong, dispatch]);
+
+  useEffect(() => {
+    if (playerRef.current.api?.seekTo) {
+      playerRef.current.api.seekTo(secs, "seconds");
+    }
+  }, [secs]);
+
   return (
     <div className="debug">
       <div
@@ -36,6 +45,7 @@ export function GlobalPlayer() {
         }}
       >
         <ReactPlayer
+          ref={playerRef}
           src={globalSong}
           playing={isPlaying}
           volume={volume}

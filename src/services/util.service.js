@@ -95,6 +95,7 @@ export function loadFromStorage(key) {
 }
 
 function extractYouTubeId(url) {
+  if (!url) return null;
   const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
   return match ? match[1] : null;
 }
@@ -138,7 +139,8 @@ export function getRandomValues(arr, m = 1) {
 }
 
 export function formatTimeFromSecs(secs) {
-  const minutes = String(Math.floor(secs / 60)).padStart(2, '0');
+  secs = Math.floor(secs);
+  const minutes = String(Math.floor(secs / 60));
   const seconds = String(secs % 60).padStart(2, '0');
   const formattedTime = `${minutes}:${seconds}`;
   return formattedTime;

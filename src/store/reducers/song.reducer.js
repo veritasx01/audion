@@ -23,7 +23,7 @@ export function songReducer(state = initialState, action) {
     case SET_DURATION:
       return { ...state, currentDuration: action.payload };
     case SET_SONG_OBJ:
-      return { ...state, songObj: { ...action.payload } };
+      return { ...state, songObj: { ...state.songObj, ...action.payload } };
     default:
       return state;
   }
