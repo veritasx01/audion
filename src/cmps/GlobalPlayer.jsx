@@ -3,6 +3,7 @@ import ReactPlayer from "react-player";
 import {
   updateCurrentSong,
   updateCurrentDuration,
+  updateSongObject,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
 import { useEffect, useRef } from "react";
@@ -13,6 +14,7 @@ export function GlobalPlayer() {
   const volume = useSelector((state) => state.songModule.volume);
   const globalSong = useSelector((state) => state.songModule.currentSong);
   const secs = useSelector((state) => state.songModule.songObj.secs);
+  const ended = useSelector((state) => state.songModule.songObj.ended);
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchYoutube() {
@@ -47,8 +49,16 @@ export function GlobalPlayer() {
         <ReactPlayer
           ref={playerRef}
           src={globalSong}
-          playing={isPlaying}
+          playing={ended ? false : isPlaying}
           volume={volume}
+          loop={false}
+          onPlay={() => console.log("player:onPlay", { isPlaying, secs })}
+          onPause={() => console.log("player:onPause", { isPlaying, secs })}
+          onEnded={() => {
+            console.log("player:onEnded", { isPlaying, secs });
+            dispatch(updateSongObject({ ended: true }));
+          }}
+          onProgress={(state) => console.log("player:onProgress", state)}
         />
       </div>
     </div>

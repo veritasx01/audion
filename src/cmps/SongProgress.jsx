@@ -21,7 +21,7 @@ export function SongProgress() {
       lastTimeRef.current = secs;
       return;
     }
-    if (dragging || secs >= duration) return;
+    if (dragging) return;
 
     let startTime = performance.now();
 
@@ -33,6 +33,7 @@ export function SongProgress() {
         setSecs(duration);
         setProgress(100);
         cancelAnimationFrame(animationFrameId.current);
+        lastTimeRef.current = duration;
         return; // stop ticking
       }
 
@@ -54,7 +55,7 @@ export function SongProgress() {
     lastTimeRef.current = 0;
   }, [song]);
 
-  const updateVolumeFromClientX = (clientX) => {
+  const updateProgressFromClientX = (clientX) => {
     if (!progressRef.current) return;
     const rect = progressRef.current.getBoundingClientRect();
     let newPos = ((clientX - rect.left) / rect.width) * 100;
@@ -70,9 +71,9 @@ export function SongProgress() {
   const handleMouseDown = (e) => {
     e.preventDefault();
     setDragging(true);
-    updateVolumeFromClientX(e.clientX);
+    updateProgressFromClientX(e.clientX);
 
-    const onMove = (moveEvent) => updateVolumeFromClientX(moveEvent.clientX);
+    const onMove = (moveEvent) => updateProgressFromClientX(moveEvent.clientX);
 
     const onUp = () => {
       setDragging(false);
