@@ -1,10 +1,17 @@
 import { VolumeBar } from "./VolumeBar";
+import { toggleNowPlaying } from "../store/actions/system.action";
+import { useDispatch } from "react-redux";
 
 export function SongControls() {
+  const dispatch = useDispatch();
+  const toggleNowPlayingView = () => dispatch(toggleNowPlaying());
   return (
     <div>
       <div className="controls-container">
-        <button className="controls-button hov-enlarge">
+        <button
+          onClick={toggleNowPlayingView}
+          className="controls-button hov-enlarge"
+        >
           <span className="size-32">{nowPlayingIcon()}</span>
         </button>
         <button className="controls-button hov-enlarge">
