@@ -1,0 +1,20 @@
+.song-carousel-container {
+  overflow: hidden;
+  width: 100%;
+  padding-left: 28px;
+}
+
+.song-carousel {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.song-card {
+  border: 1px solid gold;
+  img {
+    max-width: 171.5px;
+  }
+  p {
+    max-width: 171.5px;
+  }
+}
