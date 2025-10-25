@@ -7,12 +7,11 @@
 .song-carousel {
   display: grid;
   grid-auto-flow: column;
-  gap: 16px;
   max-width: 1400px;
 }
 
 .carousel-title {
-  margin: .5rem 0 .5rem .5rem;
+  margin: 0.5rem 0 0.5rem 0.5rem;
 }
 
 .song-card {
@@ -20,7 +19,7 @@
   height: 247.5px;
   padding: 10px;
   border-radius: 6px;
-  transition: background .05s cubic-bezier(0.3, 0, 0, 1);
+  transition: background 0.05s cubic-bezier(0.3, 0, 0, 1);
 }
 .song-card img {
   width: 171.5px;
@@ -35,12 +34,31 @@
 .card-title {
   max-width: 171.5px;
   font-size: 1rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .card-artist {
   color: var(--text-subdued);
   max-width: 171.5px;
-  font-size: .85rem;
+  font-size: 0.85rem;
   margin-bottom: 0;
+}
+
+.carousel-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  will-change: transform;
+  & svg {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+}
+.carousel-button:hover svg {
+  fill: white;
 }
