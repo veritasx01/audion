@@ -97,37 +97,37 @@
   pointer-events: none;
 }
 
-/* --------- Collapsed (minimized) rules use button hover only --------- */
-/* 1) Collapsed (minimized) & not hovered -> show library icon only */
-.library-container.minimized .library-toggle .icon-library {
+/* --------- Collapsed rules use button hover only --------- */
+/* 1) Collapsed & not hovered -> show library icon only */
+.library-container.collapsed .library-toggle .icon-library {
   opacity: 1 !important;
   pointer-events: auto;
 }
 
-/* 2) Collapsed (minimized) & BUTTON hovered -> show open/expand icon only */
-.library-container.minimized .library-toggle:hover .icon-library {
+/* 2) Collapsed & BUTTON hovered -> show open/expand icon only */
+.library-container.collapsed .library-toggle:hover .icon-library {
   opacity: 0 !important;
 }
-.library-container.minimized .library-toggle:hover .icon-open {
+.library-container.collapsed .library-toggle:hover .icon-open {
   opacity: 1 !important;
   pointer-events: auto;
 }
 
 /* --------- Expanded behavior (still uses container hover) --------- */
 /* Expanded & not hovered -> hide all icons */
-.library-container:not(.minimized) .library-toggle .icon-library,
-.library-container:not(.minimized) .library-toggle .icon-open,
-.library-container:not(.minimized) .library-toggle .icon-collapse {
+.library-container:not(.collapsed) .library-toggle .icon-library,
+.library-container:not(.collapsed) .library-toggle .icon-open,
+.library-container:not(.collapsed) .library-toggle .icon-collapse {
   opacity: 0 !important;
 }
 
 /* Expanded & container hovered -> show collapse icon */
-.library-container:not(.minimized):hover .library-toggle .icon-collapse {
+.library-container:not(.collapsed):hover .library-toggle .icon-collapse {
   opacity: 1 !important;
   pointer-events: auto;
 }
-.library-container:not(.minimized):hover .library-toggle .icon-library,
-.library-container:not(.minimized):hover .library-toggle .icon-open {
+.library-container:not(.collapsed):hover .library-toggle .icon-library,
+.library-container:not(.collapsed):hover .library-toggle .icon-open {
   opacity: 0 !important;
 }
 

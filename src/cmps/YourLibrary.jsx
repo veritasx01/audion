@@ -23,7 +23,7 @@ export function YourLibrary() {
     [playlists]
   );
   const isLoading = useSelector((store) => store.playlistModule.isLoading);
-  const isMinimized = !useSelector((store) => store.systemModule.libraryView);
+  const isCollapsed = !useSelector((store) => store.systemModule.libraryView);
 
   useEffect(() => {
     loadPlaylists().catch((err) => {
@@ -45,12 +45,12 @@ export function YourLibrary() {
       });
 
   return (
-    <div className={`library-container ${isMinimized ? "minimized" : ""}`}>
+    <div className={`library-container ${isCollapsed ? "collapsed" : ""}`}>
       <div className="library-header">
         <button
           className="library-toggle"
           onClick={() => dispatch(toggleLibrary())}
-          title={`${isMinimized ? "Open" : "Collapse"} Your Library`}
+          title={`${isCollapsed ? "Open" : "Collapse"} Your Library`}
           aria-label="Toggle library"
         >
           {/* Always render all three — CSS decides which is visible */}
@@ -60,10 +60,10 @@ export function YourLibrary() {
             {collapseLibraryIcon({ fill: "#aaa" })}
           </span>
         </button>
-        {!isMinimized && <h3 className="library-title">Your Library</h3>}
+        {!isCollapsed && <h3 className="library-title">Your Library</h3>}
       </div>
 
-      {!isMinimized && (
+      {!isCollapsed && (
         <>
           <input
             type="text"
@@ -88,7 +88,7 @@ export function YourLibrary() {
       )}
       <div className="library-list">
         {!isLoading ? (
-          <YourLibraryList items={filteredItems} isMinimized={isMinimized} />
+          <YourLibraryList items={filteredItems} isCollapsed={isCollapsed} />
         ) : (
           <div>Loading your library...</div>
         )}

@@ -90,6 +90,6 @@
   background: transparent;
 }
 
-.your-library-list.minimized {
+.your-library-list.collapsed {
   max-height: 100%;
 }
