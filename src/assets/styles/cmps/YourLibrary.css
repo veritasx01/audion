@@ -1,14 +1,18 @@
 .library-container {
-  width: 100%;
-  background-color: #121212;
-  color: white;
-  padding: 2px;
+  background-color: var(--spotify-background-base);
+  color: var(--spotify-text-base);
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  box-sizing: border-box;
-  border-radius: 1px;
   flex: 1;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 8px;
+  cursor: default;
+  overflow-x: hidden;
 }
 
 .library-search {
@@ -16,8 +20,8 @@
   margin-bottom: 12px;
   border-radius: 4px;
   border: none;
-  background-color: #2a2a2a;
-  color: white;
+  background-color: var(--spotify-background-base);
+  color: var(--spotify-text-base);
 }
 
 .library-filters {
@@ -56,17 +60,34 @@
   padding-bottom: 8px;
 }
 
-/* Ensure title is left aligned */
+/* Title transitions so it can shift smoothly */
 .library-title {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
   line-height: 1;
-  text-align: left; /* explicit left alignment */
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: margin-left 140ms ease;
+  /* default: no left offset (toggle takes space only when visible) */
+  margin-left: 0;
+}
+
+/* Expanded & NOT hovered -> collapse the toggle so title shifts left */
+.library-container:not(.collapsed):not(:hover) .library-toggle {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Expanded & hovered -> show the toggle (restore width/padding) */
+.library-container:not(.collapsed):hover .library-toggle {
+  opacity: 1;
+  pointer-events: auto;
+  margin-left: 12px;
 }
 
 .library-toggle {
@@ -76,11 +97,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
   color: inherit;
+  transition: width 140ms ease, padding 140ms ease, opacity 140ms ease;
+  flex: 0 0 auto;
 }
 
 /* stack icons */
@@ -144,47 +167,14 @@
 .library-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* push add button to the far right */
-  gap: 12px;
-  padding: 8px 12px;
+  justify-content: space-between;
+  padding: 8px 6px;
 }
 
-/* Add button: white plus centered in a black circle */
-.library-add-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #000;
-  border: none;
-  display: inline-flex;
+/* Make the left group take available space so title sits flush left */
+.library-header-left {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 6px;
-  color: #fff;
-  transition: background 0.12s ease, transform 0.08s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Make the inline SVG inside the button white */
-.library-add-btn img,
-.library-add-btn svg {
-  width: 18px;
-  height: 18px;
-  filter: none;
-  /* if svg is inline or svgr-imported you can force color: */
-  color: #fff;
-  fill: #fff !important;
-}
-
-/* subtle hover effect */
-.library-add-btn:hover {
-  background: #111;
-  transform: translateY(-1px);
-}
-
-/* when focused (keyboard) - visible ring */
-.library-add-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px #1ed76033, 0 2px 8px rgba(0, 0, 0, 0.4);
+  flex: 1;
+  position: relative;
 }

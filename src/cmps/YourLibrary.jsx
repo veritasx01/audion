@@ -47,20 +47,22 @@ export function YourLibrary() {
   return (
     <div className={`library-container ${isCollapsed ? "collapsed" : ""}`}>
       <div className="library-header">
-        <button
-          className="library-toggle"
-          onClick={() => dispatch(toggleLibrary())}
-          title={`${isCollapsed ? "Open" : "Collapse"} Your Library`}
-          aria-label="Toggle library"
-        >
-          {/* Always render all three — CSS decides which is visible */}
-          <span className="icon-library">{yourLibraryIcon({})}</span>
-          <span className="icon-open">{openLibraryIcon({})}</span>
-          <span className="icon-collapse">
-            {collapseLibraryIcon({ fill: "#aaa" })}
-          </span>
-        </button>
-        {!isCollapsed && <h3 className="library-title">Your Library</h3>}
+        <div className="library-header-left">
+          <button
+            className="library-toggle"
+            onClick={() => dispatch(toggleLibrary())}
+            title={`${isCollapsed ? "Open" : "Collapse"} Your Library`}
+            aria-label="Toggle library"
+          >
+            {/* Always render all three — CSS decides which is visible */}
+            <span className="icon-library">{yourLibraryIcon({})}</span>
+            <span className="icon-open">{openLibraryIcon({})}</span>
+            <span className="icon-collapse">
+              {collapseLibraryIcon({ fill: "#aaa" })}
+            </span>
+          </button>
+          {!isCollapsed && <h3 className="library-title">Your Library</h3>}
+        </div>
       </div>
 
       {!isCollapsed && (
