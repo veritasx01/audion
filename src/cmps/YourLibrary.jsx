@@ -47,9 +47,10 @@ export function YourLibrary() {
   return (
     <div className={`library-container ${isCollapsed ? "collapsed" : ""}`}>
       <div className="library-header">
+        {/* header left side for toggle button and title */}
         <div className="library-header-left">
           <button
-            className="library-toggle"
+            className="library-toggle-btn"
             onClick={() => dispatch(toggleLibrary())}
             title={`${isCollapsed ? "Open" : "Collapse"} Your Library`}
             aria-label="Toggle library"
@@ -61,7 +62,7 @@ export function YourLibrary() {
               {collapseLibraryIcon({ fill: "#aaa" })}
             </span>
           </button>
-          {!isCollapsed && <h3 className="library-title">Your Library</h3>}
+          {!isCollapsed && <h1 className="library-title">Your Library</h1>}
         </div>
       </div>
 
