@@ -1,13 +1,14 @@
-export function SongCarousel({ songs }) {
+export function SongCarousel({ songs, title="title" }) {
   return (
     <div className="song-carousel-container">
-      <h1>Recently Played</h1>
+      <h1>{title}</h1>
       <div className="song-carousel">
-        {songs.map((pl, idx) => (
+        {songs.map((song, idx) => (
           <div key={idx} className="song-card">
             <div style={{width: "100%"}}>
-              <img src={pl.thumbnail} alt={pl.title} />
-              <p style={{overflow: "auto"}}>{pl.title}</p>
+              <img src={song.thumbnail} alt={song.title} />
+              <p className="card-title">{song.title}</p>
+              <p className="card-artist">{song.artist}</p>
             </div>
           </div>
         ))}

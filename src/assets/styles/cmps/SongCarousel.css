@@ -7,14 +7,27 @@
 .song-carousel {
   display: grid;
   grid-auto-flow: column;
+  gap: 16px;
 }
 
 .song-card {
   border: 1px solid gold;
+  width: 195.5px;
+  padding: 10px;
   img {
-    max-width: 171.5px;
+    width: 171.5px;
+    height: 171.5px;
+    object-fit: cover;
   }
-  p {
-    max-width: 171.5px;
-  }
+}
+
+.card-title {
+  max-width: 171.5px;
+  font-size: 1rem;
+}
+
+.card-artist {
+  color: #b3b3b3;
+  max-width: 171.5px;
+  font-size: 0.85rem;
 }
