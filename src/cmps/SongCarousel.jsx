@@ -1,7 +1,7 @@
 export function SongCarousel({ songs, title="title" }) {
   return (
     <div className="song-carousel-container">
-      <h1>{title}</h1>
+      <h1 className="carousel-title">{title}</h1>
       <div className="song-carousel">
         {songs.map((song, idx) => (
           <div key={idx} className="song-card">

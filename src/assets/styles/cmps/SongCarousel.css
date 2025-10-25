@@ -10,24 +10,36 @@
   gap: 16px;
 }
 
+.carousel-title {
+  margin: .5rem 0 .5rem .5rem;
+}
+
 .song-card {
-  border: 1px solid gold;
   width: 195.5px;
+  height: 247.5px;
   padding: 10px;
-  img {
-    width: 171.5px;
-    height: 171.5px;
-    object-fit: cover;
-  }
+  border-radius: 6px;
+  transition: background .05s cubic-bezier(0.3, 0, 0, 1);
+}
+.song-card img {
+  width: 171.5px;
+  height: 171.5px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.song-card:hover {
+  background: var(--background-elevated-base);
 }
 
 .card-title {
   max-width: 171.5px;
   font-size: 1rem;
+  margin-bottom: .5rem;
 }
 
 .card-artist {
-  color: #b3b3b3;
+  color: var(--text-subdued);
   max-width: 171.5px;
-  font-size: 0.85rem;
+  font-size: .85rem;
+  margin-bottom: 0;
 }
