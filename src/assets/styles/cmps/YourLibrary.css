@@ -48,23 +48,6 @@
   box-sizing: border-box;
 }
 
-.library-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.library-item:hover {
-  background-color: #1a1a1a;
-}
-
-.library-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .library-header {
   display: flex;
   justify-content: space-between;
@@ -73,35 +56,135 @@
   padding-bottom: 8px;
 }
 
+/* Ensure title is left aligned */
 .library-title {
-  display: inline-block;
-  margin-left: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  vertical-align: middle;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-align: left; /* explicit left alignment */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .library-toggle {
-  display: flex;
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  padding: 6px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  color: inherit;
 }
 
-.library-toggle img {
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-  vertical-align: middle;
-  filter: invert(1); /* makes dark SVGs white */
+/* stack icons */
+.library-toggle .icon-library,
+.library-toggle .icon-open,
+.library-toggle .icon-collapse {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  pointer-events: none;
 }
-.library-toggle h3 {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 8px;
-  margin-top: 8px;
-  font-size: 16px;
+
+/* --------- Collapsed (minimized) rules use button hover only --------- */
+/* 1) Collapsed (minimized) & not hovered -> show library icon only */
+.library-container.minimized .library-toggle .icon-library {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+/* 2) Collapsed (minimized) & BUTTON hovered -> show open/expand icon only */
+.library-container.minimized .library-toggle:hover .icon-library {
+  opacity: 0 !important;
+}
+.library-container.minimized .library-toggle:hover .icon-open {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+/* --------- Expanded behavior (still uses container hover) --------- */
+/* Expanded & not hovered -> hide all icons */
+.library-container:not(.minimized) .library-toggle .icon-library,
+.library-container:not(.minimized) .library-toggle .icon-open,
+.library-container:not(.minimized) .library-toggle .icon-collapse {
+  opacity: 0 !important;
+}
+
+/* Expanded & container hovered -> show collapse icon */
+.library-container:not(.minimized):hover .library-toggle .icon-collapse {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+.library-container:not(.minimized):hover .library-toggle .icon-library,
+.library-container:not(.minimized):hover .library-toggle .icon-open {
+  opacity: 0 !important;
+}
+
+/* optional color on hover/focus */
+.library-toggle:hover {
+  color: #fff;
+}
+
+.library-toggle .icon-collapse svg:hover {
+  fill: #fff;
+}
+
+/* Header layout: left (toggle + title) and right (add button) */
+.library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* push add button to the far right */
+  gap: 12px;
+  padding: 8px 12px;
+}
+
+/* Add button: white plus centered in a black circle */
+.library-add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #000;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+  color: #fff;
+  transition: background 0.12s ease, transform 0.08s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Make the inline SVG inside the button white */
+.library-add-btn img,
+.library-add-btn svg {
+  width: 18px;
+  height: 18px;
+  filter: none;
+  /* if svg is inline or svgr-imported you can force color: */
+  color: #fff;
+  fill: #fff !important;
+}
+
+/* subtle hover effect */
+.library-add-btn:hover {
+  background: #111;
+  transform: translateY(-1px);
+}
+
+/* when focused (keyboard) - visible ring */
+.library-add-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #1ed76033, 0 2px 8px rgba(0, 0, 0, 0.4);
 }

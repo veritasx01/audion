@@ -6,16 +6,17 @@ import { loadPlaylists } from "../store/actions/playlist.action.js";
 import { showErrorMsg } from "../services/event-bus.service.js";
 import { playlistService } from "../services/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
-import playlistIcon from "../assets/icons/playlist.svg";
-import minimizeIcon from "../assets/icons/sidebar-left.svg";
-import expandIcon from "../assets/icons/sidebar-right.svg";
+import {
+  sideBarToRightIcon as openLibraryIcon,
+  sideBarToLeftIcon as collapseLibraryIcon,
+  yourLibraryIcon,
+} from "../services/icon.service.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
 export function YourLibrary() {
   const dispatch = useDispatch();
   const [itemTypeFilter, setItemTypeFilter] = useState("All");
   const [searchString, setSearchString] = useState("");
-
   const playlists = useSelector((store) => store.playlistModule.playlists);
   const libraryItems = useMemo(
     () => playlists.map((playlist) => ({ ...playlist, type: "Playlist" })),
@@ -49,17 +50,17 @@ export function YourLibrary() {
         <button
           className="library-toggle"
           onClick={() => dispatch(toggleLibrary())}
-          title={isMinimized ? "Expand Library" : "Minimize Library"}
+          title={`${isMinimized ? "Open" : "Collapse"} Your Library`}
+          aria-label="Toggle library"
         >
-          {isMinimized ? (
-            <img src={expandIcon} alt="Expand" />
-          ) : (
-            <>
-              <img src={minimizeIcon} alt="Minimize" />
-              <h3 className="library-title">Your Library</h3>
-            </>
-          )}
+          {/* Always render all three — CSS decides which is visible */}
+          <span className="icon-library">{yourLibraryIcon({})}</span>
+          <span className="icon-open">{openLibraryIcon({})}</span>
+          <span className="icon-collapse">
+            {collapseLibraryIcon({ fill: "#aaa" })}
+          </span>
         </button>
+        {!isMinimized && <h3 className="library-title">Your Library</h3>}
       </div>
 
       {!isMinimized && (
