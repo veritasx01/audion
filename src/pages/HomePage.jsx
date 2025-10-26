@@ -5,6 +5,11 @@ export function HomePage() {
   return (
     <>
       <SongCarousel songs={songs}></SongCarousel>
+      <SongCarousel songs={songs}></SongCarousel>
+      <SongCarousel songs={songs}></SongCarousel>
+      <SongCarousel songs={songs}></SongCarousel>
+      <SongCarousel songs={songs}></SongCarousel>
+      <SongCarousel songs={songs}></SongCarousel>
     </>
   );
 }

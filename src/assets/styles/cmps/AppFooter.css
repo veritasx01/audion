@@ -1,5 +1,6 @@
 .app-footer {
   display: flex;
+  z-index: 1000;
   bottom: 0px;
   width: 100vw;
   align-items: center;
