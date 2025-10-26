@@ -1,5 +1,5 @@
 // components/YourLibrary.jsx
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleLibrary } from "../store/actions/system.action";
 import { loadPlaylists } from "../store/actions/playlist.action.js";
@@ -26,6 +26,9 @@ export function YourLibrary() {
   );
   const isLoading = useSelector((store) => store.playlistModule.isLoading);
   const isCollapsed = !useSelector((store) => store.systemModule.libraryView);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const searchInputRef = useRef(null);
+  const searchWrapperRef = useRef(null);
 
   useEffect(() => {
     loadPlaylists().catch((err) => {
@@ -97,17 +100,71 @@ export function YourLibrary() {
               </button>
             ))}
           </div>
+
+          {/* search and sort/view area */}
           <div className="library-search-sort-view-container">
-            <div className="library-search-container">
-              <span className="search-icon">{searchIcon({})}</span>
-              <input
-                type="text"
-                className="library-search-input"
-                placeholder="Search your library"
-                value={searchString}
-                onChange={(e) => setSearchString(e.target.value.toLowerCase())}
-                aria-label="Search your library"
-              />
+            <div className="library-search-area">
+              {/* show button only when input is hidden */}
+              {!isSearchVisible ? (
+                <button
+                  type="button"
+                  className="library-search-btn"
+                  title="Search in Your Library"
+                  onClick={() => {
+                    setIsSearchVisible(true);
+                    setTimeout(() => searchInputRef.current?.focus(), 0);
+                  }}
+                >
+                  {searchIcon({})}
+                </button>
+              ) : (
+                <div
+                  className="library-search-wrapper"
+                  ref={searchWrapperRef}
+                  tabIndex={-1}
+                  onBlur={(e) => {
+                    const related = e.relatedTarget;
+                    if (
+                      searchWrapperRef.current &&
+                      related &&
+                      searchWrapperRef.current.contains(related)
+                    )
+                      return;
+                    setIsSearchVisible(false);
+                    setSearchString("");
+                  }}
+                >
+                  <div className="input-with-icon">
+                    {/* left icon INSIDE the input wrapper */}
+                    <span className="library-search-icon" aria-hidden="true">
+                      {searchIcon({})}
+                    </span>
+
+                    <input
+                      id="library-search"
+                      ref={searchInputRef}
+                      className="library-search-input"
+                      type="text"
+                      value={searchString}
+                      onChange={(e) => setSearchString(e.target.value)}
+                      placeholder="Search in Your Library"
+                      autoComplete="off"
+                    />
+
+                    {/* clear shown only when input not empty */}
+                    {searchString.trim().length > 0 && (
+                      <button
+                        type="button"
+                        className="library-search-clear"
+                        title="Clear search"
+                        onClick={() => setSearchString("")}
+                      >
+                        {clearIcon({})}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </>

@@ -1,3 +1,10 @@
+/* sizing vars */
+:root {
+  --search-btn-size: 36px;
+  --search-icon-size: 16px;
+  --search-clear-size: 32px; /* size of the clear button */
+}
+
 .library-container {
   background-color: var(--spotify-background-base);
   color: var(--spotify-text-base);
@@ -238,18 +245,140 @@
   margin-top: 10px;
 }
 
-.library-search {
-  padding: 8px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  border: none;
-  background-color: var(--spotify-background-base);
-  color: var(--spotify-text-base);
+/* Search area: show button; when clicked show input with icon to the left */
+.library-search-area {
+  display: flex;
+  align-items: center;
 }
 
-.library-list {
-  flex-grow: 1;
-  overflow-y: auto;
-  width: 100%;
+/*circular search toggle (when visible) stays consistent */
+.library-search-btn {
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0);
+  color: #fff;
+  border: none;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* wrapper when input is visible */
+.library-search-wrapper {
+  display: inline-flex;
+  align-items: center;
+  height: var(--search-btn-size); /* stable height */
+  box-sizing: border-box;
+}
+
+/* container for icon + input + clear */
+.input-with-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* input fills wrapper height; reserve space for left icon and right clear */
+.library-search-input {
+  height: 100%;
+  min-width: var(--search-input-min-width);
+  padding-left: calc(var(--search-btn-size) + 8px); /* room for left icon */
+  padding-right: calc(var(--search-clear-size) + 12px); /* room for clear */
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  outline: none;
+  line-height: 1;
+}
+
+/* left icon INSIDE input: centered vertically by top/bottom + margin:auto */
+.library-search-icon {
+  position: absolute;
+  left: 8px; /* small inset */
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: var(--search-icon-size);
+  height: var(--search-icon-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b3b3b3;
+  pointer-events: none;
+}
+.library-search-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* clear button centered vertically using top/bottom + margin:auto */
+.library-search-clear {
+  position: absolute;
+  right: 8px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: var(--search-clear-size);
+  height: var(--search-clear-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #b3b3b3;
+  cursor: pointer;
+  box-sizing: border-box;
+  z-index: 3;
+}
+.library-search-clear svg {
+  width: 60%;
+  height: 60%;
+  display: block;
+  fill: currentColor;
+}
+
+/* subtle focus, no green ring */
+.library-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.02);
+}
+
+/* keep toggle button size consistent */
+.library-search-btn {
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #fff;
+  border: none;
+  box-sizing: border-box;
+}
+
+/* responsive tweaks */
+@media (max-width: 520px) {
+  :root {
+    --search-input-min-width: 140px;
+  }
+  .library-search-icon {
+    left: 10px;
+  }
+  .library-search-clear {
+    right: 6px;
+    width: 26px;
+    height: 26px;
+  }
 }
