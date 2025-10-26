@@ -71,6 +71,7 @@
   height: 100%;
   border-right: 8px solid transparent;
   box-sizing: border-box;
+  margin-left: 12px;
 }
 
 .library-container:hover .scrollable-library-list {
