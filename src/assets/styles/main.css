@@ -23,4 +23,5 @@
 @import "cmps/YourLibraryPreview";
 @import "cmps/YourLibraryList";
 @import "cmps/SongList";
-@import "cmps/PlaylistDetails.css";
+@import "cmps/PlaylistDetails";
+@import "cmps/SongCarousel";

@@ -1,7 +1,7 @@
 .app-footer {
   display: flex;
   bottom: 0px;
-  width: 100%;
+  width: 100vw;
   align-items: center;
   justify-content: space-between;
   height: 88px;
@@ -24,6 +24,9 @@
       color: --var(clr5);
     }
   }
+}
+.app-footer > * {
+  flex: 1;
 }
 
 .smaller-button {

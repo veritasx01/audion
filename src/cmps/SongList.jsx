@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { updateCurrentSong, updateSongObject } from "../store/actions/song.action";
+import {
+  updateCurrentSong,
+  updateSongObject,
+} from "../store/actions/song.action";
 
 export function SongList({ songs }) {
   const dispatch = useDispatch();
