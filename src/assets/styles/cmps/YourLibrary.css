@@ -7,8 +7,8 @@
 }
 
 .library-container {
-  background-color: var(--spotify-background-base);
-  color: var(--spotify-text-base);
+  background-color: var(--background-base);
+  color: var(--text-base);
   padding: 0;
   margin: 0;
   display: flex;
@@ -143,7 +143,7 @@
 }
 
 .library-toggle-btn .icon-collapse svg:hover {
-  fill: #fff;
+  fill: var(--text-base);
 }
 
 /* Spotify-like filter buttons */
@@ -152,11 +152,9 @@
   --filter-vert: 8px; /* equal top/bottom padding */
   --filter-horz: 10px;
   --filter-height: calc(var(--icon-size) + (var(--filter-vert) * 2));
-  --bg: var(--spotify-dark-gray);
-  --bg-hover: var(--spotify-medium-gray);
-  --muted: var(--spotify-light-gray);
-  --active-bg: #ffffff;
-  --active-text: #000000;
+  --bg: var(--background-elevated-highlight);
+  --bg-hover: var(--background-tinted-highlight);
+  --muted: var(--text-subdued);
   display: flex;
   align-items: center;
   gap: 0;
@@ -196,8 +194,8 @@
 
 /* active pill: white background, black text (Spotify style) */
 .library-filters button.active {
-  background: var(--active-bg);
-  color: var(--active-text);
+  background: var(--text-base);
+  color: var(--background-base);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
@@ -221,7 +219,7 @@
 .library-filters .filter-clear-btn:hover,
 .library-filters .filter-clear-btn:focus {
   background: var(--bg-hover);
-  color: #fff;
+  color: var(--text-base);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
@@ -255,7 +253,7 @@
 /*circular search toggle (when visible) stays consistent */
 .library-search-btn {
   background-color: transparent; /* no visible background by default */
-  color: #b3b3b3; /* icon color when idle */
+  color: var(--text-subdued); /* icon color when idle */
   border: none;
   padding: 0;
   width: var(--search-btn-size);
@@ -283,7 +281,7 @@
 .library-search-btn:focus,
 .library-search-btn:active {
   background-color: rgba(255, 255, 255, 0.06) !important; /* tweak to taste */
-  color: #ffffff; /* icon becomes white on hover */
+  color: var(--text-base); /* icon becomes white on hover */
   outline: none;
 }
 
@@ -315,8 +313,8 @@
   );
   padding-right: calc(var(--search-clear-size) + 8px);
   border-radius: 4px;
-  background: #2a2a2a;
-  color: #fff;
+  background: var(--background-tinted-highlight);
+  color: var(--text-base);
   font-size: 0.8rem;
   box-sizing: border-box;
   outline: none;
@@ -348,7 +346,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #b3b3b3;
+  color: var(--text-subdued);
   pointer-events: none;
 }
 .library-search-icon svg {
@@ -371,7 +369,7 @@
   border-radius: 50%;
   background: transparent;
   border: none;
-  color: #b3b3b3;
+  color: var(--text-subdued);
   cursor: pointer;
   box-sizing: border-box;
   z-index: 3;
@@ -395,8 +393,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #000;
-  color: #fff;
+  background: var(--background-base);
+  color: var(--text-base);
   border: none;
   box-sizing: border-box;
 }
