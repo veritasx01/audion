@@ -1,13 +1,30 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  updateSongObject,
+  updateCurrentSong,
+} from "../store/actions/song.action";
 
 export function SongCarousel({ songs, title = "title" }) {
   const [offset, setOffset] = useState(0);
   const moveLeft = () => setOffset((prev) => Math.max(0, prev - 3));
   const moveRight = () =>
-    setOffset((prev) => Math.min(songs.length - 6, prev + 3));
+    setOffset((prev) => Math.min(songs.length - 7, prev + 3));
+
+  const dispatch = useDispatch();
+  const changeToSong = (url, songObj) => {
+    dispatch(updateCurrentSong(url));
+    dispatch(updateSongObject(songObj));
+  };
   return (
-    <div style={{ paddingLeft: "28px", overflow: "hidden" }}>
+    <div className="carousel-inner" style={{ paddingLeft: "28px", overflow: "hidden" }}>
       <h1 className="carousel-title">{title}</h1>
+      <button
+        className="left-button carousel-button hov-enlarge"
+        onClick={moveLeft}
+      >
+        {leftArrow()}
+      </button>
       <div
         className="song-carousel-container"
         style={{ transform: `translate(-${offset * 200}px)` }}
@@ -15,7 +32,10 @@ export function SongCarousel({ songs, title = "title" }) {
         <div className="song-carousel">
           {songs.map((song, idx) => (
             <div key={idx} className="song-card">
-              <div style={{ width: "100%" }}>
+              <div
+                style={{ width: "100%" }}
+                onClick={() => changeToSong(song.url, song)}
+              >
                 <img src={song.thumbnail} alt={song.title} />
                 <p className="card-title">{song.title}</p>
                 <p className="card-artist">{song.artist}</p>
@@ -24,8 +44,12 @@ export function SongCarousel({ songs, title = "title" }) {
           ))}
         </div>
       </div>
-      <button className="carousel-button hov-enlarge" onClick={moveLeft}>{leftArrow()}</button>
-      <button className="carousel-button hov-enlarge" onClick={moveRight}>{rightArrow()}</button>
+      <button
+        className="right-button carousel-button hov-enlarge"
+        onClick={moveRight}
+      >
+        {rightArrow()}
+      </button>
     </div>
   );
 }
