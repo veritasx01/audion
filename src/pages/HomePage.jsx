@@ -1,10 +1,10 @@
 import { songs } from "../assets/data/songs";
-import { SongList } from "../cmps/SongList";
+import { SongCarousel } from "../cmps/SongCarousel";
 
 export function HomePage() {
   return (
     <>
-      <SongList songs={songs} />
+      <SongCarousel songs={songs}></SongCarousel>
     </>
   );
 }
