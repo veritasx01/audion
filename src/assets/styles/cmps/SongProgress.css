@@ -32,7 +32,8 @@
 .progress-bar {
   background: #4c4c4c;
   border-radius: 8px;
-  width: 600px;
+  min-width: 400px;
+  width: 30vw;
   height: 4px;
 }
 

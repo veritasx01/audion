@@ -25,6 +25,9 @@
     }
   }
 }
+.app-footer > * {
+  flex: 1;
+}
 
 .smaller-button {
   width: 32px;
