@@ -175,7 +175,7 @@ export function YourLibrary() {
         {!isLoading ? (
           <YourLibraryList items={filteredItems} isCollapsed={isCollapsed} />
         ) : (
-          <div>Loading your library...</div>
+          <div></div>
         )}
       </div>
     </div>

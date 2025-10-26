@@ -1,9 +1,9 @@
 /* sizing vars */
 :root {
   --search-btn-size: 32px; /* smaller circular button */
-  --search-icon-size: 14px; /* slightly smaller icon */
+  --search-icon-size: 16px; /* slightly smaller icon */
   --search-clear-size: 28px; /* slightly smaller clear button */
-  --search-input-min-width: 120px; /* shorter input */
+  --search-input-min-width: 48px; /* shorter input */
 }
 
 .library-container {
@@ -313,9 +313,7 @@
   padding-left: calc(
     var(--search-btn-size) / 2 + var(--search-icon-size) / 2 + 8px
   );
-  padding-right: calc(
-    var(--search-clear-size) + 12px
-  ); /* reserve correct space for clear */
+  padding-right: calc(var(--search-clear-size) + 8px);
   border-radius: 4px;
   background: #2a2a2a;
   color: #fff;
@@ -362,7 +360,7 @@
 /* clear button centered vertically using top/bottom + margin:auto */
 .library-search-clear {
   position: absolute;
-  right: 8px;
+  right: 1px;
   top: 0;
   bottom: 0;
   margin: auto 0;
