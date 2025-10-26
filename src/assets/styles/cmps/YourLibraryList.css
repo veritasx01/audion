@@ -74,6 +74,10 @@
   margin-left: 12px;
 }
 
+.scrollable-library-list.collapsed {
+  margin: 0;
+}
+
 .library-container:hover .scrollable-library-list {
   overflow-y: overlay;
 }

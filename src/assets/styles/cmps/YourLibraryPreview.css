@@ -11,6 +11,9 @@
 }
 
 .your-library-preview.collapsed {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: 4px;
   margin: 2px;
   padding: 2px;
