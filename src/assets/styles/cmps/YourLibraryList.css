@@ -71,6 +71,11 @@
   height: 100%;
   border-right: 8px solid transparent;
   box-sizing: border-box;
+  margin-left: 12px;
+}
+
+.scrollable-library-list.collapsed {
+  margin: 0;
 }
 
 .library-container:hover .scrollable-library-list {
@@ -90,6 +95,6 @@
   background: transparent;
 }
 
-.your-library-list.minimized {
+.your-library-list.collapsed {
   max-height: 100%;
 }

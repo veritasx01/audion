@@ -6,19 +6,19 @@ export function YourLibraryPreview({
   type: itemType, // playlist, artist, album, etc.
   createdBy,
   thumbnail,
-  isMinimized,
+  isCollapsed,
 }) {
   return (
     <Link
       to={`/${itemType}/${_id}`}
-      className={`your-library-preview${isMinimized ? " minimized" : ""}`}
+      className={`your-library-preview${isCollapsed ? " collapsed" : ""}`}
     >
       <img
         src={thumbnail}
         alt={`${title} thumbnail`}
-        className={`your-library-thumbnail${isMinimized ? " minimized" : ""}`}
+        className={`your-library-thumbnail${isCollapsed ? " collapsed" : ""}`}
       />
-      {!isMinimized && (
+      {!isCollapsed && (
         <div className="your-library-info">
           <h4 className="your-library-title">{title}</h4>
           <p className="your-library-meta">

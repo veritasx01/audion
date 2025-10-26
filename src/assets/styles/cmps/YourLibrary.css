@@ -1,108 +1,415 @@
+/* sizing vars */
+:root {
+  --search-btn-size: 32px; /* smaller circular button */
+  --search-icon-size: 16px; /* slightly smaller icon */
+  --search-clear-size: 28px; /* slightly smaller clear button */
+  --search-input-min-width: 48px; /* shorter input */
+}
+
 .library-container {
-  width: 100%;
-  height: 100%;
-  background-color: #121212;
-  color: white;
-  padding: 2px;
+  background-color: var(--background-base);
+  color: var(--text-base);
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  box-sizing: border-box;
-  border-radius: 1px;
   flex: 1;
-}
-
-.library-search {
-  padding: 8px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  border: none;
-  background-color: #2a2a2a;
-  color: white;
-}
-
-.library-filters {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.library-filters button {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 16px;
-  font-size: 14px;
-}
-
-.library-filters .active {
-  background-color: #333;
-  color: white;
-}
-
-.library-list {
-  flex-grow: 1;
-  overflow-y: auto;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
-}
-
-.library-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.library-item:hover {
-  background-color: #1a1a1a;
-}
-
-.library-icon {
-  width: 24px;
-  height: 24px;
+  border: 0;
+  border-radius: 8px;
+  cursor: default;
+  overflow-x: hidden;
 }
 
 .library-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding-bottom: 8px;
+  gap: 0px;
+  padding: 6px 4px 6px 2px;
 }
 
-.library-title {
-  display: inline-block;
-  margin-left: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  vertical-align: middle;
-}
-
-.library-toggle {
+/* Make the left group take available space so title sits flush left */
+.library-header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex: 1;
+  gap: 0px;
+  position: relative;
+}
+
+/* Title transitions so it can shift smoothly */
+.library-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 750;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: margin-left 140ms ease;
+  margin-left: 0; /* default: no left offset (toggle takes space only when visible) */
+}
+
+/* Expanded & NOT hovered -> collapse the toggle so title shifts left */
+.library-container:not(.collapsed):not(:hover) .library-toggle-btn {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Expanded & hovered -> show the toggle (restore width/padding) */
+.library-container:not(.collapsed):hover .library-toggle-btn {
+  opacity: 1;
+  pointer-events: auto;
+  margin-left: 6px;
+}
+
+.library-toggle-btn {
+  background: transparent !important;
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
+  color: inherit;
+  transition: width 140ms ease, padding 140ms ease, opacity 140ms ease;
+  flex: 0 0 auto;
+}
+
+.library-toggle-btn:hover,
+.library-toggle-btn:focus,
+.library-toggle-btn:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* stack icons */
+.library-toggle-btn .icon-library,
+.library-toggle-btn .icon-open,
+.library-toggle-btn .icon-collapse {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+/* --------- Collapsed rules use button hover only --------- */
+/* 1) Collapsed & not hovered -> show library icon only */
+.library-container.collapsed .library-toggle-btn .icon-library {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+/* 2) Collapsed & BUTTON hovered -> show open/expand icon only */
+.library-container.collapsed .library-toggle-btn:hover .icon-library {
+  opacity: 0 !important;
+}
+.library-container.collapsed .library-toggle-btn:hover .icon-open {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+/* --------- Expanded behavior (still uses container hover) --------- */
+/* Expanded & not hovered -> hide all icons */
+.library-container:not(.collapsed) .library-toggle-btn .icon-library,
+.library-container:not(.collapsed) .library-toggle-btn .icon-open,
+.library-container:not(.collapsed) .library-toggle-btn .icon-collapse {
+  opacity: 0 !important;
+}
+
+/* Expanded & container hovered -> show collapse icon */
+.library-container:not(.collapsed):hover .library-toggle-btn .icon-collapse {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+.library-container:not(.collapsed):hover .library-toggle-btn .icon-library,
+.library-container:not(.collapsed):hover .library-toggle-btn .icon-open {
+  opacity: 0 !important;
+}
+
+.library-toggle-btn .icon-collapse svg:hover {
+  fill: var(--text-base);
+}
+
+/* Spotify-like filter buttons */
+.library-filters {
+  --icon-size: 16px;
+  --filter-vert: 8px; /* equal top/bottom padding */
+  --filter-horz: 10px;
+  --filter-height: calc(var(--icon-size) + (var(--filter-vert) * 2));
+  --bg: var(--background-elevated-highlight);
+  --bg-hover: var(--background-tinted-highlight);
+  --muted: var(--text-subdued);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: 12px;
+  box-sizing: border-box;
+}
+
+/* base pill rules applied to actual buttons */
+.library-filters button {
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--muted);
+  border: 0;
+  padding: var(--filter-vert) var(--filter-horz); /* equal top/bottom padding */
+  min-height: var(--filter-height);
+  height: auto; /* allow padding to control vertical spacing */
+  border-radius: 9999px; /* full pill shape */
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 4px;
+  line-height: 1; /* important for perfect vertical centering */
+  display: inline-flex;
+  align-items: center; /* vertical center of inline-flex content */
+  justify-content: center;
+  transition: background 150ms ease, color 120ms ease, box-shadow 80ms ease;
+  vertical-align: middle;
+}
+
+/* hover for inactive (lighter gray, white text) */
+.library-filters button:not(.active):hover,
+.library-filters button:not(.active):focus {
+  background: var(--bg-hover);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: none;
+}
+
+/* active pill: white background, black text (Spotify style) */
+.library-filters button.active {
+  background: var(--text-base);
+  color: var(--background-base);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* clear (x) button: perfect circle same height as pills */
+.library-filters .filter-clear-btn {
+  width: var(--filter-height);
+  height: var(--filter-height);
+  padding: 0; /* center icon exactly */
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--muted);
+  border: 0;
+  box-sizing: border-box;
+  transition: background 120ms ease, color 120ms ease, box-shadow 80ms ease;
+}
+
+/* clear button hover */
+.library-filters .filter-clear-btn:hover,
+.library-filters .filter-clear-btn:focus {
+  background: var(--bg-hover);
+  color: var(--text-base);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* icon sizing inside buttons - use currentColor */
+.library-filters button svg,
+.library-filters button img,
+.library-filters .filter-clear-btn svg,
+.library-filters .filter-clear-btn img {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: block;
+  fill: currentColor;
+  color: currentColor;
+}
+
+.library-search-sort-view-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 8px 8px 8px;
+  margin-left: 8px;
+  margin-top: 6px;
+}
+
+/* Search area: show button; when clicked show input with icon to the left */
+.library-search-area {
+  display: flex;
+  align-items: center;
+}
+
+/*circular search toggle (when visible) stays consistent */
+.library-search-btn {
+  background-color: transparent; /* no visible background by default */
+  color: var(--text-subdued); /* icon color when idle */
+  border: none;
+  padding: 0;
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 140ms ease, color 140ms ease;
+  box-sizing: border-box;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+.library-search-btn svg {
+  width: var(--search-icon-size);
+  height: var(--search-icon-size);
+  display: block;
+  fill: currentColor;
+}
+
+/* visible background when hovered/focused/active */
+.library-search-btn:hover,
+.library-search-btn:focus,
+.library-search-btn:active {
+  background-color: rgba(255, 255, 255, 0.06) !important; /* tweak to taste */
+  color: var(--text-base); /* icon becomes white on hover */
+  outline: none;
+}
+
+/* wrapper when input is visible */
+.library-search-wrapper {
+  display: inline-flex;
+  align-items: center;
+  height: var(--search-btn-size); /* stable height */
+  box-sizing: border-box;
+  margin: 0;
   padding: 0;
 }
 
-.library-toggle img {
-  width: 24px;
-  height: 24px;
-  display: inline-block;
-  vertical-align: middle;
-  filter: invert(1); /* makes dark SVGs white */
+/* container for icon + input + clear */
+.input-with-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
 }
-.library-toggle h3 {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 8px;
-  margin-top: 8px;
-  font-size: 16px;
+
+/* input fills wrapper height; reserve space for left icon and right clear */
+.library-search-input {
+  height: 100%;
+  min-width: var(--search-input-min-width);
+  padding-left: calc(
+    var(--search-btn-size) / 2 + var(--search-icon-size) / 2 + 8px
+  );
+  padding-right: calc(var(--search-clear-size) + 8px);
+  border-radius: 4px;
+  background: var(--background-tinted-highlight);
+  color: var(--text-base);
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  outline: none;
+  line-height: 1;
+  border: none;
+  width: 204px;
+}
+
+/* make placeholder use the same size/line-height as the input */
+.library-search-input::placeholder,
+.library-search-input::-webkit-input-placeholder,
+.library-search-input::-moz-placeholder,
+.library-search-input:-ms-input-placeholder {
+  font-size: inherit; /* same size as .library-search-input */
+  line-height: inherit; /* ensures vertical alignment */
+  color: rgba(255, 255, 255, 0.6); /* optional: visible but muted color */
+  opacity: 1; /* prevent browser default opacity shrinking in some engines */
+}
+
+/* left icon INSIDE input: centered vertically by top/bottom + margin:auto */
+.library-search-icon {
+  position: absolute;
+  left: calc((var(--search-btn-size) - var(--search-icon-size)) / 2);
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: var(--search-icon-size);
+  height: var(--search-icon-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-subdued);
+  pointer-events: none;
+}
+.library-search-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* clear button centered vertically using top/bottom + margin:auto */
+.library-search-clear {
+  position: absolute;
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-subdued);
+  cursor: pointer;
+  box-sizing: border-box;
+  z-index: 3;
+}
+.library-search-clear svg {
+  display: block;
+  fill: currentColor;
+}
+
+/* subtle focus, no green ring */
+.library-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.02);
+}
+
+/* keep toggle button size consistent */
+.library-search-btn {
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-base);
+  color: var(--text-base);
+  border: none;
+  box-sizing: border-box;
+}
+
+/* responsive tweaks */
+@media (max-width: 520px) {
+  :root {
+    --search-input-min-width: 140px;
+  }
+  .library-search-icon {
+    left: 10px;
+  }
+  .library-search-clear {
+    right: 6px;
+    width: 26px;
+    height: 26px;
+  }
 }

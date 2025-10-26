@@ -1,21 +1,14 @@
 import { YourLibraryPreview } from "./YourLibraryPreview.jsx";
 
-export function YourLibraryList({
-  items,
-  onRemoveItem,
-  onEditItem,
-  isMinimized,
-}) {
+export function YourLibraryList({ items, isCollapsed }) {
   return (
-    <div className="scrollable-library-list">
-      <ul className={`your-library-list ${isMinimized ? "minimized" : ""}`}>
+    <div
+      className={`scrollable-library-list ${isCollapsed ? "collapsed" : ""}`}
+    >
+      <ul className={`your-library-list ${isCollapsed ? "collapsed" : ""}`}>
         {items.map((item) => (
           <li key={item._id}>
-            <YourLibraryPreview {...item} isMinimized={isMinimized} />
-            {/* <div>
-            <button onClick={() => onRemoveItem(item._id)}>x</button>
-            <button onClick={() => onEditItem(item)}>Edit</button>
-          </div> */}
+            <YourLibraryPreview {...item} isCollapsed={isCollapsed} />
           </li>
         ))}
       </ul>
