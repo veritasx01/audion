@@ -3,6 +3,7 @@ export const iconService = {
   sideBarToRightIcon,
   yourLibraryIcon,
   clearIcon,
+  searchIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -58,6 +59,7 @@ export function yourLibraryIcon({ height, width, fill, stroke, viewBox }) {
   );
 }
 
+// an "X" icon for clearing input fields
 export function clearIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
@@ -71,6 +73,23 @@ export function clearIcon({ height, width, fill, stroke, viewBox }) {
       stroke={stroke || "none"}
     >
       <path d="M2.47 2.47a.75.75 0 0 1 1.06 0L8 6.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L9.06 8l4.47 4.47a.75.75 0 1 1-1.06 1.06L8 9.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L6.94 8 2.47 3.53a.75.75 0 0 1 0-1.06"></path>
+    </svg>
+  );
+}
+
+// magnifying glass icon for search input fields
+export function searchIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M7 1.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5M.25 7a6.75 6.75 0 1 1 12.096 4.12l3.184 3.185a.75.75 0 1 1-1.06 1.06L11.304 12.2A6.75 6.75 0 0 1 .25 7"></path>
     </svg>
   );
 }

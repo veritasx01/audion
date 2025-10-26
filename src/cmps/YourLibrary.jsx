@@ -9,6 +9,7 @@ import { YourLibraryList } from "./YourLibraryList.jsx";
 import {
   clearIcon,
   yourLibraryIcon,
+  searchIcon,
   sideBarToRightIcon as openLibraryIcon,
   sideBarToLeftIcon as collapseLibraryIcon,
 } from "../services/icon.service.jsx";
@@ -96,13 +97,19 @@ export function YourLibrary() {
               </button>
             ))}
           </div>
-          <input
-            type="text"
-            placeholder="Search in Your Library"
-            value={searchString}
-            onChange={(e) => setSearchString(e.target.value.toLowerCase())}
-            className="library-search"
-          />
+          <div className="library-search-sort-view-container">
+            <div className="library-search-container">
+              <span className="search-icon">{searchIcon({})}</span>
+              <input
+                type="text"
+                className="library-search-input"
+                placeholder="Search your library"
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value.toLowerCase())}
+                aria-label="Search your library"
+              />
+            </div>
+          </div>
         </>
       )}
       <div className="library-list">
