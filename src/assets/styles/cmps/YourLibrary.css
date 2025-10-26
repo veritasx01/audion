@@ -1,8 +1,9 @@
 /* sizing vars */
 :root {
-  --search-btn-size: 36px;
-  --search-icon-size: 16px;
-  --search-clear-size: 32px; /* size of the clear button */
+  --search-btn-size: 32px; /* smaller circular button */
+  --search-icon-size: 14px; /* slightly smaller icon */
+  --search-clear-size: 28px; /* slightly smaller clear button */
+  --search-input-min-width: 120px; /* shorter input */
 }
 
 .library-container {
@@ -241,8 +242,8 @@
   justify-content: flex-start;
   align-items: center;
   padding: 0 8px 8px 8px;
-  margin-left: 12px;
-  margin-top: 10px;
+  margin-left: 8px;
+  margin-top: 6px;
 }
 
 /* Search area: show button; when clicked show input with icon to the left */
@@ -253,18 +254,37 @@
 
 /*circular search toggle (when visible) stays consistent */
 .library-search-btn {
+  background-color: transparent; /* no visible background by default */
+  color: #b3b3b3; /* icon color when idle */
+  border: none;
+  padding: 0;
   width: var(--search-btn-size);
   height: var(--search-btn-size);
-  border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0);
-  color: #fff;
-  border: none;
+  transition: background-color 140ms ease, color 140ms ease;
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+.library-search-btn svg {
+  width: var(--search-icon-size);
+  height: var(--search-icon-size);
+  display: block;
+  fill: currentColor;
+}
+
+/* visible background when hovered/focused/active */
+.library-search-btn:hover,
+.library-search-btn:focus,
+.library-search-btn:active {
+  background-color: rgba(255, 255, 255, 0.06) !important; /* tweak to taste */
+  color: #ffffff; /* icon becomes white on hover */
+  outline: none;
 }
 
 /* wrapper when input is visible */
@@ -273,6 +293,8 @@
   align-items: center;
   height: var(--search-btn-size); /* stable height */
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* container for icon + input + clear */
@@ -288,22 +310,38 @@
 .library-search-input {
   height: 100%;
   min-width: var(--search-input-min-width);
-  padding-left: calc(var(--search-btn-size) + 8px); /* room for left icon */
-  padding-right: calc(var(--search-clear-size) + 12px); /* room for clear */
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding-left: calc(
+    var(--search-btn-size) / 2 + var(--search-icon-size) / 2 + 8px
+  );
+  padding-right: calc(
+    var(--search-clear-size) + 12px
+  ); /* reserve correct space for clear */
+  border-radius: 4px;
   background: #2a2a2a;
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   box-sizing: border-box;
   outline: none;
   line-height: 1;
+  border: none;
+  width: 204px;
+}
+
+/* make placeholder use the same size/line-height as the input */
+.library-search-input::placeholder,
+.library-search-input::-webkit-input-placeholder,
+.library-search-input::-moz-placeholder,
+.library-search-input:-ms-input-placeholder {
+  font-size: inherit; /* same size as .library-search-input */
+  line-height: inherit; /* ensures vertical alignment */
+  color: rgba(255, 255, 255, 0.6); /* optional: visible but muted color */
+  opacity: 1; /* prevent browser default opacity shrinking in some engines */
 }
 
 /* left icon INSIDE input: centered vertically by top/bottom + margin:auto */
 .library-search-icon {
   position: absolute;
-  left: 8px; /* small inset */
+  left: calc((var(--search-btn-size) - var(--search-icon-size)) / 2);
   top: 0;
   bottom: 0;
   margin: auto 0;
@@ -328,8 +366,7 @@
   top: 0;
   bottom: 0;
   margin: auto 0;
-  width: var(--search-clear-size);
-  height: var(--search-clear-size);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -342,8 +379,6 @@
   z-index: 3;
 }
 .library-search-clear svg {
-  width: 60%;
-  height: 60%;
   display: block;
   fill: currentColor;
 }

@@ -104,7 +104,7 @@ export function YourLibrary() {
           {/* search and sort/view area */}
           <div className="library-search-sort-view-container">
             <div className="library-search-area">
-              {/* show button only when input is hidden */}
+              {/* show search button only when input is hidden */}
               {!isSearchVisible ? (
                 <button
                   type="button"
@@ -149,10 +149,12 @@ export function YourLibrary() {
                       onChange={(e) => setSearchString(e.target.value)}
                       placeholder="Search in Your Library"
                       autoComplete="off"
+                      maxLength={80}
+                      aria-label="Type to filter your library. The list of content below will update as you type."
                     />
 
                     {/* clear shown only when input not empty */}
-                    {searchString.trim().length > 0 && (
+                    {searchString.length > 0 && (
                       <button
                         type="button"
                         className="library-search-clear"
