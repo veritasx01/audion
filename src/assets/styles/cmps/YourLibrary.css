@@ -138,6 +138,85 @@
   fill: #fff;
 }
 
+/* Spotify-like filter buttons */
+.library-filters {
+  --icon-size: 16px;
+  --filter-vert: 8px; /* equal top/bottom padding */
+  --filter-horz: 10px;
+  --filter-height: calc(var(--icon-size) + (var(--filter-vert) * 2));
+  --bg: var(--spotify-dark-gray);
+  --bg-hover: var(--spotify-medium-gray);
+  --muted: var(--spotify-light-gray);
+  --active-bg: #ffffff;
+  --active-text: #000000;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: 12px;
+  box-sizing: border-box;
+}
+
+/* base pill rules applied to actual buttons */
+.library-filters button {
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--muted);
+  border: 0;
+  padding: var(--filter-vert) var(--filter-horz); /* equal top/bottom padding */
+  min-height: var(--filter-height);
+  height: auto; /* allow padding to control vertical spacing */
+  border-radius: 9999px; /* full pill shape */
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 4px;
+  line-height: 1; /* important for perfect vertical centering */
+  display: inline-flex;
+  align-items: center; /* vertical center of inline-flex content */
+  justify-content: center;
+  transition: background 150ms ease, color 120ms ease, box-shadow 80ms ease;
+  vertical-align: middle;
+}
+
+/* hover for inactive (lighter gray, white text) */
+.library-filters button:not(.active):hover,
+.library-filters button:not(.active):focus {
+  background: var(--bg-hover);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: none;
+}
+
+/* active pill: white background, black text (Spotify style) */
+.library-filters button.active {
+  background: var(--active-bg);
+  color: var(--active-text);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* clear (x) button: perfect circle same height as pills */
+.library-filters .filter-clear-btn {
+  width: var(--filter-height);
+  height: var(--filter-height);
+  padding: 0; /* center icon exactly */
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--muted);
+  border: 0;
+  box-sizing: border-box;
+  transition: background 120ms ease, color 120ms ease, box-shadow 80ms ease;
+}
+
+/* clear button hover */
+.library-filters .filter-clear-btn:hover,
+.library-filters .filter-clear-btn:focus {
+  background: var(--bg-hover);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
 .library-search {
   padding: 8px;
   margin-bottom: 12px;
@@ -147,25 +226,16 @@
   color: var(--spotify-text-base);
 }
 
-.library-filters {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.library-filters button {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 16px;
-  font-size: 14px;
-}
-
-.library-filters .active {
-  background-color: #333;
-  color: white;
+/* icon sizing inside buttons - use currentColor */
+.library-filters button svg,
+.library-filters button img,
+.library-filters .filter-clear-btn svg,
+.library-filters .filter-clear-btn img {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: block;
+  fill: currentColor;
+  color: currentColor;
 }
 
 .library-list {

@@ -7,9 +7,10 @@ import { showErrorMsg } from "../services/event-bus.service.js";
 import { playlistService } from "../services/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
 import {
+  clearIcon,
+  yourLibraryIcon,
   sideBarToRightIcon as openLibraryIcon,
   sideBarToLeftIcon as collapseLibraryIcon,
-  yourLibraryIcon,
 } from "../services/icon.service.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
@@ -68,6 +69,33 @@ export function YourLibrary() {
 
       {!isCollapsed && (
         <>
+          {/* filter controlls */}
+          <div className="library-filters">
+            {/* show clear icon only when a filter other than "All" is active */}
+            {itemTypeFilter !== "All" && (
+              <button
+                className="filter-clear-btn"
+                onClick={() => setItemTypeFilter("All")}
+                aria-label="Clear filter"
+                title="Clear filter"
+              >
+                <span className="filter-clear-icon">{clearIcon({})}</span>
+              </button>
+            )}
+
+            {/* Render filter buttons */}
+            {["Playlists", "Artists", "Albums"].map((filter) => (
+              <button
+                key={filter}
+                className={`filter-btn ${
+                  itemTypeFilter === filter ? "active" : ""
+                }`}
+                onClick={() => setItemTypeFilter(filter)}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
           <input
             type="text"
             placeholder="Search in Your Library"
@@ -75,18 +103,6 @@ export function YourLibrary() {
             onChange={(e) => setSearchString(e.target.value.toLowerCase())}
             className="library-search"
           />
-
-          <div className="library-filters">
-            {["All", "Playlists", "Artists", "Albums"].map((f) => (
-              <button
-                key={f}
-                className={itemTypeFilter === f ? "active" : ""}
-                onClick={() => setItemTypeFilter(f)}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
         </>
       )}
       <div className="library-list">

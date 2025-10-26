@@ -2,13 +2,13 @@ export const iconService = {
   sideBarToLeftIcon,
   sideBarToRightIcon,
   yourLibraryIcon,
+  clearIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
 export function sideBarToLeftIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
-      data-encore-id="icon"
       role="img"
       aria-hidden="true"
       viewBox={viewBox || "0 0 16 16"}
@@ -27,7 +27,6 @@ export function sideBarToLeftIcon({ height, width, fill, stroke, viewBox }) {
 export function sideBarToRightIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
-      data-encore-id="icon"
       role="img"
       aria-hidden="true"
       viewBox={viewBox || "0 0 24 24"}
@@ -42,10 +41,10 @@ export function sideBarToRightIcon({ height, width, fill, stroke, viewBox }) {
   );
 }
 
+// icon for "Your Library" side bar when it is collapsed and not hovered or focused
 export function yourLibraryIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
-      data-encore-id="icon"
       role="img"
       aria-hidden="true"
       viewBox="0 0 24 24"
@@ -55,6 +54,23 @@ export function yourLibraryIcon({ height, width, fill, stroke, viewBox }) {
       stroke={stroke || "none"}
     >
       <path d="M14.5 2.134a1 1 0 0 1 1 0l6 3.464a1 1 0 0 1 .5.866V21a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1V3a1 1 0 0 1 .5-.866M16 4.732V20h4V7.041zM3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1m6 0a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1"></path>
+    </svg>
+  );
+}
+
+export function clearIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      data-encore-id="icon"
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M2.47 2.47a.75.75 0 0 1 1.06 0L8 6.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L9.06 8l4.47 4.47a.75.75 0 1 1-1.06 1.06L8 9.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L6.94 8 2.47 3.53a.75.75 0 0 1 0-1.06"></path>
     </svg>
   );
 }
