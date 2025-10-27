@@ -5,7 +5,9 @@ export function GenrePage() {
     <section className="genre-section">
       <h1>Browse All</h1>
       <div className="genres-container">
-        {genreArray.map((g) => genreCard(g.img, g.title, g.bg))}
+        {genreArray.map((g, idx) => (
+          <div key={idx}>{genreCard(g.img, g.title, g.bg)}</div>
+        ))}
       </div>
     </section>
   );
