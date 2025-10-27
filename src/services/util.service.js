@@ -101,6 +101,7 @@ function extractYouTubeId(url) {
 }
 const key = import.meta.env.VITE_YOUTUBE_API_KEY;
 export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
+  if (!videoUrl || videoUrl === '') return 0;
   const videoId = extractYouTubeId(videoUrl);
   if (!videoId) throw new Error('Invalid YouTube URL');
 
