@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
+import { useDebounce } from "../customHooks/useDebounce";
 
 export function SearchBar() {
   const path = useLocation().pathname;
@@ -9,6 +10,7 @@ export function SearchBar() {
 
   useEffect(() => {
     if (searchWord !== term) setTerm(searchWord || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWord]);
 
   const goSearch = () => {
@@ -20,6 +22,9 @@ export function SearchBar() {
     setTerm(value);
     navigate(`/search/${value.trim()}`);
   };
+
+  // using hook that uses a ref instead of remaking the debounced function each rerender
+  const delayedSearch = useDebounce(updateSearchParams, 1000);
 
   return (
     <form
@@ -37,7 +42,7 @@ export function SearchBar() {
         className="main-searchbar"
         type="text"
         placeholder="What do you want to play?"
-        onChange={updateSearchParams}
+        onChange={delayedSearch}
       ></input>
       {/* brse button */}
       <div
