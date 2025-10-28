@@ -1,11 +1,24 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { useState, useEffect } from "react";
 
 export function SearchBar() {
   const path = useLocation().pathname;
   const navigate = useNavigate();
+  const { searchWord } = useParams();
+  const [term, setTerm] = useState(searchWord || "");
+
+  useEffect(() => {
+    if (searchWord !== term) setTerm(searchWord || "");
+  }, [searchWord]);
 
   const goSearch = () => {
     navigate("/search");
+  };
+
+  const updateSearchParams = (e) => {
+    const value = e.target.value;
+    setTerm(value);
+    navigate(`/search/${value.trim()}`);
   };
 
   return (
@@ -24,8 +37,9 @@ export function SearchBar() {
         className="main-searchbar"
         type="text"
         placeholder="What do you want to play?"
+        onChange={updateSearchParams}
       ></input>
-      {/* browse button */}
+      {/* brse button */}
       <div
         className="size-48 flex justify-center align-center"
         style={{ position: "absolute", right: "0px" }}

@@ -23,6 +23,7 @@ export function MainView() {
           <Route path="/" element={<HomePage />} />
           <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
           <Route path="/search" element={<GenrePage />} />
+          <Route path="/search/:searchWord?" element={<GenrePage />} />
         </Routes>
       </div>
       <div className="song-view" style={isHidden}>
