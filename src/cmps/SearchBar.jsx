@@ -24,12 +24,16 @@ export function SearchBar() {
   };
 
   // using hook that uses a ref instead of remaking the debounced function each rerender
-  const delayedSearch = useDebounce(updateSearchParams, 1000);
+  const delayedSearch = useDebounce(updateSearchParams, 100);
 
   return (
     <form
       className="search-form flex align-center"
       style={{ position: "relative" }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        updateSearchParams(e);
+      }}
     >
       {/* search button */}
       <span
