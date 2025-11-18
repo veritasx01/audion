@@ -9,9 +9,9 @@ export const SET_IS_READY = 'SET_IS_READY';
 
 const initialState = {
   currentSong: null,
-  songObj: { secs: 0, ended: false },
+  songObj: {},
   secs: 0, // progression of the audio in secs (can be float)
-  hasEnded: false, // 
+  hasEnded: false,
   isReady: false,
   isPlaying: false,
   currentDuration: 0, // full duration of audio
@@ -29,7 +29,11 @@ export function songReducer(state = initialState, action) {
     case SET_DURATION:
       return { ...state, currentDuration: action.payload };
     case SET_SONG_OBJ:
-      return { ...state, songObj: { ...state.songObj, ...action.payload } };
+      return {
+        ...state,
+        currentDuration: action.payload.duration,
+        songObj: { ...state.songObj, ...action.payload },
+      };
     case SET_SECS:
       return { ...state, secs: action.payload };
     case SET_ENDED:
