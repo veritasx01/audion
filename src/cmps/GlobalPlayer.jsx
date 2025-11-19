@@ -13,8 +13,8 @@ export function GlobalPlayer() {
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const volume = useSelector((state) => state.songModule.volume);
   const globalSong = useSelector((state) => state.songModule.currentSong);
-  const secs = useSelector((state) => state.songModule.songObj.secs);
-  const ended = useSelector((state) => state.songModule.songObj.ended);
+  const secs = useSelector((state) => state.songModule.secs);
+  const ended = useSelector((state) => state.songModule.ended);
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchYoutube() {
@@ -31,7 +31,7 @@ export function GlobalPlayer() {
   }, [globalSong, dispatch]);
 
   useEffect(() => {
-    if (playerRef.current.api?.seekTo) {
+    if (playerRef.current?.api?.seekTo) {
       playerRef.current.api.seekTo(secs, "seconds");
     }
   }, [secs]);
