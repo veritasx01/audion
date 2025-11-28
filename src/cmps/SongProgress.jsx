@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatTimeFromSecs } from "../services/util.service";
-import { updateSongObject } from "../store/actions/song.action";
+import { updateSecs } from "../store/actions/song.action";
 
 export function SongProgress() {
   const [progress, setProgress] = useState(0);
@@ -65,7 +65,7 @@ export function SongProgress() {
     setSecs(newSecs);
     setProgress(newProg);
     lastTimeRef.current = newSecs;
-    dispatch(updateSongObject({ secs: newSecs }));
+    dispatch(updateSecs(newSecs));
   };
 
   const handleMouseDown = (e) => {
