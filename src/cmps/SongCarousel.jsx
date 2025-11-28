@@ -4,6 +4,7 @@ import {
   updateSongObject,
   updateCurrentSong,
 } from "../store/actions/song.action";
+import { SongCard } from "./SongCard";
 
 export function SongCarousel({ songs, title = "title" }) {
   const [offset, setOffset] = useState(0);
@@ -17,8 +18,10 @@ export function SongCarousel({ songs, title = "title" }) {
     dispatch(updateSongObject(songObj));
   };
   return (
-    <div className="carousel-inner" style={{ paddingLeft: "28px", overflow: "hidden" }}>
-      <h1 className="carousel-title">{title}</h1>
+    <div className="carousel-inner" style={{ overflow: "hidden" }}>
+      <h2 className="carousel-title">
+        <a>{title}</a>
+      </h2>
       <button
         className="left-button carousel-button hov-enlarge"
         onClick={moveLeft}
@@ -31,16 +34,7 @@ export function SongCarousel({ songs, title = "title" }) {
       >
         <div className="song-carousel">
           {songs.map((song, idx) => (
-            <div key={idx} className="song-card">
-              <div
-                style={{ width: "100%" }}
-                onClick={() => changeToSong(song.url, song)}
-              >
-                <img src={song.thumbnail} alt={song.title} />
-                <p className="card-title">{song.title}</p>
-                <p className="card-artist">{song.artist}</p>
-              </div>
-            </div>
+            <SongCard song={song} changeToSong={changeToSong} key={idx} />
           ))}
         </div>
       </div>

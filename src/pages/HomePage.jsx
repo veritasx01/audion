@@ -4,12 +4,17 @@ import { SongCarousel } from "../cmps/SongCarousel";
 export function HomePage() {
   return (
     <>
-      <SongCarousel songs={songs}></SongCarousel>
-      <SongCarousel songs={songs}></SongCarousel>
-      <SongCarousel songs={songs}></SongCarousel>
-      <SongCarousel songs={songs}></SongCarousel>
-      <SongCarousel songs={songs}></SongCarousel>
-      <SongCarousel songs={songs}></SongCarousel>
+      <div style={{height: "64px"}}>
+      </div>
+      <div className="content-view">
+        <SongCarousel songs={songs} title="Made For You"></SongCarousel>
+        <SongCarousel songs={songs} title="Jump back in"></SongCarousel>
+        <SongCarousel songs={songs} title="Recently played"></SongCarousel>
+        <SongCarousel
+          songs={songs}
+          title="Recommended for today"
+        ></SongCarousel>
+      </div>
     </>
   );
 }
