@@ -37,7 +37,7 @@ export function GlobalPlayer() {
   }, [secs]);
 
   return (
-    <div className="debug">
+    <div>
       <div
         style={{
           position: "absolute",
