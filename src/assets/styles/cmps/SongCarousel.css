@@ -9,7 +9,6 @@
   transition: transform 0.22s ease;
 }
 
-
 .left-button {
   position: absolute;
   top: 45%;
@@ -28,6 +27,10 @@
 
 .carousel-title {
   margin: 0.5rem 0 0.5rem 0.5rem;
+}
+.carousel-title a:hover {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
 }
 
 .song-card {
