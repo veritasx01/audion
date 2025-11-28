@@ -32,6 +32,7 @@ export function songReducer(state = initialState, action) {
       return {
         ...state,
         currentDuration: action.payload.duration,
+        currentSong: action.payload.url || '',
         songObj: { ...state.songObj, ...action.payload },
       };
     case SET_SECS:
