@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { playlistService } from "../services/playlist.service";
 import {
   addSong,
@@ -9,6 +9,7 @@ import {
   removePlaylist,
 } from "../store/actions/playlist.action.js";
 import {
+  updateCurrentSong,
   updateSongObject,
   togglePlaying,
 } from "../store/actions/song.action";
@@ -74,6 +75,7 @@ export function PlaylistDetails() {
   }
 
   function setCurrentSong(song) {
+    dispatch(updateCurrentSong(song.url));
     dispatch(updateSongObject(song));
   }
 

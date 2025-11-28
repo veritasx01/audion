@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import ReactPlayer from "react-player";
 import {
+  updateCurrentSong,
   updateCurrentDuration,
-  setAudioEnded,
+  updateSongObject,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
 import { useEffect, useRef } from "react";
@@ -19,6 +20,7 @@ export function GlobalPlayer() {
     async function fetchYoutube() {
       try {
         const retValue = await fetchYouTubeDuration(globalSong);
+        dispatch(updateCurrentSong(globalSong));
         dispatch(updateCurrentDuration(retValue));
       } catch (err) {
         console.error("Failed to fetch YouTube duration:", err);
@@ -35,7 +37,7 @@ export function GlobalPlayer() {
   }, [secs]);
 
   return (
-    <div>
+    <div className="debug">
       <div
         style={{
           position: "absolute",
@@ -54,7 +56,7 @@ export function GlobalPlayer() {
           onPause={() => console.log("player:onPause", { isPlaying, secs })}
           onEnded={() => {
             console.log("player:onEnded", { isPlaying, secs });
-            dispatch(setAudioEnded(true));
+            dispatch(updateSongObject({ ended: true }));
           }}
           onProgress={(state) => console.log("player:onProgress", state)}
         />

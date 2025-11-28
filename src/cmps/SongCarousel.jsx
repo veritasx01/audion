@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   updateSongObject,
+  updateCurrentSong,
 } from "../store/actions/song.action";
 
 export function SongCarousel({ songs, title = "title" }) {
@@ -11,8 +12,9 @@ export function SongCarousel({ songs, title = "title" }) {
     setOffset((prev) => Math.min(songs.length - 7, prev + 3));
 
   const dispatch = useDispatch();
-  const changeToSong = (song) => {
-    dispatch(updateSongObject(song));
+  const changeToSong = (url, songObj) => {
+    dispatch(updateCurrentSong(url));
+    dispatch(updateSongObject(songObj));
   };
   return (
     <div className="carousel-inner" style={{ paddingLeft: "28px", overflow: "hidden" }}>
@@ -32,7 +34,7 @@ export function SongCarousel({ songs, title = "title" }) {
             <div key={idx} className="song-card">
               <div
                 style={{ width: "100%" }}
-                onClick={() => changeToSong(song)}
+                onClick={() => changeToSong(song.url, song)}
               >
                 <img src={song.thumbnail} alt={song.title} />
                 <p className="card-title">{song.title}</p>
