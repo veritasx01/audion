@@ -12,6 +12,7 @@ export const playlistService = {
   query,
   save,
   remove,
+  formatPlaylistDuration,
 };
 
 const STORAGE_KEY = "playlistsDB";
@@ -103,6 +104,21 @@ function save(playlistToSave) {
   } else {
     return storageService.post(STORAGE_KEY, playlistToSave);
   }
+}
+
+// util function for formatting total duration of playlist songs
+export function formatPlaylistDuration(playlist) {
+  const totalDurationSeconds = playlist.songs.reduce(
+    (acc, song) => acc + song.duration,
+    0
+  );
+  const hours = Math.floor(totalDurationSeconds / 3600);
+  const minutes = Math.floor((totalDurationSeconds % 3600) / 60);
+  const seconds = totalDurationSeconds % 60;
+  const hoursStr = hours > 0 ? `${hours} hr${hours > 1 ? "s" : ""} ` : "";
+  const minutesStr = minutes > 0 ? `${minutes} min ` : "";
+  const secondsStr = seconds > 0 ? `${seconds} sec` : "";
+  return `${hoursStr}${minutesStr}${secondsStr}`.trim();
 }
 
 // get playlists from storage or generate dummy data if none exist
