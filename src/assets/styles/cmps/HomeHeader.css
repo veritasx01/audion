@@ -2,7 +2,7 @@
   position: relative;
   margin-top: 0;
   height: 220px;
-  background-color: #303850;
+  background-color: #565656;
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.6) 0,
       var(--background-base) 100%
@@ -13,9 +13,11 @@
   transition-timing-function: ease;
 }
 
+/*
 .gradient-header:hover {
   background-color: #e03838;
 }
+*/
 
 .playlist-card-wrapper {
   container-type: inline-size;
@@ -28,8 +30,8 @@
   grid-auto-rows: 64px; /*item height*/
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 64px;
-  padding-left: 28px;
-  padding-right: 28px;
+  padding-left: 40px;
+  padding-right: 40px;
   padding-top: 64px;
 }
 
