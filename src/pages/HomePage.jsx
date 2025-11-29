@@ -4,7 +4,7 @@ import { SongCarousel } from "../cmps/SongCarousel";
 export function HomePage() {
   return (
     <>
-      <div style={{height: "64px"}}>
+      <div className="gradient-header">
       </div>
       <div className="content-view">
         <SongCarousel songs={songs} title="Made For You"></SongCarousel>
