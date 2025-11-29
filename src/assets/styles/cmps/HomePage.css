@@ -1,20 +1,5 @@
 .content-view {
   padding-left: 28px;
+  padding-top: 1rem;
 }
 
-.gradient-header {
-  height: 228px;
-  background-color: #303850;
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.6) 0,
-      var(--background-base) 100%
-    ),
-    var(--background-noise);
-  transition-duration: 1s;
-  transition-property: background;
-  transition-timing-function: ease;
-}
-
-.gradient-header:hover {
-  background-color: #e03838;
-}

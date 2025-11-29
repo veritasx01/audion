@@ -1,11 +1,11 @@
 import { songs } from "../assets/data/songs";
+import { HomeHeader } from "../cmps/HomeHeader";
 import { SongCarousel } from "../cmps/SongCarousel";
 
 export function HomePage() {
   return (
     <>
-      <div className="gradient-header">
-      </div>
+      <HomeHeader></HomeHeader>
       <div className="content-view">
         <SongCarousel songs={songs} title="Made For You"></SongCarousel>
         <SongCarousel songs={songs} title="Jump back in"></SongCarousel>
