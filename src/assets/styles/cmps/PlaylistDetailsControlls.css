@@ -1,0 +1,72 @@
+/* Controls Section */
+.playlist-controls {
+  display: flex;
+  align-items: center;
+  padding: 24px 0;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.controls-primary {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.playlist-play-pause-btn {
+  background: #1ed760;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(30, 215, 96, 0.3);
+}
+
+.playlist-play-pause-btn:hover {
+  background: #1fdf64;
+  transform: scale(1.06);
+  box-shadow: 0 12px 32px rgba(30, 215, 96, 0.4);
+}
+
+.playlist-play-pause-btn:active {
+  transform: scale(0.98);
+}
+
+.playlist-play-pause-btn img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0);
+}
+
+.playlist-options-btn {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.playlist-options-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.playlist-options-btn img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+}

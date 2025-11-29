@@ -24,5 +24,8 @@
 @import "cmps/YourLibraryList";
 @import "cmps/SongList";
 @import "cmps/PlaylistDetails";
+@import "cmps/PlaylistDetailsHeader";
+@import "cmps/PlaylistDetailsControlls";
+@import "cmps/PlaylistDetailsTable";
 @import "cmps/SongCarousel";
 @import "cmps/GenrePage";
