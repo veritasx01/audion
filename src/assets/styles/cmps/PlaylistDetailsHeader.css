@@ -64,7 +64,18 @@
 
 .creator {
   color: white;
-  font-weight: 400;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.creator img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .separator {

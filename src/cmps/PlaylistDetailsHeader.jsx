@@ -8,7 +8,6 @@ export function PlaylistDetailsHeader({
   onSavePlaylistDetails,
 }) {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [headerMenu, setHeaderMenu] = useState({ visible: false, x: 0, y: 0 });
 
   return (
     <>
@@ -31,15 +30,23 @@ export function PlaylistDetailsHeader({
             <p className="playlist-description">{playlist.description}</p>
           )}
           <div className="playlist-metadata">
-            <span className="creator">{playlist.createdBy}</span>
+            <span className="creator">
+              <img
+                src={`https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+                  Math.random() * 100
+                )}.jpg`}
+                alt={playlist.createdBy.username}
+              />
+              {playlist.createdBy}
+            </span>
             {playlist.songs.length > 0 && (
               <>
                 <span className="separator"> • </span>
                 <span>
                   {playlist.songs.length} song
                   {playlist.songs.length !== 1 ? "s" : ""}
+                  {",\u00A0"}
                 </span>
-                <span className="separator"> • </span>
                 <span>{formatPlaylistDuration(playlist)}</span>
               </>
             )}
@@ -99,36 +106,6 @@ export function PlaylistDetailsHeader({
             </form>
           </div>
         </div>
-      )}
-
-      {/* Header Context Menu */}
-      {headerMenu.visible && (
-        <ul
-          className="playlist-header-context-menu"
-          style={{
-            position: "fixed",
-            top: headerMenu.y,
-            left: headerMenu.x,
-            zIndex: 2100,
-            minWidth: "160px",
-          }}
-          onMouseLeave={() => setHeaderMenu({ ...headerMenu, visible: false })}
-        >
-          <li
-            onClick={() => {
-              setHeaderMenu({ ...headerMenu, visible: false });
-              if (
-                window.confirm("Are you sure you want to delete this playlist?")
-              ) {
-                removePlaylist(playlist._id).then(() => {
-                  navigate("/");
-                });
-              }
-            }}
-          >
-            Delete Playlist
-          </li>
-        </ul>
       )}
     </>
   );
