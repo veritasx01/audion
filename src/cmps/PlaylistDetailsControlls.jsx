@@ -2,12 +2,16 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removePlaylist } from "../store/actions/playlist.action.js";
 import { updateSongObject, togglePlaying } from "../store/actions/song.action";
-import { showSuccessMsg } from "../services/event-bus.service.js";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
   playIcon,
   pauseIcon,
   meatBallMenuIcon as moreOptionsIcon,
+  copyIcon,
+  addToQueueIcon,
+  editDetailsIcon,
+  deleteIcon,
 } from "../services/icon.service.jsx";
 
 export function PlaylistDetailsHeaderControlls({ playlist }) {
@@ -25,7 +29,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
     }
   }
 
-  function showOptionsMenu(event) {
+  function onShowOptionsMenu(event) {
     // Get the button's position
     const buttonRect = event.currentTarget.getBoundingClientRect();
 
@@ -39,45 +43,57 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
     showContextMenu(modifiedEvent, playlistMenuItems);
   }
 
-  async function sharePlaylistURL() {
+  async function onSharePlaylistURL() {
     try {
       await navigator.clipboard.writeText(window.location.href);
       showSuccessMsg("Link copied to clipboard");
     } catch (err) {
       console.error("Failed to copy URL: ", err);
+      showErrorMsg("Failed to copy link");
+    }
+  }
+
+  function onDeletePlaylist() {
+    if (window.confirm("Are you sure you want to delete this playlist?")) {
+      removePlaylist(playlist._id).then(() => {
+        navigate("/");
+      });
     }
   }
 
   // Define menu items for playlist options
   const playlistMenuItems = [
     {
-      id: "share",
-      label: "Share",
-      onClick: sharePlaylistURL,
-    },
-    {
-      id: "copy-link",
-      label: "Copy playlist link",
-      onClick: () => console.log("Copy link"),
+      id: "add-to-queue",
+      label: "Add to queue",
+      icon: addToQueueIcon({}),
+      onClick: () =>
+        showSuccessMsg(
+          "Added to queue (Not really, queue is not implemented yet...)"
+        ),
     },
     { type: "separator" },
     {
       id: "edit",
       label: "Edit details",
-      onClick: () => console.log("Edit playlist"),
+      icon: editDetailsIcon({}),
+      onClick: () =>
+        showSuccessMsg("TBD - open edit playlist details modal..."),
     },
-    { type: "separator" },
     {
       id: "delete",
       label: "Delete",
+      icon: deleteIcon({}),
       danger: true,
-      onClick: () => {
-        if (window.confirm("Are you sure you want to delete this playlist?")) {
-          removePlaylist(playlist._id).then(() => {
-            navigate("/");
-          });
-        }
-      },
+      onClick: onDeletePlaylist,
+    },
+    { type: "separator" },
+
+    {
+      id: "share",
+      label: "Copy link to playlist",
+      icon: copyIcon({}),
+      onClick: onSharePlaylistURL,
     },
   ];
 
@@ -98,7 +114,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
         <button
           className="playlist-options-btn"
           title={`More options for ${playlist.title}`}
-          onClick={showOptionsMenu}
+          onClick={onShowOptionsMenu}
         >
           {moreOptionsIcon({})}
         </button>
