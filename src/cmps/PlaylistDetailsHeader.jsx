@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { formatPlaylistDuration } from "../services/playlist.service.js";
-import "../assets/styles/cmps/PlaylistDetailsHeader.css";
 
 export function PlaylistDetailsHeader({ playlist, onSavePlaylistDetails }) {
   const [showEditModal, setShowEditModal] = useState(false);
