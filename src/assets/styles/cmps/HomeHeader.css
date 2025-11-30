@@ -77,3 +77,18 @@
 .playlist-card:hover {
   background: hsla(0, 0%, 100%, 0.2);
 }
+
+.play-button {
+  position: absolute;
+  background-color: var(--text-bright-accent);
+  width: 48px;
+  height: 48px;
+  right: 0.5rem;
+  top: 0.5rem;
+  margin: 0;
+  will-change: transform;
+}
+
+.play-button:hover {
+  background-color: var(--button-highlight);
+}

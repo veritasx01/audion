@@ -47,6 +47,9 @@ function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
         src={song.thumbnail || fallbackImage}
         style={{ height: "100%", aspectRatio: "1" }}
       ></img>
+      <button className="play-button">
+        <span className="size-48">{playIcon()}</span>
+      </button>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <div>
           <a>{song.title}</a>
@@ -55,3 +58,12 @@ function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
     </div>
   );
 }
+
+function playIcon() {
+  return (
+    <svg className="size-24" viewBox="0 0 24 24" fill="#000">
+      <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606"></path>
+    </svg>
+  );
+}
+
