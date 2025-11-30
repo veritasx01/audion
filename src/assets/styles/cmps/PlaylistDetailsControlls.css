@@ -39,10 +39,10 @@
   transform: scale(0.98);
 }
 
-.playlist-play-pause-btn img {
+.playlist-play-pause-btn svg {
   width: 24px;
   height: 24px;
-  filter: brightness(0);
+  color: #000000;
 }
 
 .playlist-options-btn {

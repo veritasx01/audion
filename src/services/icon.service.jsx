@@ -4,6 +4,8 @@ export const iconService = {
   yourLibraryIcon,
   clearIcon,
   searchIcon,
+  playIcon,
+  pauseIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -90,6 +92,38 @@ export function searchIcon({ height, width, fill, stroke, viewBox }) {
       stroke={stroke || "none"}
     >
       <path d="M7 1.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5M.25 7a6.75 6.75 0 1 1 12.096 4.12l3.184 3.185a.75.75 0 1 1-1.06 1.06L11.304 12.2A6.75 6.75 0 0 1 .25 7"></path>
+    </svg>
+  );
+}
+
+export function playIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox={viewBox || "0 0 24 24"}
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606"></path>
+    </svg>
+  );
+}
+
+export function pauseIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7z"></path>
     </svg>
   );
 }
