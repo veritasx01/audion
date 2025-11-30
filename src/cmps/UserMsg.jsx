@@ -5,18 +5,22 @@ export function UserMsg() {
   const [msg, setMsg] = useState(null);
   const timeoutIdRef = useRef();
 
-  /*
   useEffect(() => {
     const unsubscribe = eventBus.on("show-msg", (msg) => {
       setMsg(msg);
       if (timeoutIdRef.current) {
-        timeoutIdRef.current = null;
         clearTimeout(timeoutIdRef.current);
       }
       timeoutIdRef.current = setTimeout(closeMsg, 3000);
     });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
   }, []);
-  */
   function closeMsg() {
     setMsg(null);
   }
