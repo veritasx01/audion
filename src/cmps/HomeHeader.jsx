@@ -1,6 +1,8 @@
 import { useState } from "react";
 import fallbackImage from "../assets/images/black_image.jpg";
 import { songs } from "../assets/data/songs";
+import { useDispatch } from "react-redux";
+import { updateSongObject } from "../store/actions/song.action";
 
 const playlists = [
   { id: 1, color: "#e91429", song: songs[0] },
@@ -37,6 +39,10 @@ export function HomeHeader() {
 }
 
 function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
+  const dispatch = useDispatch();
+  const changeToSong = (song) => {
+    dispatch(updateSongObject(song));
+  };
   return (
     <div
       className="playlist-card"
@@ -47,7 +53,7 @@ function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
         src={song.thumbnail || fallbackImage}
         style={{ height: "100%", aspectRatio: "1" }}
       ></img>
-      <button className="play-button">
+      <button className="play-button" onClick={() => changeToSong(song)}>
         <span className="size-48">{playIcon()}</span>
       </button>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
@@ -66,4 +72,3 @@ function playIcon() {
     </svg>
   );
 }
-
