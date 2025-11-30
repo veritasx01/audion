@@ -104,6 +104,7 @@ export function PlaylistDetails() {
             playlist={playlist}
             onSavePlaylistDetails={onSavePlaylistDetails}
           />
+          <div className="playlist-header-separator" />
           <PlaylistDetailsHeaderControlls />
         </div>
       </div>

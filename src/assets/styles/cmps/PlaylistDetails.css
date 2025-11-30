@@ -18,3 +18,17 @@
   /* Background is now set dynamically via inline styles */
   pointer-events: none;
 }
+
+.playlist-header-separator {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%
+  );
+  margin: 16px 32px 8px 32px;
+  border-radius: 2px;
+}
