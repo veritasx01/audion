@@ -15,8 +15,6 @@
   right: 0;
   bottom: 0;
   z-index: 0;
-  background: url("THUMBNAIL_URL") center/cover no-repeat;
-  filter: blur(40px) brightness(0.6);
-  opacity: 0.7;
+  /* Background is now set dynamically via inline styles */
   pointer-events: none;
 }
