@@ -81,6 +81,11 @@ export function PlaylistDetails() {
     };
   }
 
+  function onSavePlaylistDetails(updatedPlaylist) {
+    setPlaylist(updatedPlaylist);
+    updatePlaylistDetails(updatedPlaylist);
+  }
+
   if (!playlist) return <div>Loading...</div>;
 
   return (
@@ -97,8 +102,7 @@ export function PlaylistDetails() {
         <div style={{ position: "relative", zIndex: 2 }}>
           <PlaylistDetailsHeader
             playlist={playlist}
-            onUpdatePlaylistDetails={setPlaylist}
-            onSavePlaylistDetails={updatePlaylistDetails}
+            onSavePlaylistDetails={onSavePlaylistDetails}
           />
           <PlaylistDetailsHeaderControlls />
         </div>
