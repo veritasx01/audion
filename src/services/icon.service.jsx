@@ -11,6 +11,8 @@ export const iconService = {
   addToQueueIcon,
   editDetailsIcon,
   deleteIcon,
+  enableShuffleIcon,
+  disableShuffleIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -225,6 +227,40 @@ export function deleteIcon({ height, width, fill, stroke, viewBox }) {
         strokeWidth="1.5"
         strokeLinecap="round"
       />
+    </svg>
+  );
+}
+
+export function enableShuffleIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      height={height || "24"}
+      width={width || "24"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M18.788 3.702a1 1 0 0 1 1.414-1.414L23.914 6l-3.712 3.712a1 1 0 1 1-1.414-1.414L20.086 7h-1.518a5 5 0 0 0-3.826 1.78l-7.346 8.73a7 7 0 0 1-5.356 2.494H1v-2h1.04a5 5 0 0 0 3.826-1.781l7.345-8.73A7 7 0 0 1 18.569 5h1.518l-1.298-1.298z" />
+      <path d="M18.788 14.289a1 1 0 0 0 0 1.414L20.086 17h-1.518a5 5 0 0 1-3.826-1.78l-1.403-1.668-1.306 1.554 1.178 1.4A7 7 0 0 0 18.568 19h1.518l-1.298 1.298a1 1 0 1 0 1.414 1.414L23.914 18l-3.712-3.713a1 1 0 0 0-1.414 0zM7.396 6.49l2.023 2.404-1.307 1.553-2.246-2.67a5 5 0 0 0-3.826-1.78H1v-2h1.04A7 7 0 0 1 7.396 6.49" />
+    </svg>
+  );
+}
+
+export function disableShuffleIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      height={height || "24"}
+      width={width || "24"}
+      fill={fill || "#b3b3b3"}
+      stroke={stroke || "none"}
+    >
+      <path d="M7.335.6a.667.667 0 0 0-1.327 0c-.083.86-.457 2.21-1.309 3.386C3.86 5.142 2.567 6.126.6 6.333a.667.667 0 0 0 0 1.327c1.967.207 3.26 1.19 4.099 2.347.851 1.176 1.227 2.527 1.307 3.386a.666.666 0 0 0 1.329 0c.08-.86.456-2.21 1.307-3.386.839-1.156 2.132-2.14 4.099-2.348a.667.667 0 0 0 0-1.326c-1.967-.207-3.26-1.191-4.1-2.347C7.792 2.81 7.417 1.459 7.336.6Zm11.979 6.186a1 1 0 0 1 1.415-1.414l3.211 3.211-3.212 3.211a1 1 0 0 1-1.414-1.414l.797-.797h-.862a4 4 0 0 0-3.06 1.425l-6.122 7.275a7.3 7.3 0 0 1-1.383 1.279c-.51.352-1.178.685-1.905.685v-2c.137 0 .4-.077.768-.331.35-.242.7-.577.99-.921l6.12-7.275a6 6 0 0 1 4.592-2.137h.863z" />
+      <path d="M19.249 19.584a6 6 0 0 1-4.591-2.137l-.771-.917-.006-.007-.003-.003-.016-.02-.06-.07a2 2 0 0 0-.118-.12l1.289-1.53a3.3 3.3 0 0 1 .42.433l.028.035.007.007.76.904a4 4 0 0 0 3.06 1.425h.84l-.798-.797a1 1 0 0 1 1.414-1.415l3.212 3.212-3.212 3.211a1 1 0 1 1-1.414-1.414l.797-.797z" />
     </svg>
   );
 }
