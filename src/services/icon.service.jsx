@@ -6,6 +6,7 @@ export const iconService = {
   searchIcon,
   playIcon,
   pauseIcon,
+  meatBallMenuIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -124,6 +125,22 @@ export function pauseIcon({ height, width, fill, stroke, viewBox }) {
       stroke={stroke || "none"}
     >
       <path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7z"></path>
+    </svg>
+  );
+}
+
+export function meatBallMenuIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox={viewBox || "0 0 24 24"}
+      height={height || "24"}
+      width={width || "24"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m15 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m-7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
     </svg>
   );
 }

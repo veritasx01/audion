@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removePlaylist } from "../store/actions/playlist.action.js";
-import { playIcon, pauseIcon } from "../services/icon.service.jsx";
-import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
+import {
+  playIcon,
+  pauseIcon,
+  meatBallMenuIcon as moreOptionsIcon,
+} from "../services/icon.service.jsx";
 
 import { updateSongObject, togglePlaying } from "../store/actions/song.action";
 
@@ -25,6 +28,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
   return (
     <section className="playlist-controls">
       <div className="controls-primary">
+        {/* Play/Pause Button */}
         <button
           className="playlist-play-pause-btn"
           title={`${isNowPlaying ? "Pause" : "Play"} ${playlist.title}`}
@@ -34,14 +38,15 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
             ? pauseIcon({})
             : playIcon({})}
         </button>
+        {/* More Options Button */}
         <button
           className="playlist-options-btn"
-          title="More options"
+          title={`More options for ${playlist.title}`}
           onClick={(e) => {
             // Show a header context menu at the button position
           }}
         >
-          <img src={moreOptionsIcon} alt="More" />
+          {moreOptionsIcon({})}
         </button>
       </div>
       {/* Header Context Menu */}

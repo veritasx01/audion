@@ -2,7 +2,7 @@
 .playlist-controls {
   display: flex;
   align-items: center;
-  padding: 24px 0;
+  padding: 20px;
   margin-bottom: 16px;
   position: relative;
   z-index: 1;
@@ -11,7 +11,7 @@
 .controls-primary {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 8px;
 }
 
 .playlist-play-pause-btn {
@@ -48,8 +48,8 @@
 .playlist-options-btn {
   background: none;
   border: none;
-  width: 32px;
-  height: 32px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,14 +60,20 @@
 }
 
 .playlist-options-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: none;
   opacity: 1;
   transform: scale(1.1);
 }
 
-.playlist-options-btn img {
-  width: 16px;
-  height: 16px;
+.playlist-options-btn:focus,
+.playlist-options-btn:active {
+  background: none;
+  outline: none;
+}
+
+.playlist-options-btn svg {
+  width: 56px;
+  height: 56px;
   filter: brightness(0) invert(1);
 }
 

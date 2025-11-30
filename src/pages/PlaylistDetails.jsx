@@ -11,10 +11,7 @@ import {
   removePlaylist,
 } from "../store/actions/playlist.action.js";
 import { updateSongObject, togglePlaying } from "../store/actions/song.action";
-import playIcon from "../assets/icons/play.svg";
-import pauseIcon from "../assets/icons/pause.svg";
 import checkmarkIcon from "../assets/icons/checkmark.svg";
-import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
 import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
