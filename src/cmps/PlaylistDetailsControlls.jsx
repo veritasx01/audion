@@ -30,7 +30,9 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
     if (currentlyPlayingSong._id === playlist.songs?.[0]?._id) {
       dispatch(togglePlaying());
     } else {
+      // Set the new song and start playing in one action
       dispatch(updateSongObject(playlist.songs?.[0]));
+      dispatch(togglePlaying());
     }
   }
 
