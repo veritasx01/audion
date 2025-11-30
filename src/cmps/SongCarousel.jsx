@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  updateSongObject,
-} from "../store/actions/song.action";
+import { updateSongObject } from "../store/actions/song.action";
 import { SongCard } from "./SongCard";
 
 export function SongCarousel({ songs, title = "title" }) {

@@ -36,6 +36,8 @@
 }
 
 .playlist-card {
+  display: flex;
+  flex-direction: row;
   height: 64px; /*item height*/
   min-width: 238px;
   background: wheat;
@@ -46,6 +48,10 @@
   overflow: hidden;
   position: relative;
   transition: background-color 0.3s ease;
+}
+
+.playlist-card > div > div {
+  margin: 0 16px;
 }
 
 @container (max-width: 1141px) {

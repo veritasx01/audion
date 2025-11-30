@@ -3,7 +3,7 @@ export function SongCard({ song, changeToSong }) {
     <div className="song-card">
       <div
         style={{ width: "100%" }}
-        onClick={() => changeToSong(song.url, song)}
+        onClick={() => changeToSong(song)}
       >
         <img src={song.thumbnail} alt={song.title} />
         <p className="card-title">{song.title}</p>
