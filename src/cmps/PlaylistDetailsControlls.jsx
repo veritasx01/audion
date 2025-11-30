@@ -12,11 +12,16 @@ import {
   addToQueueIcon,
   editDetailsIcon,
   deleteIcon,
+  enableShuffleIcon,
+  disableShuffleIcon,
 } from "../services/icon.service.jsx";
 
 export function PlaylistDetailsHeaderControlls({ playlist }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isShuffleEnabled = useSelector(
+    (state) => state.playlistModule.isShuffleEnabled
+  );
   const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
@@ -109,6 +114,22 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
           {isNowPlaying && currentlyPlayingSong._id === playlist.songs?.[0]?._id
             ? pauseIcon({})
             : playIcon({})}
+        </button>
+        {/* Enable/Disable Shuffle Button */}
+        <button
+          className="playlist-shuffle-btn"
+          title={`${
+            isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
+          } for ${playlist.title}`}
+          onClick={() =>
+            showSuccessMsg(
+              `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
+                playlist.title
+              } (TBD... shuffle functionality not implemented yet...)`
+            )
+          }
+        >
+          {isShuffleEnabled ? disableShuffleIcon({}) : enableShuffleIcon({})}
         </button>
         {/* More Options Button */}
         <button
