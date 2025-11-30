@@ -1,21 +1,21 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removePlaylist } from "../store/actions/playlist.action.js";
+import { updateSongObject, togglePlaying } from "../store/actions/song.action";
+import { showSuccessMsg } from "../services/event-bus.service.js";
+import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
   playIcon,
   pauseIcon,
   meatBallMenuIcon as moreOptionsIcon,
 } from "../services/icon.service.jsx";
 
-import { updateSongObject, togglePlaying } from "../store/actions/song.action";
-
 export function PlaylistDetailsHeaderControlls({ playlist }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [headerMenu, setHeaderMenu] = useState({ visible: false, x: 0, y: 0 });
   const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   function handlePlayPause() {
     if (currentlyPlayingSong._id === playlist.songs?.[0]?._id) {
@@ -24,6 +24,62 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
       dispatch(updateSongObject(playlist.songs?.[0]));
     }
   }
+
+  function showOptionsMenu(event) {
+    // Get the button's position
+    const buttonRect = event.currentTarget.getBoundingClientRect();
+
+    // Create a modified event with button position
+    const modifiedEvent = {
+      ...event,
+      clientX: buttonRect.left + 14,
+      clientY: buttonRect.bottom,
+    };
+
+    showContextMenu(modifiedEvent, playlistMenuItems);
+  }
+
+  async function sharePlaylistURL() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showSuccessMsg("Link copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy URL: ", err);
+    }
+  }
+
+  // Define menu items for playlist options
+  const playlistMenuItems = [
+    {
+      id: "share",
+      label: "Share",
+      onClick: sharePlaylistURL,
+    },
+    {
+      id: "copy-link",
+      label: "Copy playlist link",
+      onClick: () => console.log("Copy link"),
+    },
+    { type: "separator" },
+    {
+      id: "edit",
+      label: "Edit details",
+      onClick: () => console.log("Edit playlist"),
+    },
+    { type: "separator" },
+    {
+      id: "delete",
+      label: "Delete",
+      danger: true,
+      onClick: () => {
+        if (window.confirm("Are you sure you want to delete this playlist?")) {
+          removePlaylist(playlist._id).then(() => {
+            navigate("/");
+          });
+        }
+      },
+    },
+  ];
 
   return (
     <section className="playlist-controls">
@@ -42,42 +98,18 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
         <button
           className="playlist-options-btn"
           title={`More options for ${playlist.title}`}
-          onClick={(e) => {
-            // Show a header context menu at the button position
-          }}
+          onClick={showOptionsMenu}
         >
           {moreOptionsIcon({})}
         </button>
       </div>
-      {/* Header Context Menu */}
-      {headerMenu.visible && (
-        <ul
-          className="playlist-header-context-menu"
-          style={{
-            position: "fixed",
-            top: headerMenu.y,
-            left: headerMenu.x,
-            zIndex: 2100,
-            minWidth: "160px",
-          }}
-          onMouseLeave={() => setHeaderMenu({ ...headerMenu, visible: false })}
-        >
-          <li
-            onClick={() => {
-              setHeaderMenu({ ...headerMenu, visible: false });
-              if (
-                window.confirm("Are you sure you want to delete this playlist?")
-              ) {
-                removePlaylist(playlist._id).then(() => {
-                  navigate("/");
-                });
-              }
-            }}
-          >
-            Delete Playlist
-          </li>
-        </ul>
-      )}
+      {/* Context Menu */}
+      <ContextMenu
+        isVisible={contextMenu.isVisible}
+        position={contextMenu.position}
+        onClose={hideContextMenu}
+        menuItems={contextMenu.items}
+      />
     </section>
   );
 }
