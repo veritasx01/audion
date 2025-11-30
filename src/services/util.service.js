@@ -6,12 +6,13 @@ export const utilService = {
   debounce,
   saveToStorage,
   loadFromStorage,
+  sortColorsByBrightness,
 };
 
 export function makeId(length = 16) {
-  var txt = '';
+  var txt = "";
   var possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (var i = 0; i < length; i++) {
     txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -21,43 +22,43 @@ export function makeId(length = 16) {
 
 export function makeLorem(size = 100) {
   var words = [
-    'The sky',
-    'above',
-    'the port',
-    'was',
-    'the color of television',
-    'tuned',
-    'to',
-    'a dead channel',
-    '.',
-    'All',
-    'this happened',
-    'more or less',
-    '.',
-    'I',
-    'had',
-    'the story',
-    'bit by bit',
-    'from various people',
-    'and',
-    'as generally',
-    'happens',
-    'in such cases',
-    'each time',
-    'it',
-    'was',
-    'a different story',
-    '.',
-    'It',
-    'was',
-    'a pleasure',
-    'to',
-    'burn',
+    "The sky",
+    "above",
+    "the port",
+    "was",
+    "the color of television",
+    "tuned",
+    "to",
+    "a dead channel",
+    ".",
+    "All",
+    "this happened",
+    "more or less",
+    ".",
+    "I",
+    "had",
+    "the story",
+    "bit by bit",
+    "from various people",
+    "and",
+    "as generally",
+    "happens",
+    "in such cases",
+    "each time",
+    "it",
+    "was",
+    "a different story",
+    ".",
+    "It",
+    "was",
+    "a pleasure",
+    "to",
+    "burn",
   ];
-  var txt = '';
+  var txt = "";
   while (size > 0) {
     size--;
-    txt += words[Math.floor(Math.random() * words.length)] + ' ';
+    txt += words[Math.floor(Math.random() * words.length)] + " ";
   }
   return txt;
 }
@@ -101,9 +102,9 @@ function extractYouTubeId(url) {
 }
 const key = import.meta.env.VITE_YOUTUBE_API_KEY;
 export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
-  if (!videoUrl || videoUrl === '') return 0;
+  if (!videoUrl || videoUrl === "") return 0;
   const videoId = extractYouTubeId(videoUrl);
-  if (!videoId) throw new Error('Invalid YouTube URL');
+  if (!videoId) throw new Error("Invalid YouTube URL");
 
   const response = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${apiKey}`
@@ -111,7 +112,7 @@ export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
   const data = await response.json();
 
   const isoDuration = data.items?.[0]?.contentDetails?.duration;
-  if (!isoDuration) throw new Error('Duration not found');
+  if (!isoDuration) throw new Error("Duration not found");
 
   // Convert ISO 8601 duration (e.g., PT4M13S) → seconds
   return isoDurationToSeconds(isoDuration);
@@ -127,7 +128,7 @@ function isoDurationToSeconds(iso) {
 
 export function getRandomValues(arr, m = 1) {
   if (m > arr.length) {
-    throw new Error('m cannot be larger than array length');
+    throw new Error("m cannot be larger than array length");
   }
 
   const indices = Array.from({ length: arr.length }, (_, i) => i);
@@ -142,7 +143,35 @@ export function getRandomValues(arr, m = 1) {
 export function formatTimeFromSecs(secs) {
   secs = Math.floor(secs);
   const minutes = String(Math.floor(secs / 60));
-  const seconds = String(secs % 60).padStart(2, '0');
+  const seconds = String(secs % 60).padStart(2, "0");
   const formattedTime = `${minutes}:${seconds}`;
   return formattedTime;
+}
+
+export function sortColorsByBrightness(colors) {
+  if (colors?.length > 0) {
+    return colors
+      .slice(0, 5) // Get more colors to choose from
+      .map((color) => ({
+        hex: color.hex || color,
+        brightness: _calculateBrightness(color.hex || color),
+      }))
+      .sort((a, b) => a.brightness - b.brightness) // Sort darkest first
+      .slice(0, 3) // Take top 3
+      .map((color) => color.hex)
+      .reverse(); // Reverse so lightest is first in gradient
+
+    console.log("Final colors for gradient (light to dark):", sortedColors);
+  }
+
+  // Utill function for calculate color brightness using luminance formula
+  function _calculateBrightness(hexColor) {
+    const hex = hexColor.replace("#", "");
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    // Using relative luminance formula (ITU-R BT.709)
+    return r * 0.2126 + g * 0.7152 + b * 0.0722;
+  }
 }
