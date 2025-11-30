@@ -1,6 +1,5 @@
 .carousel-inner {
   position: relative;
-  align-items: center;
 }
 
 .song-carousel-container {
@@ -22,6 +21,9 @@
 .song-carousel {
   display: grid;
   grid-auto-flow: column;
+  grid-auto-columns: auto;
+  gap: 0px;
+  width: max-content; 
   max-width: 1400px;
 }
 
@@ -35,7 +37,7 @@
 
 .song-card {
   width: 195.5px;
-  height: 247.5px;
+  min-height: 247.5px;
   padding: 10px;
   border-radius: 6px;
   transition: background 0.05s cubic-bezier(0.3, 0, 0, 1);

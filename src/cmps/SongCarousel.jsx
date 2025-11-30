@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { updateSongObject } from "../store/actions/song.action";
 import { SongCard } from "./SongCard";
 
+
 export function SongCarousel({ songs, title = "title" }) {
   const [offset, setOffset] = useState(0);
   const moveLeft = () => setOffset((prev) => Math.max(0, prev - 3));
