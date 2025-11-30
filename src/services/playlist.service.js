@@ -126,15 +126,21 @@ function _createPlaylists() {
   let playlists = utilService.loadFromStorage(STORAGE_KEY);
   if (!playlists || !playlists.length) {
     playlists = [];
+    songs.sort(() => Math.random() - 0.5); // Shuffle the songs
+    const rapSongs = songs.filter((song) => song.genres.includes("rap"));
     const rockSongs = songs.filter((song) => song.genres.includes("rock"));
     const popSongs = songs.filter((song) => song.genres.includes("pop"));
     const jazzSongs = songs.filter((song) => song.genres.includes("jazz"));
     const bluesSongs = songs.filter((song) => song.genres.includes("blues"));
     const beatlesSongs = songs.filter((s) => s.artist.includes("Beatles"));
+    const eltonJohnSongs = songs.filter((s) => s.artist.includes("Elton John"));
     const psychedelicRockSongs = songs.filter(
       (s) => s.genres.includes("rock") && s.genres.includes("psychedelic")
     );
-
+    const countrySongs = songs.filter((song) =>
+      song.genres.includes("country")
+    );
+    const houseSongs = songs.filter((song) => song.genres.includes("house"));
     playlists.push(
       createPlaylist(
         "Rock Classics",
@@ -186,11 +192,51 @@ function _createPlaylists() {
 
     playlists.push(
       createPlaylist(
+        "Elton John Greatest Hits",
+        "Hits from Elton John",
+        "bob alison",
+        new Date(),
+        eltonJohnSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
         "Psychedelic Rock",
         "Trippy and mind-bending rock tunes",
         "SYSTEM",
         new Date(),
         psychedelicRockSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Country Roads",
+        "Best of country music",
+        "user5",
+        new Date(),
+        countrySongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "House Party",
+        "Upbeat house music tracks",
+        "user6",
+        new Date(),
+        houseSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    playlists.push(
+      createPlaylist(
+        "Rap Hits",
+        "Top rap songs",
+        "Marshall Mathers",
+        new Date(),
+        rapSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
     );
 
