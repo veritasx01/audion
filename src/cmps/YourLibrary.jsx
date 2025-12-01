@@ -1,8 +1,12 @@
 // components/YourLibrary.jsx
 import { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleLibrary } from "../store/actions/system.action";
-import { loadPlaylists } from "../store/actions/playlist.action.js";
+import {
+  loadPlaylists,
+  addPlaylist,
+} from "../store/actions/playlist.action.js";
 import { showErrorMsg } from "../services/event-bus.service.js";
 import { playlistService } from "../services/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
@@ -14,6 +18,8 @@ import {
   sideBarToLeftIcon as collapseLibraryIcon,
   createIcon,
 } from "../services/icon.service.jsx";
+import { Navigate } from "react-router";
+import { songs } from "../assets/data/songs.js";
 
 // TODO: add support for artists, albums & optionaly podcasts
 export function YourLibrary() {
@@ -30,6 +36,7 @@ export function YourLibrary() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
   const searchWrapperRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadPlaylists().catch((err) => {
@@ -49,6 +56,24 @@ export function YourLibrary() {
 
         return itemTypeMatches && searchStringMatches;
       });
+
+  function handleOnCreatePlaylist() {
+    const newPlaylist = playlistService.createPlaylist(
+      `My Playlist #${playlists.length + 1}`
+    );
+    console.log("Created new playlist:", newPlaylist);
+
+    // Save the playlist to storage first, then navigate
+    addPlaylist(newPlaylist)
+      .then(() => {
+        navigate(`/playlist/${newPlaylist._id}`);
+        loadPlaylists();
+      })
+      .catch((err) => {
+        console.error("Error creating playlist:", err);
+        showErrorMsg("Failed to create playlist");
+      });
+  }
 
   return (
     <div className={`library-container ${isCollapsed ? "collapsed" : ""}`}>
@@ -71,7 +96,11 @@ export function YourLibrary() {
           {!isCollapsed && (
             <>
               <h1 className="library-title">Your Library</h1>
-              <button className="library-create-btn" title="Create a playlist">
+              <button
+                className="library-create-btn"
+                title="Create a playlist"
+                onClick={handleOnCreatePlaylist}
+              >
                 <span className="library-create-icon">{createIcon({})}</span>
                 <span className="library-create-text">Create</span>
               </button>
@@ -85,6 +114,7 @@ export function YourLibrary() {
           <button
             className="library-create-btn-collapsed"
             title="Create a playlist"
+            onClick={handleOnCreatePlaylist}
           >
             <span className="library-create-icon-collapsed">
               {createIcon({})}
