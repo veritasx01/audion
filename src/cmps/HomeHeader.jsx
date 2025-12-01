@@ -54,7 +54,7 @@ function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
         style={{ height: "100%", aspectRatio: "1" }}
       ></img>
       <button className="play-button" onClick={() => changeToSong(song)}>
-        <span className="size-48">{playIcon()}</span>
+        <span className="play-button-span">{playIcon()}</span>
       </button>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <div>
