@@ -11,6 +11,7 @@ import {
   addIcon,
   removeIcon,
   addToCollectionIcon,
+  nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
 
 const ALL_COLUMNS = [
@@ -170,32 +171,7 @@ export function PlaylistDetailsTable({
                   )
                 ) : playingSongId === song._id && isPlaying ? (
                   <span className="now-playing-animation" title="Now Playing">
-                    <svg width="20" height="20" viewBox="0 0 20 20">
-                      <rect
-                        className="bar bar1"
-                        x="3"
-                        y="6"
-                        width="3"
-                        height="8"
-                        rx="1"
-                      />
-                      <rect
-                        className="bar bar2"
-                        x="9"
-                        y="3"
-                        width="3"
-                        height="14"
-                        rx="1"
-                      />
-                      <rect
-                        className="bar bar3"
-                        x="15"
-                        y="8"
-                        width="3"
-                        height="6"
-                        rx="1"
-                      />
-                    </svg>
+                    {nowPlayingBarChartIcon({})}
                   </span>
                 ) : (
                   <span

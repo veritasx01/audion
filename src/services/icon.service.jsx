@@ -359,3 +359,20 @@ export function addToCollectionIcon({ height, width, fill, stroke, viewBox }) {
     </svg>
   );
 }
+
+// used for animation of "now playing"
+export function nowPlayingBarChartIcon({
+  height,
+  width,
+  fill,
+  stroke,
+  viewBox,
+}) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20">
+      <rect className="bar bar1" x="3" y="6" width="3" height="8" rx="1" />
+      <rect className="bar bar2" x="9" y="3" width="3" height="14" rx="1" />
+      <rect className="bar bar3" x="15" y="8" width="3" height="6" rx="1" />
+    </svg>
+  );
+}
