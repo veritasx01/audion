@@ -58,6 +58,16 @@
   position: relative;
 }
 
+/* Override song-number-col background for focused and hovered rows */
+.playlist-table tr.hovered td.song-number-col,
+.playlist-table tr:hover td.song-number-col {
+  background: #282828;
+}
+
+.playlist-table tr.focused td.song-number-col {
+  background: #333333;
+}
+
 .playlist-table tr {
   height: 56px;
 }
@@ -65,6 +75,10 @@
 .playlist-table tr.hovered,
 .playlist-table tr:hover {
   background: #282828;
+}
+
+.playlist-table tr.focused {
+  background: #515050;
 }
 
 .playlist-title-content {
@@ -121,7 +135,7 @@
   font-size: 0.95em;
 }
 
-.song-text {
+.playlist-song-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -140,13 +154,20 @@
 /* Actions column */
 .playlist-table-actions {
   width: 70px;
-  text-align: center;
+  text-align: right;
+}
+
+.playlist-song-duration {
+  width: 80px;
+  text-align: right;
+  color: #b3b3b3;
+  font-size: 0.97em;
 }
 
 .playlist-row-actions {
   display: flex;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-end;
   min-width: 95px;
   height: 32px;
   align-items: center;
@@ -186,6 +207,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show buttons only when row is hovered or focused */
+.playlist-table tr:hover .add-btn,
+.playlist-table tr:hover .menu-btn,
+.playlist-table tr.hovered .add-btn,
+.playlist-table tr.hovered .menu-btn,
+.playlist-table tr:focus-within .add-btn,
+.playlist-table tr:focus-within .menu-btn,
+.playlist-table tr.focused .add-btn,
+.playlist-table tr.focused .menu-btn {
+  opacity: 1;
+}
+
+/* Keep buttons visible when they are focused or active */
+.add-btn:focus,
+.menu-btn:focus,
+.add-btn:active,
+.menu-btn:active {
+  opacity: 1;
 }
 
 .playlist-title-btn {
