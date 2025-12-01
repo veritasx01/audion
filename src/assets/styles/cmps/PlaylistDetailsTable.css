@@ -49,7 +49,7 @@
 .playlist-table th {
   font-weight: 600;
   font-size: 1rem;
-  background: linear-gradient(180deg, var(--gradient-start-color, var(--background-elevated-highlight)) 0%, var(--background-base) 100%);
+  background: transparent;
   user-select: none;
 }
 
