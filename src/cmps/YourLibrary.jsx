@@ -80,6 +80,19 @@ export function YourLibrary() {
         </div>
       </div>
 
+      {isCollapsed && (
+        <div className="library-collapsed-content">
+          <button
+            className="library-create-btn-collapsed"
+            title="Create a playlist"
+          >
+            <span className="library-create-icon-collapsed">
+              {createIcon({})}
+            </span>
+          </button>
+        </div>
+      )}
+
       {!isCollapsed && (
         <>
           {/* filter controlls */}
