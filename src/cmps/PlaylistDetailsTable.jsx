@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
-import checkmarkIcon from "../assets/icons/checkmark.svg";
-import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
-import playIcon from "../assets/icons/play.svg";
-import pauseIcon from "../assets/icons/pause.svg";
-import { durationIcon } from "../services/icon.service.jsx";
+import {
+  playIcon,
+  pauseIcon,
+  durationIcon,
+  checkmarkIcon,
+  meatBallMenuIcon as moreOptionsIcon,
+} from "../services/icon.service.jsx";
 
 const ALL_COLUMNS = [
   { key: "album", label: "Album" },
@@ -119,7 +121,7 @@ export function PlaylistDetailsTable({
                       onClick={() => dispatch(togglePlaying())}
                       title="Pause"
                     >
-                      <img src={pauseIcon} alt="Pause" />
+                      {pauseIcon({})}
                     </button>
                   ) : (
                     <button
@@ -133,7 +135,7 @@ export function PlaylistDetailsTable({
                       }}
                       title="Play"
                     >
-                      <img src={playIcon} alt="Play" />
+                      {playIcon({})}
                     </button>
                   )
                 ) : playingSongId === song._id && isPlaying ? (
@@ -227,7 +229,7 @@ export function PlaylistDetailsTable({
                   });
                 }}
               >
-                <img src={checkmarkIcon} alt="Add" />
+                {checkmarkIcon({})}
               </button>
               <td className="playlist-table-actions" key="actions">
                 <div
@@ -243,7 +245,7 @@ export function PlaylistDetailsTable({
                     title={`More options for ${song.title} by ${song.artist}`}
                     onClick={(e) => handleOnSongMoreOptionsClick(e, song)}
                   >
-                    <img src={moreOptionsIcon} alt="More" />
+                    {moreOptionsIcon({ height: 28, width: 28 })}
                   </button>
                 </div>
               </td>
