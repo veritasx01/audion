@@ -10,10 +10,11 @@
 
 /* Table wrapper */
 .playlist-table-wrapper {
-  background: #222;
+  background: var(--background-base);
   border-radius: 8px;
   overflow-x: auto;
   margin-top: 24px;
+  padding: 20px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 1;
@@ -32,17 +33,22 @@
 .playlist-table td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #333;
+  border-bottom: none;
   vertical-align: middle;
   box-sizing: border-box;
   max-height: 56px;
   overflow: hidden;
 }
 
+/* Only add border to header row */
+.playlist-table th {
+  border-bottom: 1px solid #333;
+}
+
 .playlist-table th {
   font-weight: 600;
   font-size: 1rem;
-  background: #181818;
+  background: var(--background-base);
   user-select: none;
 }
 
@@ -53,9 +59,12 @@
   color: #b3b3b3;
   font-weight: 500;
   font-size: 1rem;
-  background: #181818;
   vertical-align: middle;
   position: relative;
+}
+
+.playlist-table th.song-number-col {
+  background: var(--background-base);
 }
 
 /* Override song-number-col background for focused and hovered rows */
@@ -70,15 +79,41 @@
 
 .playlist-table tr {
   height: 56px;
+  background: var(--background-base);
 }
 
 .playlist-table tr.hovered,
 .playlist-table tr:hover {
   background: #282828;
+  border-radius: 8px;
 }
 
 .playlist-table tr.focused {
-  background: #515050;
+  background: #333333;
+  border-radius: 8px;
+}
+
+/* Ensure rounded corners work properly on first and last cells */
+.playlist-table tr.hovered td:first-child,
+.playlist-table tr:hover td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.playlist-table tr.hovered td:last-child,
+.playlist-table tr:hover td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.playlist-table tr.focused td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.playlist-table tr.focused td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .playlist-title-content {

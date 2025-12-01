@@ -4,7 +4,7 @@
   height: 100vh;
   overflow-y: auto;
   color: #fff;
-  background: linear-gradient(135deg, #3a3a3a 0%, #181818 100%);
+  background: var(--background-base);
   font-family: "Inter", "Roboto", "Arial", sans-serif;
 }
 
