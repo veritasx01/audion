@@ -96,9 +96,117 @@
 
 .context-menu-separator {
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   margin: 4px 0;
   padding: 0;
+}
+
+/* Submenu styles */
+.context-menu-item.has-submenu {
+  position: relative;
+}
+
+.context-menu-item.has-submenu::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px; /* Extend hover area to the left towards submenu */
+  bottom: 0;
+  width: 15px;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.context-menu-arrow {
+  margin-left: auto;
+  font-size: 10px;
+  color: #b3b3b3;
+}
+
+.context-submenu {
+  background: #282828;
+  border-radius: 4px;
+  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.3), 0 6px 8px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  min-width: 160px;
+  max-width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", "Arial", sans-serif;
+  color: #ffffff;
+  user-select: none;
+  animation: submenuSlideIn 0.15s ease-out;
+}
+
+.context-submenu .context-menu-item {
+  display: flex !important;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 4px;
+  color: #ffffff !important;
+  font-size: 14px;
+  min-height: 32px;
+}
+
+.context-submenu .context-menu-item:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.context-submenu .context-menu-text {
+  flex: 1;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #ffffff !important;
+  font-size: 14px;
+  display: block;
+}
+
+/* Additional specificity for submenu items */
+.context-submenu li.context-menu-item {
+  color: #ffffff !important;
+}
+
+.context-submenu li.context-menu-item span.context-menu-text {
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+/* Custom scrollbar for submenu */
+.context-submenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.context-submenu::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.context-submenu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.context-submenu::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes submenuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Responsive adjustments */

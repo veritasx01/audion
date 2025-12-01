@@ -8,6 +8,21 @@ export function ContextMenu({
   className = "",
 }) {
   const menuRef = useRef(null);
+  const submenuTimeoutRef = useRef(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+  const [submenuPosition, setSubmenuPosition] = useState({ x: 0, y: 0 });
+
+  // Reset submenu state when context menu visibility changes
+  useEffect(() => {
+    if (isVisible) {
+      setActiveSubmenu(null);
+    } else {
+      // Clear timeout when menu closes
+      if (submenuTimeoutRef.current) {
+        clearTimeout(submenuTimeoutRef.current);
+      }
+    }
+  }, [isVisible]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -67,8 +82,78 @@ export function ContextMenu({
   };
 
   const handleItemClick = (item) => {
+    // Don't close menu if item has submenu
+    if (item.submenu) {
+      return;
+    }
+
     if (item.onClick) {
       item.onClick();
+    }
+    onClose();
+  };
+
+  const handleItemHover = (item, index, event) => {
+    // Clear any existing timeout
+    if (submenuTimeoutRef.current) {
+      clearTimeout(submenuTimeoutRef.current);
+    }
+
+    if (item.submenu) {
+      const itemRect = event.currentTarget.getBoundingClientRect();
+      const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+
+      // Calculate available space below the item
+      const spaceBelow = viewport.height - itemRect.top - 20; // 20px margin from bottom
+
+      // Estimate submenu item height (32px per item + padding)
+      const estimatedItemHeight = 32;
+      const estimatedSubmenuHeight =
+        item.submenu.length * estimatedItemHeight + 8; // 8px for padding
+
+      // Determine if we need to limit height and enable scrolling
+      const maxAllowedHeight = Math.min(300, spaceBelow); // Don't exceed 300px or available space
+      const needsScrolling = estimatedSubmenuHeight > maxAllowedHeight;
+
+      setSubmenuPosition({
+        x: itemRect.left - 170, // Slightly more space to prevent overlap
+        y: itemRect.top,
+        maxHeight: needsScrolling ? maxAllowedHeight : undefined,
+      });
+      setActiveSubmenu(index);
+    } else {
+      setActiveSubmenu(null);
+    }
+  };
+
+  const handleItemLeave = () => {
+    // Clear any existing timeout
+    if (submenuTimeoutRef.current) {
+      clearTimeout(submenuTimeoutRef.current);
+    }
+
+    // Set timeout to hide submenu - longer delay for better UX
+    submenuTimeoutRef.current = setTimeout(() => {
+      setActiveSubmenu(null);
+    }, 600);
+  };
+  const handleSubmenuEnter = () => {
+    // Clear timeout when mouse enters submenu
+    if (submenuTimeoutRef.current) {
+      clearTimeout(submenuTimeoutRef.current);
+    }
+  };
+
+  const handleSubmenuLeave = () => {
+    setActiveSubmenu(null);
+  };
+
+  const handleSubmenuItemClick = (subItem) => {
+    if (subItem.onClick) {
+      subItem.onClick();
     }
     onClose();
   };
@@ -104,13 +189,18 @@ export function ContextMenu({
               key={item.id || index}
               className={`context-menu-item ${
                 item.disabled ? "disabled" : ""
-              } ${item.danger ? "danger" : ""}`}
+              } ${item.danger ? "danger" : ""} ${
+                item.submenu ? "has-submenu" : ""
+              }`}
               onClick={() => !item.disabled && handleItemClick(item)}
+              onMouseEnter={(e) => handleItemHover(item, index, e)}
+              onMouseLeave={handleItemLeave}
             >
               {item.icon && (
                 <span className="context-menu-icon">{item.icon}</span>
               )}
               <span className="context-menu-text">{item.label}</span>
+              {item.submenu && <span className="context-menu-arrow">▶</span>}
               {item.shortcut && (
                 <span className="context-menu-shortcut">{item.shortcut}</span>
               )}
@@ -118,6 +208,41 @@ export function ContextMenu({
           );
         })}
       </ul>
+
+      {/* Submenu */}
+      {activeSubmenu !== null && menuItems[activeSubmenu]?.submenu && (
+        <ul
+          className="context-menu context-submenu"
+          style={{
+            position: "fixed",
+            top: submenuPosition.y,
+            left: submenuPosition.x,
+            zIndex: 10001,
+            maxHeight: submenuPosition.maxHeight
+              ? `${submenuPosition.maxHeight}px`
+              : "300px",
+          }}
+          onMouseEnter={handleSubmenuEnter}
+          onMouseLeave={handleSubmenuLeave}
+        >
+          {menuItems[activeSubmenu].submenu.map((subItem, subIndex) => (
+            <li
+              key={subItem.id || subIndex}
+              className={`context-menu-item ${
+                subItem.disabled ? "disabled" : ""
+              } ${subItem.danger ? "danger" : ""}`}
+              onClick={() =>
+                !subItem.disabled && handleSubmenuItemClick(subItem)
+              }
+            >
+              {subItem.icon && (
+                <span className="context-menu-icon">{subItem.icon}</span>
+              )}
+              <span className="context-menu-text">{subItem.label}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }

@@ -30,7 +30,6 @@ export function PlaylistDetailsTable({
   loadPlaylist,
 }) {
   const dispatch = useDispatch();
-  const [showEditModal, setShowEditModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
   const [visibleColumns, setVisibleColumns] = useState(
@@ -68,16 +67,20 @@ export function PlaylistDetailsTable({
         id: "add-to-playlist",
         label: "Add to playlist",
         icon: addIcon({}),
-        onClick: () => {
-          // Position the dropdown near where the context menu was
-          setPlaylistDropdown({
-            visible: true,
-            x: contextMenu.position.x - 150,
-            y: contextMenu.position.y,
-            song,
-          });
-          hideContextMenu();
-        },
+        submenu: otherPlaylists.map((otherPlaylist) => {
+          const playlistName =
+            otherPlaylist.name ||
+            otherPlaylist.title ||
+            `Playlist ${otherPlaylist._id}`;
+          return {
+            id: `playlist-${otherPlaylist._id}`,
+            label: playlistName,
+            onClick: () => {
+              onAddSong(otherPlaylist._id, song).then(() => loadPlaylist());
+              hideContextMenu();
+            },
+          };
+        }),
       },
       { type: "separator" },
       {
@@ -283,35 +286,6 @@ export function PlaylistDetailsTable({
         onClose={hideContextMenu}
         menuItems={contextMenu.items}
       />
-
-      {/* Playlist Dropdown for adding a song to a playlist*/}
-      {playlistDropdown.visible && (
-        <ul
-          className="playlist-dropdown-menu"
-          style={{
-            position: "fixed",
-            top: playlistDropdown.y,
-            left: playlistDropdown.x,
-            zIndex: 2100,
-            minWidth: "200px",
-          }}
-          onMouseLeave={() =>
-            setPlaylistDropdown({ ...playlistDropdown, visible: false })
-          }
-        >
-          {otherPlaylists.map((playlist) => (
-            <li
-              key={playlist._id}
-              onClick={() => {
-                onAddSong(playlist._id, playlistDropdown.song);
-                setPlaylistDropdown({ ...playlistDropdown, visible: false });
-              }}
-            >
-              {playlist.title}
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
