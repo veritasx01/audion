@@ -4,6 +4,7 @@ export const iconService = {
   yourLibraryIcon,
   clearIcon,
   searchIcon,
+  createIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -94,7 +95,7 @@ export function searchIcon({ height, width, fill, stroke, viewBox }) {
   );
 }
 
-// magnifying glass icon for search input fields
+// plus icon creating a new playlist
 export function createIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
