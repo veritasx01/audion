@@ -23,7 +23,7 @@
   grid-auto-flow: column;
   grid-auto-columns: auto;
   gap: 0px;
-  width: max-content; 
+  width: max-content;
   max-width: 1400px;
 }
 
@@ -36,6 +36,7 @@
 }
 
 .song-card {
+  position: relative;
   width: 195.5px;
   min-height: 247.5px;
   padding: 10px;
@@ -50,6 +51,9 @@
 }
 .song-card:hover {
   background: var(--background-elevated-base);
+  .play-button-carousel {
+    opacity: 1;
+  }
 }
 
 .card-title {
@@ -85,4 +89,20 @@
 }
 .carousel-button:hover svg {
   fill: white;
+}
+
+.play-button-carousel {
+  position: absolute;
+  opacity: 0;
+  background-color: var(--text-bright-accent);
+  width: 48px;
+  height: 48px;
+  top: 128px;
+  right: 16px;
+  margin: 0;
+  transition: opacity 0.2s ease-in-out;
+  will-change: transform;
+}
+.play-button-carousel:hover {
+  background-color: var(--button-highlight);
 }
