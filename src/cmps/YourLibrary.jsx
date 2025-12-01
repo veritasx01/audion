@@ -12,6 +12,7 @@ import {
   searchIcon,
   sideBarToRightIcon as openLibraryIcon,
   sideBarToLeftIcon as collapseLibraryIcon,
+  createIcon,
 } from "../services/icon.service.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
@@ -67,7 +68,15 @@ export function YourLibrary() {
               {collapseLibraryIcon({ fill: "#aaa" })}
             </span>
           </button>
-          {!isCollapsed && <h1 className="library-title">Your Library</h1>}
+          {!isCollapsed && (
+            <>
+              <h1 className="library-title">Your Library</h1>
+              <button className="library-create-btn" title="Create a playlist">
+                <span className="library-create-icon">{createIcon({})}</span>
+                <span className="library-create-text">Create</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
 
