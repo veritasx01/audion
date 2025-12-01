@@ -54,7 +54,7 @@
 
 .playlist-table th.song-number-col,
 .playlist-table td.song-number-col {
-  width: 48px;
+  width: 36px;
   text-align: center;
   color: #b3b3b3;
   font-weight: 500;
@@ -126,9 +126,9 @@
 
 .playlist-table th.playlist-song-title,
 .playlist-table td.playlist-song-title {
-  width: 380px; /* Reduced width for better balance */
-  min-width: 280px;
-  max-width: 400px;
+  width: 240px; /* Further reduced for better space distribution */
+  min-width: 200px;
+  max-width: 260px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 56px;
@@ -189,20 +189,20 @@
 /* Make album column narrower */
 .playlist-table th.playlist-song-album,
 .playlist-table td.playlist-song-album {
-  width: 200px !important;
-  min-width: 150px;
-  max-width: 200px;
+  width: 160px !important;
+  min-width: 120px;
+  max-width: 180px;
   text-align: left;
 }
 
-/* Make date added column wider */
+/* Make date added column more compact */
 .playlist-table th.playlist-song-date-added,
 .playlist-table td.playlist-song-date-added {
-  width: 150px !important;
-  min-width: 50px;
-  max-width: 150px;
+  width: 100px !important;
+  min-width: 80px;
+  max-width: 120px;
   text-align: left;
-  padding: 12px 8px;
+  padding: 12px 6px;
 }
 
 /* More options actions column */
@@ -215,15 +215,15 @@
   padding: 12px 0px !important;
 }
 
-/* Add button column - minimal width and spacing */
+/* Add button column - adequate width to prevent overlap */
 .playlist-table th.playlist-song-add-action,
 .playlist-table td.playlist-song-add-action {
-  width: 20px !important;
-  min-width: 20px !important;
-  max-width: 20px !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
   text-align: center !important;
-  padding: 0px !important;
-  margin: 0px -10px 0px 0px !important;
+  padding: 12px 2px 12px 4px !important;
+  margin: 0px !important;
   position: relative;
   cursor: default;
   user-select: none;
@@ -263,7 +263,7 @@
   width: 80px !important;
   min-width: 80px !important;
   max-width: 80px !important;
-  margin: 0px 0px 0px -15px !important;
+  margin: 0px 0px 0px -20px !important;
   position: relative;
 }
 
@@ -271,7 +271,7 @@
   text-align: right !important;
   padding: 12px 4px 12px 0px !important;
   width: 80px !important;
-  margin: 0px 0px 0px -15px !important;
+  margin: 0px 0px 0px -20px !important;
   position: relative;
 }
 
