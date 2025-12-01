@@ -126,9 +126,9 @@
 
 .playlist-table th.playlist-song-title,
 .playlist-table td.playlist-song-title {
-  width: 260px; /* Adjust as needed */
-  min-width: 180px;
-  max-width: 320px;
+  width: 380px; /* Reduced width for better balance */
+  min-width: 280px;
+  max-width: 400px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 56px;
@@ -186,10 +186,68 @@
   font-size: 0.97em;
 }
 
-/* Actions column */
-.playlist-table-actions {
-  width: 70px;
-  text-align: right;
+/* Make album column narrower */
+.playlist-table th.playlist-song-album,
+.playlist-table td.playlist-song-album {
+  width: 200px !important;
+  min-width: 150px;
+  max-width: 200px;
+  text-align: left;
+}
+
+/* Make date added column wider */
+.playlist-table th.playlist-song-date-added,
+.playlist-table td.playlist-song-date-added {
+  width: 150px !important;
+  min-width: 50px;
+  max-width: 150px;
+  text-align: left;
+  padding: 12px 8px;
+}
+
+/* More options actions column */
+.playlist-table-actions,
+.playlist-song-actions {
+  width: 40px !important;
+  min-width: 40px;
+  max-width: 40px;
+  text-align: center;
+  padding: 12px 0px !important;
+}
+
+/* Add button column - minimal width and spacing */
+.playlist-table th.playlist-song-add-action,
+.playlist-table td.playlist-song-add-action {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  text-align: center !important;
+  padding: 0px !important;
+  margin: 0px -10px 0px 0px !important;
+  position: relative;
+  cursor: default;
+  user-select: none;
+}
+
+.playlist-table th.playlist-song-add-action:hover {
+  background: var(--background-base) !important;
+  color: inherit !important;
+}
+
+/* Remove hover effects from action column headers */
+.playlist-table th.playlist-song-actions {
+  cursor: default;
+  user-select: none;
+  width: 40px !important;
+  min-width: 40px;
+  max-width: 40px;
+  text-align: center;
+  padding: 12px 0px !important;
+}
+
+.playlist-table th.playlist-song-actions:hover {
+  background: var(--background-base) !important;
+  color: inherit !important;
 }
 
 .playlist-song-duration {
@@ -199,11 +257,42 @@
   font-size: 0.97em;
 }
 
+.playlist-table th.playlist-song-duration {
+  text-align: right !important;
+  padding: 12px 4px 12px 0px !important;
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+  margin: 0px 0px 0px -15px !important;
+  position: relative;
+}
+
+.playlist-table td.playlist-song-duration {
+  text-align: right !important;
+  padding: 12px 4px 12px 0px !important;
+  width: 80px !important;
+  margin: 0px 0px 0px -15px !important;
+  position: relative;
+}
+
+/* Disable hover effects on specific action headers */
+.playlist-table th.add-btn,
+.playlist-table th.menu-btn {
+  cursor: default;
+  user-select: none;
+}
+
+.playlist-table th.add-btn:hover,
+.playlist-table th.menu-btn:hover {
+  background: var(--background-base) !important;
+  color: inherit !important;
+}
+
 .playlist-row-actions {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   justify-content: flex-end;
-  min-width: 95px;
+  min-width: 80px;
   height: 32px;
   align-items: center;
 }

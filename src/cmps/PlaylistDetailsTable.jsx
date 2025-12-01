@@ -155,11 +155,11 @@ export function PlaylistDetailsTable({
             <th className="playlist-song-title">Title</th>
             <th className="playlist-song-album">Album</th>
             <th className="playlist-song-date-added">Date Added</th>
-            <th></th>
+            <th className="playlist-song-add-action"></th>
             <th className="playlist-song-duration" title="Duration">
               {durationIcon({})}
             </th>
-            <th></th>
+            <th className="playlist-song-actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -246,7 +246,7 @@ export function PlaylistDetailsTable({
                 </td>
               ) : null}
 
-              <td className="playlist-table-actions" key="add-action">
+              <td className="playlist-song-add-action" key="add-action">
                 <button
                   className="add-btn"
                   title="Add to playlist"
