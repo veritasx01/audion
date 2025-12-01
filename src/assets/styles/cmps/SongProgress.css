@@ -20,6 +20,7 @@
   height: 17px;
   font-size: 0.75rem;
   text-align: right;
+  color: var(--text-subdued);
 }
 
 .playback-duration {
@@ -27,6 +28,7 @@
   height: 17px;
   font-size: 0.75rem;
   text-align: left;
+  color: var(--text-subdued);
 }
 
 .progress-bar {

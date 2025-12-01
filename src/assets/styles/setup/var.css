@@ -24,6 +24,7 @@
   --background-tinted-base: #ffffff1a;
   --background-tinted-highlight: #ffffff24;
   --background-tinted-press: #ffffff36;
+  --button-highlight: #3be477;
   --text-base: #fff;
   --text-subdued: #b3b3b3;
   --text-bright-accent: #1ed760;
@@ -40,4 +41,5 @@
   --essential-announcement: #4cb3ff;
   --decorative-base: #fff;
   --decorative-subdued: #292929;
+  --background-noise: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=");
 }
