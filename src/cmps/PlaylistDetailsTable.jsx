@@ -214,32 +214,27 @@ export function PlaylistDetailsTable({
                   {song.duration ? formatSongDuration(song.duration) : ""}
                 </td>
               ) : null}
-              <button
-                className="add-btn"
-                title="Add to playlist"
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Position the dropdown near the button
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setPlaylistDropdown({
-                    visible: true,
-                    x: rect.left - 150, // or rect.left, adjust as needed
-                    y: rect.bottom, // or rect.bottom
-                    song,
-                  });
-                }}
-              >
-                {checkmarkIcon({})}
-              </button>
-              <td className="playlist-table-actions" key="actions">
-                <div
-                  className="playlist-row-actions"
-                  style={{
-                    opacity: hoveredRow === idx ? 1 : 0,
-                    pointerEvents: hoveredRow === idx ? "auto" : "none",
-                    transition: "opacity 0.2s",
+              <td className="playlist-table-actions" key="add-action">
+                <button
+                  className="add-btn"
+                  title="Add to playlist"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Position the dropdown near the button
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setPlaylistDropdown({
+                      visible: true,
+                      x: rect.left - 150, // or rect.left, adjust as needed
+                      y: rect.bottom, // or rect.bottom
+                      song,
+                    });
                   }}
                 >
+                  {checkmarkIcon({})}
+                </button>
+              </td>
+              <td className="playlist-table-actions" key="actions">
+                <div className="playlist-row-actions">
                   <button
                     className="menu-btn"
                     title={`More options for ${song.title} by ${song.artist}`}
