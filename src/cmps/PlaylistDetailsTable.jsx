@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
+import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
   playIcon,
   pauseIcon,
   durationIcon,
   checkmarkIcon,
   meatBallMenuIcon as moreOptionsIcon,
+  addIcon,
+  removeIcon,
+  addToCollectionIcon,
 } from "../services/icon.service.jsx";
 
 const ALL_COLUMNS = [
@@ -28,15 +32,10 @@ export function PlaylistDetailsTable({
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
   const [visibleColumns, setVisibleColumns] = useState(
     ALL_COLUMNS.map((c) => c.key)
   );
-  const [contextMenu, setContextMenu] = useState({
-    visible: false,
-    x: 0,
-    y: 0,
-    song: null,
-  });
   const [playlistDropdown, setPlaylistDropdown] = useState({
     visible: false,
     x: 0,
@@ -54,26 +53,54 @@ export function PlaylistDetailsTable({
 
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
-    const menuWidth = 180;
-    const menuHeight = 90;
-    let x = e.clientX;
-    let y = e.clientY;
+    const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
 
-    // Adjust if menu would overflow right
-    if (x + menuWidth > window.innerWidth) {
-      x = window.innerWidth - menuWidth - 10;
-    }
-    // Adjust if menu would overflow bottom
-    if (y + menuHeight > window.innerHeight) {
-      y = window.innerHeight - menuHeight - 10;
-    }
+    // adjust menu location to the top-left of the button
+    const modifiedEvent = {
+      ...e,
+      clientX: buttonRect.left - 140,
+      clientY: buttonRect.top - 140,
+    };
 
-    setContextMenu({
-      visible: true,
-      x,
-      y,
-      song,
-    });
+    // Create menu items specific to the selected song
+    const songMenuItems = [
+      {
+        id: "add-to-playlist",
+        label: "Add to playlist",
+        icon: addIcon({}),
+        onClick: () => {
+          // Position the dropdown near where the context menu was
+          setPlaylistDropdown({
+            visible: true,
+            x: contextMenu.position.x - 150,
+            y: contextMenu.position.y,
+            song,
+          });
+          hideContextMenu();
+        },
+      },
+      { type: "separator" },
+      {
+        id: "remove-from-playlist",
+        label: "Remove from this playlist",
+        icon: removeIcon({}),
+        onClick: () => {
+          onRemoveSong(playlist._id, song._id).then(() => loadPlaylist());
+          hideContextMenu();
+        },
+      },
+      {
+        id: "add-to-liked-songs",
+        label: "Save to Your Liked Songs",
+        icon: addToCollectionIcon({}),
+        onClick: () => {
+          onRemoveSong(playlist._id, song._id).then(() => loadPlaylist());
+          hideContextMenu();
+        },
+      },
+    ];
+
+    showContextMenu(modifiedEvent, songMenuItems);
   }
 
   function formatDate(dateString) {
@@ -249,52 +276,13 @@ export function PlaylistDetailsTable({
         </tbody>
       </table>
 
-      {/* Songs Context Menu */}
-      {contextMenu.visible && (
-        <ul
-          className="song-context-menu"
-          style={{
-            top: contextMenu.y,
-            left: contextMenu.x,
-            position: "fixed",
-            zIndex: 2000,
-          }}
-          onMouseLeave={() =>
-            setContextMenu({ ...contextMenu, visible: false })
-          }
-        >
-          <li
-            onClick={(e) => {
-              // Estimate context menu height (e.g., 90px for 2 items, adjust as needed)
-              const contextMenuHeight = 90;
-              const contextMenuWidth = 180;
-              setPlaylistDropdown({
-                visible: true,
-                x: contextMenu.x - contextMenuWidth,
-                y: contextMenu.y - contextMenuHeight,
-                song: contextMenu.song,
-              });
-              setContextMenu({ ...contextMenu, visible: false });
-            }}
-          >
-            Add to Playlist
-          </li>
-          <li
-            onClick={() => {
-              /* handle remove */
-              onRemoveSong(playlist._id, contextMenu.song._id).then(() =>
-                loadPlaylist()
-              );
-              setContextMenu({
-                ...contextMenu,
-                visible: false,
-              });
-            }}
-          >
-            Remove from Playlist
-          </li>
-        </ul>
-      )}
+      {/* Context Menu */}
+      <ContextMenu
+        isVisible={contextMenu.isVisible}
+        position={contextMenu.position}
+        onClose={hideContextMenu}
+        menuItems={contextMenu.items}
+      />
 
       {/* Playlist Dropdown for adding a song to a playlist*/}
       {playlistDropdown.visible && (

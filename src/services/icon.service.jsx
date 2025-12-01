@@ -15,6 +15,9 @@ export const iconService = {
   disableShuffleIcon,
   durationIcon,
   checkmarkIcon,
+  addIcon,
+  removeIcon,
+  addToCollectionIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -302,6 +305,57 @@ export function checkmarkIcon({ height, width, fill, stroke, viewBox }) {
         d="M11.748 6.03a.75.75 0 0 0-1.06-1.06l-4.47 4.47-1.405-1.406a.75.75 0 1 0-1.061 1.06l2.466 2.467 5.53-5.53z"
         fill="#000"
       />
+    </svg>
+  );
+}
+
+export function addIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75"></path>
+    </svg>
+  );
+}
+
+// garabge pale icon
+export function removeIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M5.25 3v-.917C5.25.933 6.183 0 7.333 0h1.334c1.15 0 2.083.933 2.083 2.083V3h4.75v1.5h-.972l-1.257 9.544A2.25 2.25 0 0 1 11.041 16H4.96a2.25 2.25 0 0 1-2.23-1.956L1.472 4.5H.5V3zm1.5-.917V3h2.5v-.917a.583.583 0 0 0-.583-.583H7.333a.583.583 0 0 0-.583.583M2.986 4.5l1.23 9.348a.75.75 0 0 0 .744.652h6.08a.75.75 0 0 0 .744-.652L13.015 4.5H2.985z"></path>
+    </svg>
+  );
+}
+
+// Plus inside circle icon, used for adding a song to "liked songs" collection
+export function addToCollectionIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"></path>
+      <path d="M11.75 8a.75.75 0 0 1-.75.75H8.75V11a.75.75 0 0 1-1.5 0V8.75H5a.75.75 0 0 1 0-1.5h2.25V5a.75.75 0 0 1 1.5 0v2.25H11a.75.75 0 0 1 .75.75"></path>
     </svg>
   );
 }
