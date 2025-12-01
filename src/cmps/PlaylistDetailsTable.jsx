@@ -5,6 +5,7 @@ import checkmarkIcon from "../assets/icons/checkmark.svg";
 import moreOptionsIcon from "../assets/icons/meatball-menu.svg";
 import playIcon from "../assets/icons/play.svg";
 import pauseIcon from "../assets/icons/pause.svg";
+import { durationIcon } from "../services/icon.service.jsx";
 
 const ALL_COLUMNS = [
   { key: "album", label: "Album" },
@@ -95,12 +96,11 @@ export function PlaylistDetailsTable({
           <tr>
             <th className="song-number-col">#</th>
             <th className="playlist-song-title">Title</th>
-            {ALL_COLUMNS.map((col) =>
-              visibleColumns.includes(col.key) ? (
-                <th key={col.key}>{col.label}</th>
-              ) : null
-            )}
-            <th></th>
+            <th className="playlist-song-album">Album</th>
+            <th className="playlist-song-date-added">Date Added</th>
+            <th className="playlist-song-duration" title="Duration">
+              {durationIcon({})}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -180,11 +180,11 @@ export function PlaylistDetailsTable({
                   <img
                     src={song.thumbnail}
                     alt={song.title}
-                    className="song-thumb"
+                    className="playlist-song-thumb"
                   />
                   <div className="song-text">
                     <span
-                      className={`song-title ${
+                      className={`playlist-song-title ${
                         playingSongId === song._id ? "active" : ""
                       }`}
                     >
@@ -196,21 +196,39 @@ export function PlaylistDetailsTable({
               </td>
               {visibleColumns.includes("album") ? (
                 <td key="album">
-                  <div className="song-album">{song.albumName}</div>
+                  <div className="playlist-song-album">{song.albumName}</div>
                 </td>
               ) : null}
               {visibleColumns.includes("dateAdded") ? (
                 <td key="dateAdded">
-                  <div className="song-date-added">
+                  <div className="playlist-song-date-added">
                     {song.addedAt ? formatDate(song.addedAt) : ""}
                   </div>
                 </td>
               ) : null}
+
               {visibleColumns.includes("duration") ? (
                 <td key="duration">
                   {song.duration ? formatSongDuration(song.duration) : ""}
                 </td>
               ) : null}
+              <button
+                className="add-btn"
+                title="Add to playlist"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Position the dropdown near the button
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setPlaylistDropdown({
+                    visible: true,
+                    x: rect.left - 150, // or rect.left, adjust as needed
+                    y: rect.bottom, // or rect.bottom
+                    song,
+                  });
+                }}
+              >
+                <img src={checkmarkIcon} alt="Add" />
+              </button>
               <td className="playlist-table-actions" key="actions">
                 <div
                   className="playlist-row-actions"
@@ -220,23 +238,6 @@ export function PlaylistDetailsTable({
                     transition: "opacity 0.2s",
                   }}
                 >
-                  <button
-                    className="add-btn"
-                    title="Add to playlist"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Position the dropdown near the button
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      setPlaylistDropdown({
-                        visible: true,
-                        x: rect.left - 150, // or rect.left, adjust as needed
-                        y: rect.bottom, // or rect.bottom
-                        song,
-                      });
-                    }}
-                  >
-                    <img src={checkmarkIcon} alt="Add" />
-                  </button>
                   <button
                     className="menu-btn"
                     title={`More options for ${song.title} by ${song.artist}`}

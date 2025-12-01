@@ -89,7 +89,7 @@
   align-items: center;
 }
 
-.song-thumb {
+.playlist-song-thumb {
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -99,7 +99,7 @@
 }
 
 .song-title,
-.song-artist {
+.playlist-song-artist {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -116,7 +116,7 @@
   font-weight: 600;
 }
 
-.song-artist {
+.playlist-song-artist {
   color: #b3b3b3;
   font-size: 0.95em;
 }
@@ -131,8 +131,8 @@
 }
 
 /* Album, date, duration columns */
-.song-album,
-.song-date-added {
+.playlist-song-album,
+.playlist-song-date-added {
   color: #b3b3b3;
   font-size: 0.97em;
 }
