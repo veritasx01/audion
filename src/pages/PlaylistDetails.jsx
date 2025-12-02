@@ -69,7 +69,7 @@ export function PlaylistDetails() {
   // util function for setting style for header gradient layers: background and a dark overlay
   function createGradientStyle() {
     const colorPalette =
-      gradientColors?.length < 0
+      gradientColors?.length > 0
         ? gradientColors.join(", ")
         : `var(--gray1), var(--background-base)`; // default fallback if playlist has no thumbnail
     return {
