@@ -25,7 +25,7 @@ export function PlaylistDetails() {
   const dispatch = useDispatch();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
-  const [extractedColors, setExtractedColors] = useState(null);
+  const [gradientColors, setGradientColors] = useState(null);
   const isPlaying = useSelector((store) => store.songModule.isPlaying);
   const playingSongId = useSelector((store) => store.songModule.songObj._id);
   const playlists = useSelector((store) => store.playlistModule.playlists);
@@ -44,15 +44,12 @@ export function PlaylistDetails() {
 
   useEffect(() => {
     if (!colors || colors.length === 0) return;
-    console.log("colors from useExtractColors:", colors);
+    const sortedColors = sortColorsByBrightness(colors, 3);
 
-    const colorsWithAlpha = updateRgbaColorsAlpha(colors, 0.7);
-    console.log("colorsWithAlpha:", colorsWithAlpha);
-    const sortedColors = sortColorsByBrightness(colorsWithAlpha);
-    console.log("sorted color", sortedColors);
-    sortedColors[sortedColors.length - 1] = "#121212"; // make the darkest color pure black for better gradient effect
-    console.log("final colors", sortedColors);
-    setExtractedColors(sortedColors);
+    // override darkest color with background color for better blending
+    sortedColors[sortedColors.length - 1] = "var(--background-base)";
+
+    setGradientColors(sortedColors);
   }, [colors]);
 
   function loadPlaylist() {
@@ -70,23 +67,16 @@ export function PlaylistDetails() {
   }
 
   // util function for setting style for header gradient layers: background and a dark overlay
-  function createGradientStyle(layerIndex) {
-    let gradientColors;
-    if (layerIndex === 0) {
-      gradientColors =
-        extractedColors?.length > 0
-          ? `linear-gradient(to bottom, ${extractedColors.join(", ")})`
-          : "linear-gradient(to bottom,  #d1d1d1ff, #3e3e3eff)"; // default fallback if playlist has no thumbnail
-    } else {
-      gradientColors =
-        "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5))";
-    }
+  function createGradientStyle() {
+    const colorPalette =
+      gradientColors?.length < 0
+        ? gradientColors.join(", ")
+        : `var(--gray1), var(--background-base)`; // default fallback if playlist has no thumbnail
     return {
       position: "absolute",
       inset: 0,
-      background: gradientColors,
-      //filter: layerIndex === 0 ? "blur(1px) brightness(0.7)" : "none",
-      zIndex: layerIndex,
+      background: `linear-gradient(to bottom, ${colorPalette})`,
+      zIndex: 0,
     };
   }
 
@@ -104,10 +94,8 @@ export function PlaylistDetails() {
         {/* Gradient background for header */}
         <div className="playlist-header-bg" style={createGradientStyle(0)} />
 
-        {/* Dark overlay for better text readability on lighter gradient backgrounds */}
-
         {/* Header content on top of gradient */}
-        <div style={{ position: "relative", zIndex: 2 }}>
+        <div style={{ position: "relative", zIndex: 1 }}>
           <PlaylistDetailsHeader
             playlist={playlist}
             onSavePlaylistDetails={onSavePlaylistDetails}
