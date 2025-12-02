@@ -1,9 +1,10 @@
 import { useState } from "react";
 import fallbackImage from "../assets/images/black_image.jpg";
-import { songs } from "../assets/data/songs";
 import { useDispatch } from "react-redux";
 import { updateSongObject } from "../store/actions/song.action";
+import { songService } from "../services/song/song.service";
 
+const songs = await songService.query();
 const playlists = [
   { id: 1, color: "#e91429", song: songs[0] },
   { id: 2, color: "#1ed760", song: songs[1] },
