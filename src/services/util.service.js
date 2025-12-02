@@ -7,6 +7,7 @@ export const utilService = {
   saveToStorage,
   loadFromStorage,
   sortColorsByBrightness,
+  updateRgbaColorsAlpha,
 };
 
 export function makeId(length = 16) {
@@ -148,30 +149,60 @@ export function formatTimeFromSecs(secs) {
   return formattedTime;
 }
 
-export function sortColorsByBrightness(colors) {
-  if (colors?.length > 0) {
-    return colors
-      .slice(0, 5) // Get more colors to choose from
-      .map((color) => ({
-        hex: color.hex || color,
-        brightness: _calculateBrightness(color.hex || color),
-      }))
-      .sort((a, b) => a.brightness - b.brightness) // Sort darkest first
-      .slice(0, 3) // Take top 3
-      .map((color) => color.hex)
-      .reverse(); // Reverse so lightest is first in gradient
+/* this function takes an array of rgba color strings and updates their alpha value 
+for example: ['rgba(0,0,0,255)', 'rgba(107,171,207,255)', 'rgba(71,35,35,255)'] which
+is received from color extraction util with an invalid alpha value, 
+and updates the alpha to a normalized value */
+export function updateRgbaColorsAlpha(rgbaColors, newAlpha) {
+  return rgbaColors.map((color) => {
+    // Extract numbers inside rgba(...)
+    let parts = color.match(/\d+/g).map(Number);
+    // Replace alpha (last value) with normalized alpha (0–1)
+    parts[3] = newAlpha;
+    return `rgba(${parts[0]},${parts[1]},${parts[2]},${parts[3]})`;
+  });
+}
 
-    console.log("Final colors for gradient (light to dark):", sortedColors);
+// Helper function to calculate brightness by summing RGB values
+function _calculateBrightness(color) {
+  let r, g, b;
+
+  // Handle both hex and rgba formats
+  if (color.startsWith("#")) {
+    // Hex format
+    const hex = color.replace("#", "");
+    r = parseInt(hex.substring(0, 2), 16);
+    g = parseInt(hex.substring(2, 4), 16);
+    b = parseInt(hex.substring(4, 6), 16);
+  } else if (color.startsWith("rgba(")) {
+    // RGBA format - extract RGB values
+    const matches = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (matches) {
+      r = parseInt(matches[1], 10);
+      g = parseInt(matches[2], 10);
+      b = parseInt(matches[3], 10);
+    } else {
+      return 0; // fallback
+    }
+  } else {
+    return 0; // fallback for unknown formats
   }
 
-  // Utill function for calculate color brightness using luminance formula
-  function _calculateBrightness(hexColor) {
-    const hex = hexColor.replace("#", "");
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
+  // Simple RGB sum approach - higher sum = brighter color
+  return r + g + b;
+}
 
-    // Using relative luminance formula (ITU-R BT.709)
-    return r * 0.2126 + g * 0.7152 + b * 0.0722;
-  }
+export function sortColorsByBrightness(colors, maxColorsToReturn = 3) {
+  if (!colors || colors.length === 0) return [];
+
+  const sortedColors = colors
+    .slice(0, maxColorsToReturn) // Get more colors to choose from
+    .map((color) => ({
+      original: color.hex || color,
+      brightness: _calculateBrightness(color.hex || color),
+    }))
+    .sort((a, b) => b.brightness - a.brightness) // Sort brightest first
+    .slice(0, maxColorsToReturn) // Take top 3
+    .map((color) => color.original);
+  return sortedColors;
 }

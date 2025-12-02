@@ -246,6 +246,10 @@ function _createPlaylists() {
       )
     );
 
+    playlists.forEach((playlist) => {
+      playlist._id = utilService.makeId();
+    });
+
     utilService.saveToStorage(STORAGE_KEY, playlists);
   }
   return playlists;
