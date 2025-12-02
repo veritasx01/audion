@@ -86,7 +86,7 @@ export function addSong(playlistId, song) {
         type: ADD_SONG,
         payload: {
           playlistId,
-          song: updatedPlaylist.find((s) => s._id === song._id),
+          song: updatedPlaylist.songs.find((s) => s._id === song._id),
         },
       });
       showSuccessMsg(`Song '${song.title}' successfully added to playlist`);
