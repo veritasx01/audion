@@ -192,17 +192,17 @@ function _calculateBrightness(color) {
   return r + g + b;
 }
 
-export function sortColorsByBrightness(colors) {
+export function sortColorsByBrightness(colors, maxColorsToReturn = 3) {
   if (!colors || colors.length === 0) return [];
 
   const sortedColors = colors
-    .slice(0, 5) // Get more colors to choose from
+    .slice(0, maxColorsToReturn) // Get more colors to choose from
     .map((color) => ({
       original: color.hex || color,
       brightness: _calculateBrightness(color.hex || color),
     }))
     .sort((a, b) => b.brightness - a.brightness) // Sort brightest first
-    .slice(0, 3) // Take top 3
+    .slice(0, maxColorsToReturn) // Take top 3
     .map((color) => color.original);
   return sortedColors;
 }
