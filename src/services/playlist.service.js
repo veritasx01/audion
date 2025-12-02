@@ -3,6 +3,7 @@ import { createDummySongs } from "./song.service.js";
 import { utilService } from "./util.service";
 import { faker } from "@faker-js/faker";
 import { songs } from "../assets/data/songs.js";
+import defaultThumbnail from "../assets/images/default-playlist-thumbnail.svg";
 
 export const playlistService = {
   createPlaylist,
@@ -24,24 +25,24 @@ _createPlaylists();
 function createPlaylist(
   title = faker.lorem.words({ min: 2, max: 6 }),
   description = faker.lorem.sentence(),
-  createdBy = utilService.makeId(),
+  createdBy = faker.person.fullName(),
   createdAt = new Date(),
-  songs
+  songs = []
 ) {
-  const playlistSongs =
-    songs ?? createDummySongs(utilService.getRandomIntInclusive(3, 10));
-
   // add the current date as addedAt for each song
-  playlistSongs.map((song) => ({ ...song, addedAt: new Date() }));
+  const playlistSongs = songs.map((song) => ({ ...song, addedAt: new Date() }));
+
+  // Use first song's thumbnail if available, otherwise use default musical note thumbnail
+  const thumbnail = playlistSongs[0]?.thumbnail || _getDefaultThumbnail();
 
   const newPlaylist = {
-    _id: utilService.makeId(),
+    //_id: utilService.makeId(), // would be added by backend service
     title,
     description,
     createdBy,
     createdAt,
     songs: playlistSongs,
-    thumbnail: playlistSongs[0]?.thumbnail,
+    thumbnail,
   };
   return newPlaylist;
 }
@@ -119,6 +120,11 @@ export function formatPlaylistDuration(playlist) {
   const minutesStr = minutes > 0 ? `${minutes} min ` : "";
   const secondsStr = seconds > 0 ? `${seconds} sec` : "";
   return `${hoursStr}${minutesStr}${secondsStr}`.trim();
+}
+
+// Get default playlist thumbnail with musical note icon
+function _getDefaultThumbnail() {
+  return defaultThumbnail;
 }
 
 // get playlists from storage or generate dummy data if none exist

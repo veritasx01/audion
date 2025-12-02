@@ -1,12 +1,12 @@
-@import "setup/var";
-@import "setup/typography";
+@import "setup/var.css";
+@import "setup/typography.css";
 
-@import "basics/helpers";
-@import "basics/layout";
-@import "basics/base";
-@import "basics/forms";
+@import "basics/helpers.css";
+@import "basics/layout.css";
+@import "basics/base.css";
+@import "basics/forms.css";
 
-@import "RootCmp";
+@import "RootCmp.css";
 
 @import "cmps/MainView";
 @import "cmps/AppHeader";
@@ -30,3 +30,22 @@
 @import "cmps/SongCarousel";
 @import "cmps/GenrePage";
 @import "cmps/ContextMenu";
+@import "cmps/MainView.css";
+@import "cmps/AppHeader.css";
+@import "cmps/AppFooter.css";
+@import "cmps/UserMsg.css";
+@import "cmps/HomeButton.css";
+@import "cmps/SearchBar.css";
+@import "cmps/PlayerControls.css";
+@import "cmps/SongProgress.css";
+@import "cmps/SongControls.css";
+@import "cmps/SongWidget.css";
+@import "cmps/VolumeBar.css";
+@import "cmps/YourLibrary.css";
+@import "cmps/YourLibraryPreview.css";
+@import "cmps/YourLibraryList.css";
+@import "cmps/SongList.css";
+@import "cmps/SongCarousel.css";
+@import "cmps/GenrePage.css";
+@import "cmps/HomePage.css";
+@import "cmps/HomeHeader.css";

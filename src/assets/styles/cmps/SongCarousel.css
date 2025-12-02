@@ -1,6 +1,5 @@
 .carousel-inner {
   position: relative;
-  align-items: center;
 }
 
 .song-carousel-container {
@@ -8,7 +7,6 @@
   max-width: 100%;
   transition: transform 0.22s ease;
 }
-
 
 .left-button {
   position: absolute;
@@ -23,16 +21,24 @@
 .song-carousel {
   display: grid;
   grid-auto-flow: column;
+  grid-auto-columns: auto;
+  gap: 0px;
+  width: max-content;
   max-width: 1400px;
 }
 
 .carousel-title {
   margin: 0.5rem 0 0.5rem 0.5rem;
 }
+.carousel-title a:hover {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+}
 
 .song-card {
+  position: relative;
   width: 195.5px;
-  height: 247.5px;
+  min-height: 247.5px;
   padding: 10px;
   border-radius: 6px;
   transition: background 0.05s cubic-bezier(0.3, 0, 0, 1);
@@ -45,12 +51,16 @@
 }
 .song-card:hover {
   background: var(--background-elevated-base);
+  .play-button-carousel {
+    opacity: 1;
+  }
 }
 
 .card-title {
   max-width: 171.5px;
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .card-artist {
@@ -79,4 +89,20 @@
 }
 .carousel-button:hover svg {
   fill: white;
+}
+
+.play-button-carousel {
+  position: absolute;
+  opacity: 0;
+  background-color: var(--text-bright-accent);
+  width: 48px;
+  height: 48px;
+  top: 128px;
+  right: 16px;
+  margin: 0;
+  transition: opacity 0.2s ease-in-out;
+  will-change: transform;
+}
+.play-button-carousel:hover {
+  background-color: var(--button-highlight);
 }

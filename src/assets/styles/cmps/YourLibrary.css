@@ -31,6 +31,11 @@
   padding: 6px 4px 6px 2px;
 }
 
+/* Reduce bottom padding in collapsed mode */
+.library-container.collapsed .library-header {
+  padding-bottom: 2px;
+}
+
 /* Make the left group take available space so title sits flush left */
 .library-header-left {
   display: flex;
@@ -38,6 +43,11 @@
   flex: 1;
   gap: 0px;
   position: relative;
+}
+
+/* Wrapper to push create button to the right */
+.library-header-left .library-title {
+  margin-right: auto;
 }
 
 /* Title transitions so it can shift smoothly */
@@ -144,6 +154,102 @@
 
 .library-toggle-btn .icon-collapse svg:hover {
   fill: var(--text-base);
+}
+
+/* Create playlist button */
+.library-create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-subdued);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+  margin-left: 8px;
+  line-height: 1;
+}
+
+.library-create-btn:hover {
+  color: var(--text-base);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.library-create-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.library-create-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.library-create-text {
+  line-height: 16px;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  font-weight: 800;
+}
+
+/* Collapsed content area */
+.library-collapsed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 4px 6px 2px;
+}
+
+/* Collapsed create button */
+.library-create-btn-collapsed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-subdued);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  margin-top: -2px;
+}
+
+.library-create-btn-collapsed:hover {
+  color: var(--text-base);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.library-create-icon-collapsed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.library-create-icon-collapsed svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: block;
 }
 
 /* Spotify-like filter buttons */
