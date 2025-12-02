@@ -3,7 +3,10 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useExtractColors } from "react-extract-colors";
 import { playlistService } from "../services/playlist.service";
-import { sortColorsByBrightness } from "../services/util.service.js";
+import {
+  updateRgbaColorsAlpha,
+  sortColorsByBrightness,
+} from "../services/util.service.js";
 import {
   addSong,
   removeSong,
@@ -40,7 +43,16 @@ export function PlaylistDetails() {
   }, [playlistId]);
 
   useEffect(() => {
-    setExtractedColors(sortColorsByBrightness(colors));
+    if (!colors || colors.length === 0) return;
+    console.log("colors from useExtractColors:", colors);
+
+    const colorsWithAlpha = updateRgbaColorsAlpha(colors, 0.7);
+    console.log("colorsWithAlpha:", colorsWithAlpha);
+    const sortedColors = sortColorsByBrightness(colorsWithAlpha);
+    console.log("sorted color", sortedColors);
+    sortedColors[sortedColors.length - 1] = "#121212"; // make the darkest color pure black for better gradient effect
+    console.log("final colors", sortedColors);
+    setExtractedColors(sortedColors);
   }, [colors]);
 
   function loadPlaylist() {
@@ -73,7 +85,7 @@ export function PlaylistDetails() {
       position: "absolute",
       inset: 0,
       background: gradientColors,
-      filter: layerIndex === 0 ? "blur(1px) brightness(0.7)" : "none",
+      //filter: layerIndex === 0 ? "blur(1px) brightness(0.7)" : "none",
       zIndex: layerIndex,
     };
   }
@@ -93,7 +105,6 @@ export function PlaylistDetails() {
         <div className="playlist-header-bg" style={createGradientStyle(0)} />
 
         {/* Dark overlay for better text readability on lighter gradient backgrounds */}
-        <div style={createGradientStyle(1)} />
 
         {/* Header content on top of gradient */}
         <div style={{ position: "relative", zIndex: 2 }}>
