@@ -50,8 +50,8 @@ function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
       onMouseLeave={onMouseLeave}
     >
       <img
+        className="playlist-image"
         src={song.thumbnail || fallbackImage}
-        style={{ height: "100%", aspectRatio: "1" }}
       ></img>
       <button className="play-button" onClick={() => changeToSong(song)}>
         <span className="play-button-span">{playIcon()}</span>
