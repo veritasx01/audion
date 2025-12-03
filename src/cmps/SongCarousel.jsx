@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { updateSongObject } from "../store/actions/song.action";
 import { SongCard } from "./SongCard";
 
+const SCROLL_PX = 585
+
 export function SongCarousel({ songs, title = "title" }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -32,7 +34,6 @@ export function SongCarousel({ songs, title = "title" }) {
     return () => window.removeEventListener("resize", checkScrollButtons);
   }, [songs]);
 
-  // Scroll logic: Moves exactly 600px
   const scroll = (scrollOffset) => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -54,7 +55,7 @@ export function SongCarousel({ songs, title = "title" }) {
       </h2>
       <button
         className="left-button carousel-button hov-enlarge"
-        onClick={() => scroll(-600)}
+        onClick={() => scroll(-SCROLL_PX)}
         style={{ ...leftStyle }}
       >
         {leftArrow()}
@@ -73,7 +74,7 @@ export function SongCarousel({ songs, title = "title" }) {
       <button
         className="right-button carousel-button hov-enlarge"
         style={{ ...rightStyle }}
-        onClick={() => scroll(600)}
+        onClick={() => scroll(SCROLL_PX)}
       >
         {rightArrow()}
       </button>

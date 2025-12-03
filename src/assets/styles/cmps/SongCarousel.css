@@ -12,13 +12,24 @@
 }
 
 .left-button {
+  opacity: 0;
   position: absolute;
   top: 45%;
 }
 .right-button {
+  opacity: 0;
   position: absolute;
   right: 1%;
   top: 45%;
+}
+
+.carousel-inner:hover .left-button,
+.carousel-inner:hover .right-button {
+  opacity: 1;
+}
+.left-button:hover,
+.right-button:hover {
+  opacity: 1;
 }
 
 .song-carousel {
