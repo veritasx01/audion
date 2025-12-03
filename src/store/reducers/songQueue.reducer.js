@@ -11,7 +11,6 @@ const initialState = {
   currentIndex: 0,
   songQueue: [],
   isRepeating: false,
-  isRepeatingCurrent: false,
   isShuffle: false,
 };
 
@@ -41,5 +40,7 @@ export function songQueueReducer(state = initialState, action) {
         return state;
       }
       return { ...state, currentIndex: action.payload };
+    default:
+      return state;
   }
 }
