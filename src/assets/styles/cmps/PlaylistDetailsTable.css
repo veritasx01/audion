@@ -222,9 +222,9 @@
 
 .playlist-table th.playlist-song-title,
 .playlist-table td.playlist-song-title {
-  width: 240px; /* Further reduced for better space distribution */
-  min-width: 200px;
-  max-width: 260px;
+  width: 220px; /* Reduced for more space */
+  min-width: 180px;
+  max-width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 56px;
@@ -285,9 +285,9 @@
 /* Make album column narrower */
 .playlist-table th.playlist-song-album,
 .playlist-table td.playlist-song-album {
-  width: 160px !important;
-  min-width: 120px;
-  max-width: 180px;
+  width: 140px !important;
+  min-width: 100px;
+  max-width: 160px;
   text-align: left;
 }
 
@@ -307,22 +307,23 @@
   width: 40px !important;
   min-width: 40px;
   max-width: 40px;
-  text-align: center;
-  padding: 12px 0px !important;
+  text-align: right;
+  padding: 12px 8px 12px 0px !important;
 }
 
 /* Add button column - adequate width to prevent overlap */
 .playlist-table th.playlist-song-add-action,
 .playlist-table td.playlist-song-add-action {
-  width: 40px !important;
-  min-width: 40px !important;
-  max-width: 40px !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  max-width: 18px !important;
   text-align: center !important;
-  padding: 12px 2px 12px 4px !important;
+  padding: 12px 2px !important;
   margin: 0px !important;
   position: relative;
   cursor: default;
   user-select: none;
+  z-index: 1;
 }
 
 .playlist-table th.playlist-song-add-action:hover {
@@ -337,8 +338,8 @@
   width: 40px !important;
   min-width: 40px;
   max-width: 40px;
-  text-align: center;
-  padding: 12px 0px !important;
+  text-align: right;
+  padding: 12px 8px 12px 0px !important;
 }
 
 .playlist-table th.playlist-song-actions:hover {
@@ -347,7 +348,7 @@
 }
 
 .playlist-song-duration {
-  width: 80px;
+  width: 48px;
   text-align: right;
   color: #b3b3b3;
   font-size: 0.97em;
@@ -355,19 +356,19 @@
 
 .playlist-table th.playlist-song-duration {
   text-align: right !important;
-  padding: 12px 4px 12px 0px !important;
-  width: 80px !important;
-  min-width: 80px !important;
-  max-width: 80px !important;
-  margin: 0px 0px 0px -20px !important;
+  padding: 12px 6px 12px 0px !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  margin: 0px -2px 0px 0px !important;
   position: relative;
 }
 
 .playlist-table td.playlist-song-duration {
   text-align: right !important;
-  padding: 12px 4px 12px 0px !important;
-  width: 80px !important;
-  margin: 0px 0px 0px -20px !important;
+  padding: 12px 6px 12px 0px !important;
+  width: 48px !important;
+  margin: 0px -2px 0px 0px !important;
   position: relative;
 }
 
