@@ -92,7 +92,7 @@ export function PlaylistDetailsHeader({ playlist, onSavePlaylistDetails }) {
                       title: e.target.value,
                     }))
                   }
-                  placeholder=" "
+                  placeholder="Add a name"
                   required
                 />
                 <label htmlFor="playlist-title">Title</label>
@@ -107,7 +107,7 @@ export function PlaylistDetailsHeader({ playlist, onSavePlaylistDetails }) {
                       description: e.target.value,
                     }))
                   }
-                  placeholder=" "
+                  placeholder="Add an optional description"
                   rows={3}
                 />
                 <label htmlFor="playlist-description">Description</label>
