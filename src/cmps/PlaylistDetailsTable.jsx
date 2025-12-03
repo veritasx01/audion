@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { togglePlaying } from "../store/actions/song.action";
+import { useState, useEffect, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSongObject, togglePlaying } from "../store/actions/song.action";
+import { addSong, removeSong } from "../store/actions/playlist.action.js";
 import {
   ContextMenu,
   useContextMenu,
@@ -17,6 +18,7 @@ import {
   addToCollectionIcon,
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
+import { showSuccessMsg } from "../services/event-bus.service.js";
 
 const ALL_COLUMNS = [
   { key: "album", label: "Album" },
@@ -24,36 +26,32 @@ const ALL_COLUMNS = [
   { key: "duration", label: "Duration" },
 ];
 
-export function PlaylistDetailsTable({
-  playlist,
-  playingSongId,
-  isPlaying,
-  setCurrentSong,
-  onRemoveSong,
-  onAddSong,
-  otherPlaylists,
-  loadPlaylist,
-}) {
+export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
   const [hoveredRow, setHoveredRow] = useState(null);
   const [focusedRow, setFocusedRow] = useState(null);
+  const isPlaying = useSelector((store) => store.songModule.isPlaying);
+  const playingSongId = useSelector((store) => store.songModule.songObj._id);
+  const playlists = useSelector((store) => store.playlistModule.playlists);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
   const [visibleColumns, setVisibleColumns] = useState(
     ALL_COLUMNS.map((c) => c.key)
   );
-  const [playlistDropdown, setPlaylistDropdown] = useState({
-    visible: false,
-    x: 0,
-    y: 0,
-    song: null,
-  });
 
-  // Clear focused row when context menu or dropdown closes
+  const otherPlaylists = useMemo(
+    () =>
+      playlists
+        .filter((pl) => pl._id !== playlist._id)
+        .map((pl) => ({ _id: pl._id, title: pl.title })),
+    [playlists, playlist._id]
+  );
+
+  // Clear focused row when context menu closes
   useEffect(() => {
-    if (!contextMenu.isVisible && !playlistDropdown.visible) {
+    if (!contextMenu.isVisible) {
       setFocusedRow(null);
     }
-  }, [contextMenu.isVisible, playlistDropdown.visible]);
+  }, [contextMenu.isVisible]);
 
   // Handle clicks outside table to clear focus
   useEffect(() => {
@@ -79,6 +77,10 @@ export function PlaylistDetailsTable({
     );
   }
 
+  function setCurrentSong(song) {
+    dispatch(updateSongObject(song));
+  }
+
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
     const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
@@ -102,7 +104,7 @@ export function PlaylistDetailsTable({
             id: `playlist-${otherPlaylist._id}`,
             label: otherPlaylist.title,
             onClick: () => {
-              onAddSong(otherPlaylist._id, song).then(() => loadPlaylist());
+              addSong(otherPlaylist._id, song).then(() => loadPlaylist());
               hideContextMenu();
             },
           };
@@ -114,7 +116,7 @@ export function PlaylistDetailsTable({
         label: "Remove from this playlist",
         icon: removeIcon({}),
         onClick: () => {
-          onRemoveSong(playlist._id, song._id).then(() => loadPlaylist());
+          removeSong(playlist._id, song._id).then(() => loadPlaylist());
           hideContextMenu();
         },
       },
@@ -250,18 +252,11 @@ export function PlaylistDetailsTable({
               <td className="playlist-song-add-action" key="add-action">
                 <button
                   className="add-btn"
-                  title="Add to playlist"
+                  title="Save to your Liked Songs"
                   onClick={(e) => {
                     e.preventDefault();
                     setFocusedRow(idx);
-                    // Position the dropdown near the button
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    setPlaylistDropdown({
-                      visible: true,
-                      x: rect.left - 150, // or rect.left, adjust as needed
-                      y: rect.bottom, // or rect.bottom
-                      song,
-                    });
+                    showSuccessMsg("To be implemented...");
                   }}
                 >
                   {checkmarkIcon({})}
