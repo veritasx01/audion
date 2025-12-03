@@ -98,13 +98,9 @@ export function PlaylistDetailsTable({
         label: "Add to playlist",
         icon: addIcon({}),
         submenu: otherPlaylists.map((otherPlaylist) => {
-          const playlistName =
-            otherPlaylist.name ||
-            otherPlaylist.title ||
-            `Playlist ${otherPlaylist._id}`;
           return {
             id: `playlist-${otherPlaylist._id}`,
-            label: playlistName,
+            label: otherPlaylist.title,
             onClick: () => {
               onAddSong(otherPlaylist._id, song).then(() => loadPlaylist());
               hideContextMenu();
