@@ -6,6 +6,9 @@
   width: 100%;
   max-width: 100%;
   transition: transform 0.22s ease;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 .left-button {

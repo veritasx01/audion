@@ -1,19 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateSongObject } from "../store/actions/song.action";
 import { SongCard } from "./SongCard";
 
-
 export function SongCarousel({ songs, title = "title" }) {
-  const [offset, setOffset] = useState(0);
-  const moveLeft = () => setOffset((prev) => Math.max(0, prev - 3));
-  const moveRight = () =>
-    setOffset((prev) => Math.min(songs.length - 7, prev + 3));
+  const scrollContainerRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   const dispatch = useDispatch();
   const changeToSong = (song) => {
     dispatch(updateSongObject(song));
   };
+
+  const checkScrollButtons = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
+
+      setCanScrollLeft(scrollLeft > 0);
+
+      // buffer for pixel rounding issues on some screens
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 2);
+    }
+  };
+
+  // Check buttons on mount and resize
+  useEffect(() => {
+    checkScrollButtons();
+    window.addEventListener("resize", checkScrollButtons);
+    return () => window.removeEventListener("resize", checkScrollButtons);
+  }, [songs]);
+
+  // Scroll logic: Moves exactly 600px
+  const scroll = (scrollOffset) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: scrollOffset,
+        behavior: "smooth",
+      });
+
+      setTimeout(checkScrollButtons, 500);
+    }
+  };
+
+  const leftStyle = canScrollLeft ? {} : { display: "none" };
+  const rightStyle = canScrollRight ? {} : { display: "none" };
+
   return (
     <div className="carousel-inner" style={{ overflow: "hidden" }}>
       <h2 className="carousel-title">
@@ -21,13 +54,15 @@ export function SongCarousel({ songs, title = "title" }) {
       </h2>
       <button
         className="left-button carousel-button hov-enlarge"
-        onClick={moveLeft}
+        onClick={() => scroll(-600)}
+        style={{ ...leftStyle }}
       >
         {leftArrow()}
       </button>
       <div
         className="song-carousel-container"
-        style={{ transform: `translate(-${offset * 200}px)` }}
+        ref={scrollContainerRef}
+        onScroll={checkScrollButtons}
       >
         <div className="song-carousel">
           {songs.map((song, idx) => (
@@ -37,7 +72,8 @@ export function SongCarousel({ songs, title = "title" }) {
       </div>
       <button
         className="right-button carousel-button hov-enlarge"
-        onClick={moveRight}
+        style={{ ...rightStyle }}
+        onClick={() => scroll(600)}
       >
         {rightArrow()}
       </button>
