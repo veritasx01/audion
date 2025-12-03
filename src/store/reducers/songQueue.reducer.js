@@ -22,12 +22,13 @@ export function songQueueReducer(state = initialState, action) {
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };
     case NEXT_SONG:
-      if (state.currentIndex === state.songs.length - 1) {
+      if (state.currentIndex === state.songQueue.length - 1) {
         if (state.isRepeating) {
           return { ...state, currentIndex: 0 };
         }
         return state;
       }
+      console.log('index:', state.currentIndex + 1);
       return { ...state, currentIndex: state.currentIndex + 1 };
     case SET_SONG_QUEUE:
       return { ...state, songQueue: action.payload };

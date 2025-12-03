@@ -6,11 +6,13 @@ import {
 import { songReducer } from "./reducers/song.reducer";
 import { playlistReducer } from "./reducers/playlist.reducer";
 import { systemReducer } from "./reducers/system.reducer";
+import { songQueueReducer } from "./reducers/songQueue.reducer";
 
 const rootReducer = combineReducers({
   songModule: songReducer,
   playlistModule: playlistReducer,
   systemModule: systemReducer,
+  songQueueModule: songQueueReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
