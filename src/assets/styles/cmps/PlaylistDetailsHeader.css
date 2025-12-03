@@ -23,7 +23,8 @@
   height: 232px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding-top: 48px;
   padding-bottom: 8px;
   overflow: hidden;
 }
@@ -60,6 +61,7 @@
   align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+  margin-top: auto;
 }
 
 .creator {
@@ -100,6 +102,7 @@
 
   .playlist-info {
     height: 192px;
+    padding-top: 12px;
   }
 
   .playlist-title {
@@ -125,6 +128,7 @@
 
   .playlist-info {
     height: 160px;
+    padding-top: 8px;
   }
 
   .playlist-title {
