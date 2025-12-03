@@ -166,7 +166,7 @@
 }
 
 .playlist-table tr.focused td.song-number-col {
-  background: var(--background-tinted-press) !important;
+  background: var(--gray5) !important;
 }
 
 .playlist-table tr {
@@ -181,12 +181,12 @@
 }
 
 .playlist-table tr.focused {
-  background: var(--background-tinted-press);
+  background: var(--gray5);
   border-radius: 8px;
 }
 
 .playlist-table tr.focused td {
-  background: var(--background-tinted-press) !important;
+  background: var(--gray5) !important;
 }
 
 /* Ensure rounded corners work properly on first and last cells */
