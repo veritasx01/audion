@@ -27,6 +27,7 @@
 @import "cmps/PlaylistDetailsHeader";
 @import "cmps/PlaylistDetailsControlls";
 @import "cmps/PlaylistDetailsTable";
+@import "cmps/PlaylistDetailsEditModal";
 @import "cmps/SongCarousel";
 @import "cmps/GenrePage";
 @import "cmps/ContextMenu";

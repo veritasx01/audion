@@ -18,6 +18,7 @@ import checkmarkIcon from "../assets/icons/checkmark.svg";
 
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
 import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
+import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
 import { PlaylistDetailsTable } from "../cmps/PlaylistDetailsTable.jsx";
 
 export function PlaylistDetails() {
@@ -25,6 +26,7 @@ export function PlaylistDetails() {
   const dispatch = useDispatch();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [gradientColors, setGradientColors] = useState(null);
   const isPlaying = useSelector((store) => store.songModule.isPlaying);
   const playingSongId = useSelector((store) => store.songModule.songObj._id);
@@ -85,6 +87,11 @@ export function PlaylistDetails() {
     updatePlaylistDetails(updatedPlaylist);
   }
 
+  const onOpenModal = () => {
+    setShowEditModal(true);
+    console.log("Opening edit modal");
+  };
+
   if (!playlist) return <div>Loading...</div>;
 
   return (
@@ -98,12 +105,22 @@ export function PlaylistDetails() {
         <div style={{ position: "relative", zIndex: 1 }}>
           <PlaylistDetailsHeader
             playlist={playlist}
-            onSavePlaylistDetails={onSavePlaylistDetails}
+            onOpenModal={onOpenModal}
           />
           <div className="playlist-header-separator" />
-          <PlaylistDetailsHeaderControlls playlist={playlist} />
+          <PlaylistDetailsHeaderControlls
+            playlist={playlist}
+            onOpenModal={onOpenModal}
+          />
         </div>
       </div>
+
+      <PlaylistDetailsEditModal
+        playlist={playlist}
+        showEditModal={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSavePlaylistDetails={onSavePlaylistDetails}
+      />
 
       {/* Table section without gradient */}
       <PlaylistDetailsTable
