@@ -17,7 +17,7 @@ const initialState = {
 export function songQueueReducer(state = initialState, action) {
   switch (action.type) {
     case CLEAR_QUEUE:
-      return { ...state, currentIndex: 0, songs: [] };
+      return { ...state, currentIndex: 0, songQueue: [] };
     case PREV_SONG:
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };

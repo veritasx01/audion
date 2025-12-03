@@ -13,6 +13,7 @@ import {
   addToCollectionIcon,
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
+import { seekSongQueueIndex } from "../store/actions/songQueue.action.js";
 
 const ALL_COLUMNS = [
   { key: "album", label: "Album" },
@@ -193,6 +194,7 @@ export function PlaylistDetailsTable({
                           dispatch(togglePlaying());
                         } else {
                           setCurrentSong(song);
+                          dispatch(seekSongQueueIndex(idx));
                         }
                       }}
                       title="Play"

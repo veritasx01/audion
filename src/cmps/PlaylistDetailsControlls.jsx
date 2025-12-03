@@ -15,6 +15,8 @@ import {
   enableShuffleIcon,
   disableShuffleIcon,
 } from "../services/icon.service.jsx";
+import { clearSongQueue, setSongQueue } from "../store/actions/songQueue.action.js";
+import { arraysEqual } from "../services/util.service.js";
 
 export function PlaylistDetailsHeaderControlls({ playlist }) {
   const dispatch = useDispatch();
@@ -24,9 +26,14 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
   );
   const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
+  const songQueue = useSelector((state) => state.songQueueModule.songQueue);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   function handlePlayPause() {
+    if (songQueue.length === 0 || !arraysEqual(songQueue, playlist.songs)) {
+      dispatch(clearSongQueue());
+      dispatch(setSongQueue([...playlist.songs]));
+    }
     if (currentlyPlayingSong._id === playlist.songs?.[0]?._id) {
       dispatch(togglePlaying());
     } else {
