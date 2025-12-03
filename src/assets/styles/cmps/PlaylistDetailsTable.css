@@ -20,6 +20,8 @@
   position: relative;
   outline: none;
   border: none;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Disable any focus or selection artifacts on wrapper */
@@ -35,7 +37,7 @@
   width: 100%;
   border-collapse: collapse;
   color: #fff;
-  min-width: 700px;
+  min-width: 800px;
   table-layout: fixed;
   outline: none;
   border-spacing: 0;
@@ -292,38 +294,60 @@
 }
 
 /* Make date added column more compact */
-.playlist-table th.playlist-song-date-added,
+.playlist-table th.playlist-song-date-added {
+  width: 100px !important;
+  min-width: 80px;
+  max-width: 120px;
+  text-align: left !important;
+  padding: 12px 6px 12px 16px !important;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
 .playlist-table td.playlist-song-date-added {
   width: 100px !important;
   min-width: 80px;
   max-width: 120px;
-  text-align: left;
-  padding: 12px 6px;
+  text-align: left !important;
+  padding: 12px 6px 12px 16px !important;
+  vertical-align: middle;
+  box-sizing: border-box;
 }
 
 /* More options actions column */
 .playlist-table-actions,
 .playlist-song-actions {
-  width: 40px !important;
-  min-width: 40px;
-  max-width: 40px;
+  width: 56px !important;
+  min-width: 56px;
+  max-width: 56px;
   text-align: right;
-  padding: 12px 8px 12px 0px !important;
+  padding: 12px 16px 12px 4px !important;
 }
 
 /* Add button column - adequate width to prevent overlap */
 .playlist-table th.playlist-song-add-action,
 .playlist-table td.playlist-song-add-action {
-  width: 18px !important;
-  min-width: 18px !important;
-  max-width: 18px !important;
+  width: 35px !important;
+  min-width: 35px !important;
+  max-width: 35px !important;
   text-align: center !important;
-  padding: 12px 2px !important;
+  padding: 12px 8px !important;
   margin: 0px !important;
   position: relative;
   cursor: default;
   user-select: none;
-  z-index: 1;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Ensure add action column inherits row background on hover */
+.playlist-table tr.hovered td.playlist-song-add-action,
+.playlist-table tr:hover td.playlist-song-add-action {
+  background: #282828 !important;
+}
+
+.playlist-table tr.focused td.playlist-song-add-action {
+  background: var(--gray5) !important;
 }
 
 .playlist-table th.playlist-song-add-action:hover {
@@ -335,11 +359,11 @@
 .playlist-table th.playlist-song-actions {
   cursor: default;
   user-select: none;
-  width: 40px !important;
-  min-width: 40px;
-  max-width: 40px;
+  width: 56px !important;
+  min-width: 56px;
+  max-width: 56px;
   text-align: right;
-  padding: 12px 8px 12px 0px !important;
+  padding: 12px 16px 12px 4px !important;
 }
 
 .playlist-table th.playlist-song-actions:hover {
@@ -348,7 +372,7 @@
 }
 
 .playlist-song-duration {
-  width: 48px;
+  width: 60px;
   text-align: right;
   color: #b3b3b3;
   font-size: 0.97em;
@@ -356,19 +380,19 @@
 
 .playlist-table th.playlist-song-duration {
   text-align: right !important;
-  padding: 12px 6px 12px 0px !important;
-  width: 48px !important;
-  min-width: 48px !important;
-  max-width: 48px !important;
-  margin: 0px -2px 0px 0px !important;
+  padding: 12px 6px 12px 10px !important;
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  margin: 0px !important;
   position: relative;
 }
 
 .playlist-table td.playlist-song-duration {
   text-align: right !important;
-  padding: 12px 6px 12px 0px !important;
-  width: 48px !important;
-  margin: 0px -2px 0px 0px !important;
+  padding: 12px 6px 12px 10px !important;
+  width: 60px !important;
+  margin: 0px !important;
   position: relative;
 }
 
