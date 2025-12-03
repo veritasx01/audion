@@ -18,6 +18,16 @@
   padding-top: 0;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
   position: relative;
+  outline: none;
+  border: none;
+}
+
+/* Disable any focus or selection artifacts on wrapper */
+.playlist-table-wrapper:focus,
+.playlist-table-wrapper:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Table styles */
@@ -27,6 +37,46 @@
   color: #fff;
   min-width: 700px;
   table-layout: fixed;
+  outline: none;
+  border-spacing: 0;
+}
+
+/* Prevent any focus outlines or borders on table elements */
+.playlist-table,
+.playlist-table *,
+.playlist-table *:focus,
+.playlist-table *:active {
+  outline: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+}
+
+/* Disable table selection and focus artifacts completely */
+.playlist-table-wrapper,
+.playlist-table {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Override any browser default table cell selection */
+.playlist-table th,
+.playlist-table td {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Prevent any table cell focus artifacts */
+.playlist-table th:focus,
+.playlist-table td:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: inherit !important;
 }
 
 .playlist-table th,
@@ -50,6 +100,48 @@
   font-size: 1rem;
   background: transparent;
   user-select: none;
+  position: relative;
+}
+
+/* Completely disable hover effects on table headers */
+.playlist-table th:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  outline: none !important;
+}
+
+/* Ensure no hover effects on any buttons or elements within table headers */
+.playlist-table th:hover *,
+.playlist-table th * {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  outline: none !important;
+}
+
+/* Override any potential inherited hover styles from parent elements */
+.playlist-table thead tr:hover th {
+  background: transparent !important;
+}
+
+/* Prevent hover effects on thead row */
+.playlist-table thead tr:hover {
+  background: transparent !important;
+}
+
+/* Prevent any cursor changes on table headers */
+.playlist-table th {
+  cursor: default;
+}
+
+/* Override any button or interactive element styles within headers */
+.playlist-table th button,
+.playlist-table th svg,
+.playlist-table th * {
+  cursor: default;
 }
 
 .playlist-table th.song-number-col,
