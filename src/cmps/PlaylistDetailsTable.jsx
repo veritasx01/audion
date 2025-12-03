@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
-import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
+import {
+  ContextMenu,
+  useContextMenu,
+  calculateMenuPosition,
+} from "./ContextMenu.jsx";
 import {
   playIcon,
   pauseIcon,
@@ -79,11 +83,12 @@ export function PlaylistDetailsTable({
     e.preventDefault();
     const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
 
-    // adjust menu location to the top-left of the button
+    const { menuX, menuY } = calculateMenuPosition(buttonRect);
+
     const modifiedEvent = {
       ...e,
-      clientX: buttonRect.left - 140,
-      clientY: buttonRect.top - 140,
+      clientX: menuX,
+      clientY: menuY,
     };
 
     // Create menu items specific to the selected song

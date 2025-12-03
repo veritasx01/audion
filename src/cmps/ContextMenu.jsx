@@ -118,9 +118,24 @@ export function ContextMenu({
       const maxAllowedHeight = Math.min(300, spaceBelow); // Don't exceed 300px or available space
       const needsScrolling = estimatedSubmenuHeight > maxAllowedHeight;
 
+      // Always position submenu to the left of the main menu for better UX
+      const submenuWidth = 180; // Estimated submenu width
+      let submenuX = itemRect.left - submenuWidth - 10; // 10px gap to the left
+      let submenuY = itemRect.top;
+
+      // Ensure submenu doesn't go off-screen on the left
+      if (submenuX < 10) {
+        submenuX = itemRect.right + 10; // Position to right with gap
+      }
+
+      // If positioning to right would overflow, center it
+      if (submenuX + submenuWidth > viewport.width - 10) {
+        submenuX = Math.max(10, (viewport.width - submenuWidth) / 2);
+      }
+
       setSubmenuPosition({
-        x: itemRect.left - 170, // Slightly more space to prevent overlap
-        y: itemRect.top,
+        x: submenuX,
+        y: submenuY,
         maxHeight: needsScrolling ? maxAllowedHeight : undefined,
       });
       setActiveSubmenu(index);
@@ -231,9 +246,17 @@ export function ContextMenu({
               className={`context-menu-item ${
                 subItem.disabled ? "disabled" : ""
               } ${subItem.danger ? "danger" : ""}`}
-              onClick={() =>
-                !subItem.disabled && handleSubmenuItemClick(subItem)
-              }
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!subItem.disabled) {
+                  handleSubmenuItemClick(subItem);
+                }
+              }}
             >
               {subItem.icon && (
                 <span className="context-menu-icon">{subItem.icon}</span>
@@ -245,6 +268,24 @@ export function ContextMenu({
       )}
     </>
   );
+}
+
+// util function for calculating X & Y coordiantes of menu based on bounding rectangle of the clicked button/element
+export function calculateMenuPosition(boundingRectangle, menuWidth = 180) {
+  // Calculate  menu position with viewport awareness
+  let menuX = boundingRectangle.left - 160; // Default: left of button
+  let menuY = boundingRectangle.top + 10; // Default: below button
+
+  // Check viewport boundaries
+  if (menuX < 10) {
+    // Too far left, position to right of button
+    menuX = boundingRectangle.right - menuWidth;
+  } else if (menuX + menuWidth > window.innerWidth - 10) {
+    // Too far right, adjust leftward
+    menuX = window.innerWidth - menuWidth - 10;
+  }
+
+  return { menuX, menuY };
 }
 
 // Hook for easier usage
