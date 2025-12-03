@@ -131,7 +131,6 @@
 .modal-field {
   margin-bottom: 24px;
   position: relative;
-  isolation: isolate;
 }
 
 .modal-field input,
@@ -149,6 +148,8 @@
   transition: border-color 0.2s ease, border 0.2s, box-shadow 0.2s;
   resize: none;
   margin-top: 0px;
+  position: relative;
+  z-index: 1;
 }
 
 .modal-field input:focus,
@@ -175,6 +176,8 @@
   transform-origin: left center;
   transition: opacity 0.12s ease, top 0.12s ease, color 0.12s ease;
   z-index: 3;
+  text-shadow: -2px -2px 0 #282828, 2px -2px 0 #282828, -2px 2px 0 #282828,
+    2px 2px 0 #282828;
 }
 
 /* make label visible when input/textarea focused */
