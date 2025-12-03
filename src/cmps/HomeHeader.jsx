@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fallbackImage from "../assets/images/black_image.jpg";
-import { songs } from "../assets/data/songs";
 import { useDispatch } from "react-redux";
 import { updateSongObject } from "../store/actions/song.action";
+import { songService } from "../services/song/song.service";
+import { useExtractColors } from "react-extract-colors";
+import {
+  sortColorsByBrightness,
+} from "../services/util.service";
 
-const playlists = [
-  { id: 1, color: "#e91429", song: songs[0] },
-  { id: 2, color: "#1ed760", song: songs[1] },
-  { id: 3, color: "#f59b23", song: songs[2] },
-  { id: 4, color: "#006450", song: songs[3] },
-  { id: 5, color: "#8e66ac", song: songs[4] },
-  { id: 6, color: "#eb1e32", song: songs[5] },
-  { id: 7, color: "#535353", song: songs[6] },
-  { id: 8, color: "#1e3264", song: songs[7] },
-];
+const songs = await songService.query();
+
+const playlistsDemo = [];
+for (let i = 0; i < 8; i++) {
+  playlistsDemo.push({ _id: i+1, song: songs[i], thumbnail: songs[i].thumbnail });
+}
 
 const DEFAULT_COLOR = "#565656";
 
 export function HomeHeader() {
   const [headerColor, setHeaderColor] = useState(DEFAULT_COLOR);
+  const [playlists, setPlaylists] = useState(playlistsDemo);
+
   return (
     <div className="gradient-header" style={{ backgroundColor: headerColor }}>
       <div className="playlist-card-wrapper">
@@ -27,9 +29,8 @@ export function HomeHeader() {
           {playlists.map((playlist) => (
             <PlaylistCard
               song={playlist.song}
-              key={playlist.id}
-              onMouseEnter={() => setHeaderColor(playlist.color)}
-              onMouseLeave={() => setHeaderColor(playlists[0].color)}
+              key={playlist._id}
+              setHeaderColor={setHeaderColor}
             />
           ))}
         </div>
@@ -38,16 +39,27 @@ export function HomeHeader() {
   );
 }
 
-function PlaylistCard({ song, onMouseEnter, onMouseLeave }) {
+function PlaylistCard({ song, setHeaderColor }) {
+  const [mainColor, setMainColor] = useState("#fff");
   const dispatch = useDispatch();
+  const { colors } = useExtractColors(song.thumbnail);
+
+  useEffect(() => {
+    let sortedColors = sortColorsByBrightness(colors, 3);
+    setMainColor(sortedColors[0]);
+  }, [colors]);
+
   const changeToSong = (song) => {
     dispatch(updateSongObject(song));
   };
   return (
     <div
       className="playlist-card"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => {
+        setHeaderColor(mainColor);
+        console.log("main color", mainColor);
+      }}
+      onMouseLeave={() => setHeaderColor(DEFAULT_COLOR)}
     >
       <img
         className="playlist-image"
