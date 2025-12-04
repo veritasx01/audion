@@ -1,7 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSongObject, togglePlaying } from "../store/actions/song.action";
-import { addSong, removeSong } from "../store/actions/playlist.action.js";
+import {
+  addSong,
+  removeSong,
+  loadPlaylists,
+} from "../store/actions/playlist.action.js";
 import {
   ContextMenu,
   useContextMenu,
@@ -42,6 +46,11 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
     [playlists, playlist._id]
   );
+
+  // refresh library playlists when playlist changes (e.g., song added/removed)
+  useEffect(() => {
+    loadPlaylists();
+  }, [playlist._id]);
 
   // Clear focused row when context menu closes
   useEffect(() => {
