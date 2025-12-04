@@ -1,4 +1,5 @@
 import { togglePlaying } from "../store/actions/song.action";
+import { goToNextSong, goToPreviousSong } from "../store/actions/songQueue.action";
 import { SongProgress } from "./SongProgress";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,6 +8,10 @@ export function PlayerControls() {
   // this is not currently the case as the gap is equal, also the buttons don't have margins
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const dispatch = useDispatch();
+
+  const nextSong = () => dispatch(goToNextSong())
+  const prevSong = () => dispatch(goToPreviousSong());
+
   return (
     <div className="player-container flex column">
       <div className="generals-container flex align-center">
@@ -18,7 +23,7 @@ export function PlayerControls() {
             </span>
           </button>
           {/* previous button */}
-          <button className="smaller-button hov-enlarge">
+          <button className="smaller-button hov-enlarge" onClick={prevSong}>
             <span className="size-16" aria-hidden="true">
               {prevIcon()}
             </span>
@@ -35,7 +40,7 @@ export function PlayerControls() {
         </button>
         {/* next button */}
         <div style={{ marginLeft: "8px", display: "flex", gap: "8px" }}>
-          <button className="smaller-button hov-enlarge">
+          <button className="smaller-button hov-enlarge" onClick={nextSong}>
             <span className="size-16" aria-hidden="true">
               {nextIcon()}
             </span>

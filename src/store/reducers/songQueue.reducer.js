@@ -28,7 +28,6 @@ export function songQueueReducer(state = initialState, action) {
         }
         return { ...state, currentIndex: state.songQueue.length };
       }
-      console.log('index:', state.currentIndex + 1);
       return { ...state, currentIndex: state.currentIndex + 1 };
     case SET_SONG_QUEUE:
       return { ...state, songQueue: action.payload };
