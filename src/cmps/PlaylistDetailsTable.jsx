@@ -24,12 +24,6 @@ import {
 } from "../services/icon.service.jsx";
 import { showSuccessMsg } from "../services/event-bus.service.js";
 
-const ALL_COLUMNS = [
-  { key: "album", label: "Album" },
-  { key: "dateAdded", label: "Date Added" },
-  { key: "duration", label: "Duration" },
-];
-
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
   const [hoveredRow, setHoveredRow] = useState(null);
