@@ -34,9 +34,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const playingSongId = useSelector((store) => store.songModule.songObj._id);
   const playlists = useSelector((store) => store.playlistModule.playlists);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
-  const [visibleColumns, setVisibleColumns] = useState(
-    ALL_COLUMNS.map((c) => c.key)
-  );
 
   const otherPlaylists = useMemo(
     () =>
@@ -68,14 +65,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
-
-  function toggleColumns(columnKey) {
-    setVisibleColumns((columns) =>
-      columns.includes(columnKey)
-        ? columns.filter((c) => c !== columnKey)
-        : [...columns, columnKey]
-    );
-  }
 
   function setCurrentSong(song) {
     dispatch(updateSongObject(song));
@@ -239,18 +228,14 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   </div>
                 </div>
               </td>
-              {visibleColumns.includes("album") ? (
-                <td key="album">
-                  <div className="playlist-song-album">{song.albumName}</div>
-                </td>
-              ) : null}
-              {visibleColumns.includes("dateAdded") ? (
-                <td key="dateAdded">
-                  <div className="playlist-song-date-added">
-                    {song.addedAt ? formatDate(song.addedAt) : ""}
-                  </div>
-                </td>
-              ) : null}
+              <td key="album">
+                <div className="playlist-song-album">{song.albumName}</div>
+              </td>
+              <td key="dateAdded">
+                <div className="playlist-song-date-added">
+                  {song.addedAt ? formatDate(song.addedAt) : ""}
+                </div>
+              </td>
 
               <td className="playlist-song-add-action" key="add-action">
                 <button
@@ -265,11 +250,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   {checkmarkIcon({})}
                 </button>
               </td>
-              {visibleColumns.includes("duration") ? (
-                <td className="playlist-song-duration" key="duration">
-                  {song.duration ? formatSongDuration(song.duration) : ""}
-                </td>
-              ) : null}
+              <td className="playlist-song-duration" key="duration">
+                {song.duration ? formatSongDuration(song.duration) : ""}
+              </td>
               <td className="playlist-table-actions" key="actions">
                 <div className="playlist-row-actions">
                   <button
