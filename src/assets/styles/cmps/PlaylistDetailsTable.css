@@ -324,7 +324,7 @@
 /* More options actions column */
 .playlist-table-actions,
 .playlist-song-actions {
-  width: 56px;
+  width: 64px;
   text-align: right;
   padding: 12px 16px 12px 4px;
   margin: 4px;
@@ -363,7 +363,7 @@
 .playlist-table th.playlist-song-actions {
   cursor: default;
   user-select: none;
-  width: 56px;
+  width: 64px;
   text-align: right;
   padding: 12px 16px 12px 4px;
 }
