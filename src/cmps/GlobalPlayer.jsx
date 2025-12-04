@@ -4,6 +4,7 @@ import {
   updateCurrentDuration,
   setAudioEnded,
   updateSongObject,
+  togglePlaying,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
 import { useEffect, useRef } from "react";
@@ -43,16 +44,20 @@ export function GlobalPlayer() {
   */
   useEffect(() => {
     if (ended && songQueue.length > 0) {
-      dispatch(setAudioEnded(false)); 
       dispatch(goToNextSong());
     }
   }, [ended, dispatch, songQueue.length]);
 
   useEffect(() => {
+    if (index === songQueue.length) {
+      dispatch(togglePlaying());
+      return;
+    }
     if (songQueue && songQueue.length > 0) {
       const nextSong = songQueue[index];
       if (nextSong) {
         console.log("Loading song at index:", index, nextSong);
+        dispatch(setAudioEnded(false));
         dispatch(updateSongObject(nextSong));
       }
     }

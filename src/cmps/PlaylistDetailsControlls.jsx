@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removePlaylist } from "../store/actions/playlist.action.js";
-import { updateSongObject, togglePlaying } from "../store/actions/song.action";
+import { togglePlaying } from "../store/actions/song.action";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
@@ -38,7 +38,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
       dispatch(togglePlaying());
     } else {
       // Set the new song and start playing in one action
-      dispatch(updateSongObject(playlist.songs?.[0]));
+      //dispatch(updateSongObject(playlist.songs?.[0]));
       dispatch(togglePlaying());
     }
   }
