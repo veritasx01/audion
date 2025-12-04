@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {

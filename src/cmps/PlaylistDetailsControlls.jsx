@@ -34,13 +34,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
     }
-    if (currentlyPlayingSong._id === playlist.songs?.[0]?._id) {
-      dispatch(togglePlaying());
-    } else {
-      // Set the new song and start playing in one action
-      //dispatch(updateSongObject(playlist.songs?.[0]));
-      dispatch(togglePlaying());
-    }
+    dispatch(togglePlaying());
   }
 
   function onShowOptionsMenu(event) {
