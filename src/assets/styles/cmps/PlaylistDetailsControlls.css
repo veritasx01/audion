@@ -93,14 +93,14 @@
 }
 
 .playlist-shuffle-btn:hover {
-  background: none !important;
+  background: none;
   opacity: 1;
   transform: scale(1.1);
 }
 
 .playlist-shuffle-btn:focus,
 .playlist-shuffle-btn:active {
-  background: none !important;
+  background: none;
   outline: none;
 }
 
