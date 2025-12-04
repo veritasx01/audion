@@ -42,7 +42,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     () =>
       playlists
         .filter((pl) => pl._id !== playlist._id)
-        .map((pl) => ({ _id: pl._id, title: pl.title })),
+        .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
     [playlists, playlist._id]
   );
 
@@ -99,16 +99,18 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         id: "add-to-playlist",
         label: "Add to playlist",
         icon: addIcon({}),
-        submenu: otherPlaylists.map((otherPlaylist) => {
-          return {
-            id: `playlist-${otherPlaylist._id}`,
-            label: otherPlaylist.title,
-            onClick: () => {
-              addSong(otherPlaylist._id, song).then(() => loadPlaylist());
-              hideContextMenu();
-            },
-          };
-        }),
+        submenu: otherPlaylists
+          .filter((pl) => !pl.songs?.some((s) => s._id === song._id)) // exclude playlists that already contain the song
+          .map((otherPlaylist) => {
+            return {
+              id: `playlist-${otherPlaylist._id}`,
+              label: otherPlaylist.title,
+              onClick: () => {
+                addSong(otherPlaylist._id, song).then(() => loadPlaylist());
+                hideContextMenu();
+              },
+            };
+          }),
       },
       { type: "separator" },
       {
@@ -125,7 +127,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         label: "Save to Your Liked Songs",
         icon: addToCollectionIcon({}),
         onClick: () => {
-          onAddSong(playlist._id, song._id).then(() => loadPlaylist());
+          //onAddSong(playlist._id, song._id).then(() => loadPlaylist());
+          showSuccessMsg("To be implemented...");
           hideContextMenu();
         },
       },
