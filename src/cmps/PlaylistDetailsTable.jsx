@@ -91,24 +91,36 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       clientY: menuY,
     };
 
+    // construct relevant playlists that the selected song could be added to, for displaying them in submenu. Exclude playlists that already contain the song
+    const availablePlaylists = otherPlaylists.filter(
+      (pl) => !pl.songs?.some((s) => s._id === song._id)
+    );
+
     // Create menu items specific to the selected song
     const songMenuItems = [
       {
         id: "add-to-playlist",
         label: "Add to playlist",
         icon: addIcon({}),
-        submenu: otherPlaylists
-          .filter((pl) => !pl.songs?.some((s) => s._id === song._id)) // exclude playlists that already contain the song
-          .map((otherPlaylist) => {
-            return {
-              id: `playlist-${otherPlaylist._id}`,
-              label: otherPlaylist.title,
-              onClick: () => {
-                addSong(otherPlaylist._id, song).then(() => loadPlaylist());
-                hideContextMenu();
-              },
-            };
-          }),
+        submenu:
+          availablePlaylists.length > 0
+            ? availablePlaylists.map((otherPlaylist) => {
+                return {
+                  id: `playlist-${otherPlaylist._id}`,
+                  label: otherPlaylist.title,
+                  onClick: () => {
+                    addSong(otherPlaylist._id, song).then(() => loadPlaylist());
+                    hideContextMenu();
+                  },
+                };
+              })
+            : [
+                {
+                  id: "no-playlists-available",
+                  label: "No relevant playlists found",
+                  disabled: true,
+                },
+              ],
       },
       { type: "separator" },
       {
