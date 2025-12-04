@@ -442,7 +442,6 @@
   font-size: 1.1em;
   cursor: pointer;
   padding: 4px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -468,6 +467,19 @@
 .add-btn:active,
 .menu-btn:active {
   opacity: 1;
+}
+
+/* Remove circular background hover effects on buttons in focused rows */
+.playlist-table tr.focused .menu-btn:hover,
+.playlist-table tr.focused .add-btn:hover {
+  background: none;
+  border-radius: 0;
+}
+
+.playlist-table tr.focused .menu-btn,
+.playlist-table tr.focused .add-btn {
+  background: none;
+  border-radius: 0;
 }
 
 .playlist-title-btn {
