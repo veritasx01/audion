@@ -1,4 +1,5 @@
 import { HomeButton } from "./HomeButton";
+import { ProfileCircle } from "./ProfileCircle";
 import { SearchBar } from "./SearchBar";
 
 export function AppHeader() {
@@ -14,8 +15,8 @@ export function AppHeader() {
         <HomeButton />
         <SearchBar />
       </div>
-      <div>
-        <p>nav goes here</p>
+      <div style={{alignContent: "center", marginRight: "0.5rem"}}>
+        <ProfileCircle></ProfileCircle>
       </div>
     </header>
   );
