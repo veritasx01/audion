@@ -26,7 +26,7 @@ export function songQueueReducer(state = initialState, action) {
         if (state.isRepeating) {
           return { ...state, currentIndex: 0 };
         }
-        return state;
+        return { ...state, currentIndex: state.songQueue.length };
       }
       console.log('index:', state.currentIndex + 1);
       return { ...state, currentIndex: state.currentIndex + 1 };
