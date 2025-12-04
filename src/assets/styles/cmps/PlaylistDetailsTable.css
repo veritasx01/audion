@@ -97,6 +97,13 @@
   border-bottom: 1px solid #333;
 }
 
+/* Add visible spacing between header border and first row like Spotify */
+.playlist-table tbody::before {
+  content: "";
+  display: block;
+  height: 16px;
+}
+
 .playlist-table th {
   font-weight: 600;
   font-size: 1rem;
