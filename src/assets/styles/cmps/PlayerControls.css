@@ -14,6 +14,18 @@
   justify-content: center;
 }
 
+.left-buttons-container {
+  display: flex;
+  margin-right: 8px;
+  gap: 8px;
+}
+
+.right-buttons-container {
+  display: flex;
+  margin-left: 8px;
+  gap: 8px;
+}
+
 .player-button {
   width: 32px;
   height: 32px;
@@ -33,9 +45,4 @@
 
 .player-button:hover {
   background: white;
-}
-
-.green-hover svg:hover {
-  color: var(--text-bright-accent);
-  fill: var(--text-bright-accent);
 }

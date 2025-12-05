@@ -25,10 +25,10 @@ export function PlayerControls() {
     <div className="player-container flex column">
       <div className="generals-container flex align-center">
         {/* shuffle button */}
-        <div style={{ marginRight: "8px", display: "flex", gap: "8px" }}>
+        <div className="left-buttons-container">
           <button
             className={`smaller-button hov-enlarge${
-              isShuffle ? " green-hover" : ""
+              isShuffle ? " green-button" : ""
             }`}
             onClick={toggleSongShuffle}
           >
@@ -53,7 +53,7 @@ export function PlayerControls() {
           </span>
         </button>
         {/* next button */}
-        <div style={{ marginLeft: "8px", display: "flex", gap: "8px" }}>
+        <div className="right-buttons-container">
           <button className="smaller-button hov-enlarge" onClick={nextSong}>
             <span className="size-16" aria-hidden="true">
               {nextIcon()}
@@ -62,7 +62,7 @@ export function PlayerControls() {
           {/* enable repeat button */}
           <button
             className={`smaller-button hov-enlarge${
-              repeating ? " green-hover" : ""
+              repeating ? " green-button" : ""
             }`}
             onClick={toggleSongRepeat}
           >

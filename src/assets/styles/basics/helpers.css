@@ -57,3 +57,25 @@
 .debug * {
   outline: 1px solid gold;
 }
+
+.green-button {
+  color: var(--text-bright-accent);
+}
+.green-button svg:hover {
+  color: var(--text-bright-accent);
+  fill: var(--text-bright-accent);
+}
+
+.green-button::after {
+  background-color: currentcolor;
+  border-radius: 50%;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 4px !important;
+}
