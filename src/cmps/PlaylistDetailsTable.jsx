@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
@@ -13,6 +13,7 @@ import {
   addToCollectionIcon,
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
+import { seekSongQueueIndex, setSongQueue } from "../store/actions/songQueue.action.js";
 
 const ALL_COLUMNS = [
   { key: "album", label: "Album" },
@@ -192,7 +193,9 @@ export function PlaylistDetailsTable({
                         if (playingSongId === song._id && !isPlaying) {
                           dispatch(togglePlaying());
                         } else {
-                          setCurrentSong(song);
+                          //setCurrentSong(song);
+                          dispatch(setSongQueue([...playlist.songs]));
+                          dispatch(seekSongQueueIndex(idx));
                         }
                       }}
                       title="Play"

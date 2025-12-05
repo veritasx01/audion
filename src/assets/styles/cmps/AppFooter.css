@@ -44,3 +44,10 @@
 .smaller-button svg:hover {
   fill: white;
 }
+.smaller-button.green-button {
+  color: var(--text-bright-accent);
+}
+.smaller-button.green-button svg:hover {
+  fill: var(--text-bright-accent);
+  color: var(--text-bright-accent);
+}

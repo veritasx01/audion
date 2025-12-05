@@ -1,18 +1,21 @@
 import { VolumeBar } from "./VolumeBar";
 import { toggleNowPlaying } from "../store/actions/system.action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export function SongControls() {
   const dispatch = useDispatch();
+  const nowPlaying = useSelector((state) => state.systemModule.nowPlayingView);
   const toggleNowPlayingView = () => dispatch(toggleNowPlaying());
   return (
     <div>
       <div className="controls-container">
         <button
           onClick={toggleNowPlayingView}
-          className="controls-button hov-enlarge"
+          className={`controls-button hov-enlarge${
+            nowPlaying ? " green-button" : ""
+          }`}
         >
-          <span className="size-32">{nowPlayingIcon()}</span>
+          <span className="size-32">{nowPlayingIcon(nowPlaying)}</span>
         </button>
         <button className="controls-button hov-enlarge">
           <span className="size-32">{queueIcon()}</span>
@@ -26,7 +29,15 @@ export function SongControls() {
   );
 }
 
-function nowPlayingIcon() {
+function nowPlayingIcon(nowPlaying) {
+  if (nowPlaying) {
+    return (
+      <svg viewBox="0 0 16 16" fill="#1ed760">
+        <path d="M11.196 8 6 5v6z"></path>
+        <path d="M15.002 1.75A1.75 1.75 0 0 0 13.252 0h-10.5a1.75 1.75 0 0 0-1.75 1.75v12.5c0 .966.783 1.75 1.75 1.75h10.5a1.75 1.75 0 0 0 1.75-1.75zm-1.75-.25a.25.25 0 0 1 .25.25v12.5a.25.25 0 0 1-.25.25h-10.5a.25.25 0 0 1-.25-.25V1.75a.25.25 0 0 1 .25-.25z"></path>
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 16 16" fill="#b2b2b2">
       <path d="M11.196 8 6 5v6z"></path>

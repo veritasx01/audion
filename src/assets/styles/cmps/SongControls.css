@@ -20,6 +20,14 @@
 .controls-button svg:hover {
   fill: white;
 }
+.controls-button.green-button {
+  color: var(--text-bright-accent);
+}
+.controls-button.green-button svg:hover {
+  fill: var(--text-bright-accent);
+  color: var(--text-bright-accent);
+}
+
 .trans3 {
   transition-duration: 150ms;
 }

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { removePlaylist } from "../store/actions/playlist.action.js";
-import { updateSongObject, togglePlaying } from "../store/actions/song.action";
+import { togglePlaying } from "../store/actions/song.action";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
@@ -15,6 +15,8 @@ import {
   enableShuffleIcon,
   disableShuffleIcon,
 } from "../services/icon.service.jsx";
+import { clearSongQueue, setSongQueue } from "../store/actions/songQueue.action.js";
+import { arraysEqual } from "../services/util.service.js";
 
 export function PlaylistDetailsHeaderControlls({ playlist }) {
   const dispatch = useDispatch();
@@ -24,16 +26,15 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
   );
   const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
+  const songQueue = useSelector((state) => state.songQueueModule.songQueue);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   function handlePlayPause() {
-    if (currentlyPlayingSong._id === playlist.songs?.[0]?._id) {
-      dispatch(togglePlaying());
-    } else {
-      // Set the new song and start playing in one action
-      dispatch(updateSongObject(playlist.songs?.[0]));
-      dispatch(togglePlaying());
+    if (songQueue.length === 0 || !arraysEqual(songQueue, playlist.songs)) {
+      dispatch(clearSongQueue());
+      dispatch(setSongQueue([...playlist.songs]));
     }
+    dispatch(togglePlaying());
   }
 
   function onShowOptionsMenu(event) {
