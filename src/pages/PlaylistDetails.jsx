@@ -8,6 +8,7 @@ import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
 import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
 import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
 import { PlaylistDetailsTable } from "../cmps/PlaylistDetailsTable.jsx";
+import { PlaylistSongSearch } from "../cmps/PlaylistSongSearch.jsx";
 
 export function PlaylistDetails() {
   const navigate = useNavigate();
@@ -100,6 +101,10 @@ export function PlaylistDetails() {
         playlist={{ ...playlist }}
         loadPlaylist={loadPlaylist}
       />
+
+      {/* Song search section */}
+      <div className="playlist-header-separator" />
+      <PlaylistSongSearch playlist={playlist} loadPlaylist={loadPlaylist} />
     </div>
   );
 }

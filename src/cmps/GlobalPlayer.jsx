@@ -3,9 +3,12 @@ import ReactPlayer from "react-player";
 import {
   updateCurrentDuration,
   setAudioEnded,
+  updateSongObject,
+  togglePlaying,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
 import { useEffect, useRef } from "react";
+import { goToNextSong } from "../store/actions/songQueue.action";
 
 export function GlobalPlayer() {
   const playerRef = useRef(null);
@@ -13,7 +16,9 @@ export function GlobalPlayer() {
   const volume = useSelector((state) => state.songModule.volume);
   const globalSong = useSelector((state) => state.songModule.currentSong);
   const secs = useSelector((state) => state.songModule.secs);
-  const ended = useSelector((state) => state.songModule.ended);
+  const ended = useSelector((state) => state.songModule.hasEnded);
+  const songQueue = useSelector((state) => state.songQueueModule.songQueue);
+  const index = useSelector((state) => state.songQueueModule.currentIndex);
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchYoutube() {
@@ -27,6 +32,36 @@ export function GlobalPlayer() {
 
     fetchYoutube();
   }, [globalSong, dispatch]);
+  /*
+  useEffect(() => {
+    if (ended && songQueue.length > 0) {
+      dispatch(goToNextSong());
+      console.log("song queue: ", songQueue);
+      console.log("new index: ", index);
+      dispatch(updateSongObject(songQueue[index]));
+    }
+  }, [ended, dispatch, index, songQueue]);
+  */
+  useEffect(() => {
+    if (ended && songQueue.length > 0) {
+      dispatch(goToNextSong());
+    }
+  }, [ended, dispatch, songQueue.length]);
+
+  useEffect(() => {
+    if (index === songQueue.length) {
+      dispatch(togglePlaying());
+      return;
+    }
+    if (songQueue && songQueue.length > 0) {
+      const nextSong = songQueue[index];
+      if (nextSong) {
+        console.log("Loading song at index:", index, nextSong);
+        dispatch(setAudioEnded(false));
+        dispatch(updateSongObject(nextSong));
+      }
+    }
+  }, [index, songQueue, dispatch]);
 
   useEffect(() => {
     if (playerRef.current?.api?.seekTo) {

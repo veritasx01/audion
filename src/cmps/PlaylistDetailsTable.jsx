@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateSongObject, togglePlaying } from "../store/actions/song.action";
+import { togglePlaying } from "../store/actions/song.action";
 import {
   addSong,
   removeSong,
@@ -22,6 +22,10 @@ import {
   addToCollectionIcon,
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
+import {
+  seekSongQueueIndex,
+  setSongQueue,
+} from "../store/actions/songQueue.action.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
@@ -68,10 +72,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
-
-  function setCurrentSong(song) {
-    dispatch(updateSongObject(song));
-  }
 
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
@@ -202,7 +202,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                         if (playingSongId === song._id && !isPlaying) {
                           dispatch(togglePlaying());
                         } else {
-                          setCurrentSong(song);
+                          dispatch(setSongQueue([...playlist.songs]));
+                          dispatch(seekSongQueueIndex(idx));
                         }
                       }}
                       title="Play"

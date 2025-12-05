@@ -31,6 +31,7 @@ export function songReducer(state = initialState, action) {
     case SET_SONG_OBJ:
       return {
         ...state,
+        isPlaying: true, // autoplay songs, same behavior as spotify
         currentDuration: action.payload?.duration || 0,
         currentSong: action.payload?.url || '',
         songObj: { ...state.songObj, ...action.payload },
