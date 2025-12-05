@@ -20,12 +20,14 @@ export function MainView() {
         <YourLibrary />
       </div>
       <div className="main-view">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
-          <Route path="/search" element={<GenrePage />} />
-          <Route path="/search/:searchWord?" element={<SearchPage />} />
-        </Routes>
+        <div className="os-scroll-container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
+            <Route path="/search" element={<GenrePage />} />
+            <Route path="/search/:searchWord?" element={<SearchPage />} />
+          </Routes>
+        </div>
       </div>
       <div className="song-view" style={isHidden}>
         <h1>
