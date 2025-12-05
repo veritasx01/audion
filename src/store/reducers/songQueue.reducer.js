@@ -40,6 +40,8 @@ export function songQueueReducer(state = initialState, action) {
         return state;
       }
       return { ...state, currentIndex: action.payload };
+    case TOGGLE_REPEAT:
+      return { ...state, isRepeating: !state.isRepeating };
     default:
       return state;
   }
