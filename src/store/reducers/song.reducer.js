@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 export const SET_SONG = 'SET_SONG';
 export const SET_SONG_OBJ = 'SET_SONG_OBJ';
 export const TOGGLE_PLAYING = 'TOGGLE_PLAYING';
@@ -37,7 +38,8 @@ export function songReducer(state = initialState, action) {
         songObj: { ...state.songObj, ...action.payload },
       };
     case SET_SECS:
-      return { ...state, secs: action.payload };
+      const ended = action.payload >= state.currentDuration
+      return { ...state, secs: action.payload, hasEnded: ended };
     case SET_ENDED:
       return { ...state, hasEnded: action.payload };
     case SET_IS_READY:
