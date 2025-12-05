@@ -2,7 +2,6 @@
 .playlist-details {
   position: relative;
   height: 100vh;
-  overflow-y: auto;
   color: #fff;
   background: var(--background-base);
   font-family: "Inter", "Roboto", "Arial", sans-serif;

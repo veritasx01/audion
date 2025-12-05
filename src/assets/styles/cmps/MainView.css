@@ -23,9 +23,40 @@
 }
 
 .main-view {
-  overflow: auto;
+  overflow-y: hidden;
   border-radius: 8px;
   width: 100%;
   min-width: 0;
   min-height: 0;
+  scrollbar-color: hsla(0, 0%, 100%, 0.3) transparent;
+  scrollbar-width: thin;
+}
+
+.os-scroll-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: hsla(0, 0%, 100%, 0.3) transparent;
+}
+
+.os-scroll-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.os-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.os-scroll-container::-webkit-scrollbar-thumb {
+  background-color: hsla(0, 0%, 100%, 0.3);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.os-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: hsla(0, 0%, 100%, 0.5);
 }
