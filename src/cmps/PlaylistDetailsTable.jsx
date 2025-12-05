@@ -24,6 +24,7 @@ import {
 } from "../services/icon.service.jsx";
 import {
   seekSongQueueIndex,
+  setPlaylistId,
   setSongQueue,
 } from "../store/actions/songQueue.action.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
@@ -203,6 +204,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                           dispatch(togglePlaying());
                         } else {
                           dispatch(setSongQueue([...playlist.songs]));
+                          dispatch(setPlaylistId(playlist._id));
                           dispatch(seekSongQueueIndex(idx));
                         }
                       }}
