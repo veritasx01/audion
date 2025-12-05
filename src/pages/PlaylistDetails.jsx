@@ -1,43 +1,22 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useExtractColors } from "react-extract-colors";
 import { playlistService } from "../services/playlist.service";
-import {
-  updateRgbaColorsAlpha,
-  sortColorsByBrightness,
-} from "../services/util.service.js";
-import {
-  addSong,
-  removeSong,
-  updatePlaylistDetails,
-  removePlaylist,
-} from "../store/actions/playlist.action.js";
-import { updateSongObject, togglePlaying } from "../store/actions/song.action";
-import checkmarkIcon from "../assets/icons/checkmark.svg";
-
+import { sortColorsByBrightness } from "../services/util.service.js";
+import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
 import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
+import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
 import { PlaylistDetailsTable } from "../cmps/PlaylistDetailsTable.jsx";
 import { PlaylistSongSearch } from "../cmps/PlaylistSongSearch.jsx";
 
 export function PlaylistDetails() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [gradientColors, setGradientColors] = useState(null);
-  const isPlaying = useSelector((store) => store.songModule.isPlaying);
-  const playingSongId = useSelector((store) => store.songModule.songObj._id);
-  const playlists = useSelector((store) => store.playlistModule.playlists);
   const { colors } = useExtractColors(playlist?.thumbnail); // extract colors from playlist thumbnail for gradient background
-  const otherPlaylists = useMemo(
-    () =>
-      playlists
-        .filter((pl) => pl._id !== playlistId)
-        .map((pl) => ({ _id: pl._id, title: pl.title })),
-    [playlists, playlistId]
-  );
 
   useEffect(() => {
     loadPlaylist();
@@ -63,10 +42,6 @@ export function PlaylistDetails() {
       });
   }
 
-  function setCurrentSong(song) {
-    dispatch(updateSongObject(song));
-  }
-
   // util function for setting style for header gradient layers: background and a dark overlay
   function createGradientStyle() {
     const colorPalette =
@@ -86,6 +61,11 @@ export function PlaylistDetails() {
     updatePlaylistDetails(updatedPlaylist);
   }
 
+  const onOpenModal = () => {
+    setShowEditModal(true);
+    console.log("Opening edit modal");
+  };
+
   if (!playlist) return <div>Loading...</div>;
 
   return (
@@ -99,22 +79,26 @@ export function PlaylistDetails() {
         <div style={{ position: "relative", zIndex: 1 }}>
           <PlaylistDetailsHeader
             playlist={playlist}
-            onSavePlaylistDetails={onSavePlaylistDetails}
+            onOpenModal={onOpenModal}
           />
           <div className="playlist-header-separator" />
-          <PlaylistDetailsHeaderControlls playlist={playlist} />
+          <PlaylistDetailsHeaderControlls
+            playlist={playlist}
+            onOpenModal={onOpenModal}
+          />
         </div>
       </div>
+
+      <PlaylistDetailsEditModal
+        playlist={playlist}
+        showEditModal={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSavePlaylistDetails={onSavePlaylistDetails}
+      />
 
       {/* Table section without gradient */}
       <PlaylistDetailsTable
         playlist={{ ...playlist }}
-        playingSongId={playingSongId}
-        isPlaying={isPlaying}
-        setCurrentSong={setCurrentSong}
-        onRemoveSong={removeSong}
-        onAddSong={addSong}
-        otherPlaylists={otherPlaylists}
         loadPlaylist={loadPlaylist}
       />
 

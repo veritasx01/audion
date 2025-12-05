@@ -1,7 +1,16 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
-import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
+import {
+  addSong,
+  removeSong,
+  loadPlaylists,
+} from "../store/actions/playlist.action.js";
+import {
+  ContextMenu,
+  useContextMenu,
+  calculateMenuPosition,
+} from "./ContextMenu.jsx";
 import {
   playIcon,
   pauseIcon,
@@ -13,44 +22,40 @@ import {
   addToCollectionIcon,
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
-import { seekSongQueueIndex, setSongQueue } from "../store/actions/songQueue.action.js";
+import {
+  seekSongQueueIndex,
+  setSongQueue,
+} from "../store/actions/songQueue.action.js";
+import { showSuccessMsg } from "../services/event-bus.service.js";
 
-const ALL_COLUMNS = [
-  { key: "album", label: "Album" },
-  { key: "dateAdded", label: "Date Added" },
-  { key: "duration", label: "Duration" },
-];
-
-export function PlaylistDetailsTable({
-  playlist,
-  playingSongId,
-  isPlaying,
-  setCurrentSong,
-  onRemoveSong,
-  onAddSong,
-  otherPlaylists,
-  loadPlaylist,
-}) {
+export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
   const [hoveredRow, setHoveredRow] = useState(null);
   const [focusedRow, setFocusedRow] = useState(null);
+  const isPlaying = useSelector((store) => store.songModule.isPlaying);
+  const playingSongId = useSelector((store) => store.songModule.songObj._id);
+  const playlists = useSelector((store) => store.playlistModule.playlists);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
-  const [visibleColumns, setVisibleColumns] = useState(
-    ALL_COLUMNS.map((c) => c.key)
-  );
-  const [playlistDropdown, setPlaylistDropdown] = useState({
-    visible: false,
-    x: 0,
-    y: 0,
-    song: null,
-  });
 
-  // Clear focused row when context menu or dropdown closes
+  const otherPlaylists = useMemo(
+    () =>
+      playlists
+        .filter((pl) => pl._id !== playlist._id)
+        .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
+    [playlists, playlist._id]
+  );
+
+  // refresh library playlists when playlist changes (e.g., song added/removed)
   useEffect(() => {
-    if (!contextMenu.isVisible && !playlistDropdown.visible) {
+    loadPlaylists();
+  }, [playlist._id]);
+
+  // Clear focused row when context menu closes
+  useEffect(() => {
+    if (!contextMenu.isVisible) {
       setFocusedRow(null);
     }
-  }, [contextMenu.isVisible, playlistDropdown.visible]);
+  }, [contextMenu.isVisible]);
 
   // Handle clicks outside table to clear focus
   useEffect(() => {
@@ -68,24 +73,22 @@ export function PlaylistDetailsTable({
     };
   }, []);
 
-  function toggleColumns(columnKey) {
-    setVisibleColumns((columns) =>
-      columns.includes(columnKey)
-        ? columns.filter((c) => c !== columnKey)
-        : [...columns, columnKey]
-    );
-  }
-
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
     const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
 
-    // adjust menu location to the top-left of the button
+    const { menuX, menuY } = calculateMenuPosition(buttonRect);
+
     const modifiedEvent = {
       ...e,
-      clientX: buttonRect.left - 140,
-      clientY: buttonRect.top - 140,
+      clientX: menuX,
+      clientY: menuY,
     };
+
+    // construct relevant playlists that the selected song could be added to, for displaying them in submenu. Exclude playlists that already contain the song
+    const availablePlaylists = otherPlaylists.filter(
+      (pl) => !pl.songs?.some((s) => s._id === song._id)
+    );
 
     // Create menu items specific to the selected song
     const songMenuItems = [
@@ -93,20 +96,25 @@ export function PlaylistDetailsTable({
         id: "add-to-playlist",
         label: "Add to playlist",
         icon: addIcon({}),
-        submenu: otherPlaylists.map((otherPlaylist) => {
-          const playlistName =
-            otherPlaylist.name ||
-            otherPlaylist.title ||
-            `Playlist ${otherPlaylist._id}`;
-          return {
-            id: `playlist-${otherPlaylist._id}`,
-            label: playlistName,
-            onClick: () => {
-              onAddSong(otherPlaylist._id, song).then(() => loadPlaylist());
-              hideContextMenu();
-            },
-          };
-        }),
+        submenu:
+          availablePlaylists.length > 0
+            ? availablePlaylists.map((otherPlaylist) => {
+                return {
+                  id: `playlist-${otherPlaylist._id}`,
+                  label: otherPlaylist.title,
+                  onClick: () => {
+                    addSong(otherPlaylist._id, song).then(() => loadPlaylist());
+                    hideContextMenu();
+                  },
+                };
+              })
+            : [
+                {
+                  id: "no-playlists-available",
+                  label: "No relevant playlists found",
+                  disabled: true,
+                },
+              ],
       },
       { type: "separator" },
       {
@@ -114,7 +122,7 @@ export function PlaylistDetailsTable({
         label: "Remove from this playlist",
         icon: removeIcon({}),
         onClick: () => {
-          onRemoveSong(playlist._id, song._id).then(() => loadPlaylist());
+          removeSong(playlist._id, song._id).then(() => loadPlaylist());
           hideContextMenu();
         },
       },
@@ -123,7 +131,8 @@ export function PlaylistDetailsTable({
         label: "Save to Your Liked Songs",
         icon: addToCollectionIcon({}),
         onClick: () => {
-          onAddSong(playlist._id, song._id).then(() => loadPlaylist());
+          //onAddSong(playlist._id, song._id).then(() => loadPlaylist());
+          showSuccessMsg("To be implemented...");
           hideContextMenu();
         },
       },
@@ -193,7 +202,6 @@ export function PlaylistDetailsTable({
                         if (playingSongId === song._id && !isPlaying) {
                           dispatch(togglePlaying());
                         } else {
-                          //setCurrentSong(song);
                           dispatch(setSongQueue([...playlist.songs]));
                           dispatch(seekSongQueueIndex(idx));
                         }
@@ -236,44 +244,31 @@ export function PlaylistDetailsTable({
                   </div>
                 </div>
               </td>
-              {visibleColumns.includes("album") ? (
-                <td key="album">
-                  <div className="playlist-song-album">{song.albumName}</div>
-                </td>
-              ) : null}
-              {visibleColumns.includes("dateAdded") ? (
-                <td key="dateAdded">
-                  <div className="playlist-song-date-added">
-                    {song.addedAt ? formatDate(song.addedAt) : ""}
-                  </div>
-                </td>
-              ) : null}
+              <td key="album">
+                <div className="playlist-song-album">{song.albumName}</div>
+              </td>
+              <td key="dateAdded">
+                <div className="playlist-song-date-added">
+                  {song.addedAt ? formatDate(song.addedAt) : ""}
+                </div>
+              </td>
 
               <td className="playlist-song-add-action" key="add-action">
                 <button
                   className="add-btn"
-                  title="Add to playlist"
+                  title="Save to your Liked Songs"
                   onClick={(e) => {
                     e.preventDefault();
                     setFocusedRow(idx);
-                    // Position the dropdown near the button
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    setPlaylistDropdown({
-                      visible: true,
-                      x: rect.left - 150, // or rect.left, adjust as needed
-                      y: rect.bottom, // or rect.bottom
-                      song,
-                    });
+                    showSuccessMsg("To be implemented...");
                   }}
                 >
                   {checkmarkIcon({})}
                 </button>
               </td>
-              {visibleColumns.includes("duration") ? (
-                <td className="playlist-song-duration" key="duration">
-                  {song.duration ? formatSongDuration(song.duration) : ""}
-                </td>
-              ) : null}
+              <td className="playlist-song-duration" key="duration">
+                {song.duration ? formatSongDuration(song.duration) : ""}
+              </td>
               <td className="playlist-table-actions" key="actions">
                 <div className="playlist-row-actions">
                   <button

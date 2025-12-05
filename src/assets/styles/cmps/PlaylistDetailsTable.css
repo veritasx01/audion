@@ -18,7 +18,18 @@
   padding-top: 0;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
   position: relative;
-  z-index: 1;
+  outline: none;
+  border: none;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Disable any focus or selection artifacts on wrapper */
+.playlist-table-wrapper:focus,
+.playlist-table-wrapper:active {
+  outline: none;
+  border: none;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Table styles */
@@ -26,8 +37,48 @@
   width: 100%;
   border-collapse: collapse;
   color: #fff;
-  min-width: 700px;
+  min-width: 800px;
   table-layout: fixed;
+  outline: none;
+  border-spacing: 0;
+}
+
+/* Prevent any focus outlines or borders on table elements */
+.playlist-table,
+.playlist-table *,
+.playlist-table *:focus,
+.playlist-table *:active {
+  outline: none;
+  border-left: none;
+  border-right: none;
+  box-shadow: none;
+}
+
+/* Disable table selection and focus artifacts completely */
+.playlist-table-wrapper,
+.playlist-table {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Override any browser default table cell selection */
+.playlist-table th,
+.playlist-table td {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Prevent any table cell focus artifacts */
+.playlist-table th:focus,
+.playlist-table td:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background: inherit;
 }
 
 .playlist-table th,
@@ -46,11 +97,60 @@
   border-bottom: 1px solid #333;
 }
 
+/* Add visible spacing between header border and first row like Spotify */
+.playlist-table tbody::before {
+  content: "";
+  display: block;
+  height: 16px;
+}
+
 .playlist-table th {
   font-weight: 600;
   font-size: 1rem;
   background: transparent;
   user-select: none;
+  position: relative;
+}
+
+/* Completely disable hover effects on table headers */
+.playlist-table th:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+  outline: none;
+}
+
+/* Ensure no hover effects on any buttons or elements within table headers */
+.playlist-table th:hover *,
+.playlist-table th * {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+  outline: none;
+}
+
+/* Override any potential inherited hover styles from parent elements */
+.playlist-table thead tr:hover th {
+  background: transparent;
+}
+
+/* Prevent hover effects on thead row */
+.playlist-table thead tr:hover {
+  background: transparent;
+}
+
+/* Prevent any cursor changes on table headers */
+.playlist-table th {
+  cursor: default;
+}
+
+/* Override any button or interactive element styles within headers */
+.playlist-table th button,
+.playlist-table th svg,
+.playlist-table th * {
+  cursor: default;
 }
 
 .playlist-table th.song-number-col,
@@ -75,7 +175,7 @@
 }
 
 .playlist-table tr.focused td.song-number-col {
-  background: var(--background-tinted-press) !important;
+  background: var(--gray5);
 }
 
 .playlist-table tr {
@@ -90,12 +190,12 @@
 }
 
 .playlist-table tr.focused {
-  background: var(--background-tinted-press);
+  background: var(--gray5);
   border-radius: 8px;
 }
 
 .playlist-table tr.focused td {
-  background: var(--background-tinted-press) !important;
+  background: var(--gray5);
 }
 
 /* Ensure rounded corners work properly on first and last cells */
@@ -131,9 +231,9 @@
 
 .playlist-table th.playlist-song-title,
 .playlist-table td.playlist-song-title {
-  width: 240px; /* Further reduced for better space distribution */
-  min-width: 200px;
-  max-width: 260px;
+  width: 220px; /* Reduced for more space */
+  min-width: 180px;
+  max-width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 56px;
@@ -194,89 +294,105 @@
 /* Make album column narrower */
 .playlist-table th.playlist-song-album,
 .playlist-table td.playlist-song-album {
-  width: 160px !important;
-  min-width: 120px;
-  max-width: 180px;
+  width: 120px;
+  min-width: 100px;
+  max-width: 140px;
   text-align: left;
 }
 
 /* Make date added column more compact */
-.playlist-table th.playlist-song-date-added,
-.playlist-table td.playlist-song-date-added {
-  width: 100px !important;
+.playlist-table th.playlist-song-date-added {
+  width: 80px;
   min-width: 80px;
-  max-width: 120px;
+  max-width: 100px;
   text-align: left;
-  padding: 12px 6px;
+  padding: 12px 6px 12px 16px;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.playlist-table td.playlist-song-date-added {
+  width: 80px;
+  min-width: 80px;
+  max-width: 100px;
+  text-align: left;
+  padding: 12px 6px 12px 16px;
+  vertical-align: middle;
+  box-sizing: border-box;
 }
 
 /* More options actions column */
 .playlist-table-actions,
 .playlist-song-actions {
-  width: 40px !important;
-  min-width: 40px;
-  max-width: 40px;
-  text-align: center;
-  padding: 12px 0px !important;
+  width: 64px;
+  text-align: right;
+  padding: 12px 16px 12px 4px;
+  margin: 4px;
 }
 
 /* Add button column - adequate width to prevent overlap */
 .playlist-table th.playlist-song-add-action,
 .playlist-table td.playlist-song-add-action {
-  width: 40px !important;
-  min-width: 40px !important;
-  max-width: 40px !important;
-  text-align: center !important;
-  padding: 12px 2px 12px 4px !important;
-  margin: 0px !important;
+  width: 35px;
+  text-align: center;
+  padding: 12px 4px;
+  margin: 0px;
   position: relative;
   cursor: default;
   user-select: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Ensure add action column inherits row background on hover */
+.playlist-table tr.hovered td.playlist-song-add-action,
+.playlist-table tr:hover td.playlist-song-add-action {
+  background: #282828;
+}
+
+.playlist-table tr.focused td.playlist-song-add-action {
+  background: var(--gray5);
 }
 
 .playlist-table th.playlist-song-add-action:hover {
-  background: var(--background-base) !important;
-  color: inherit !important;
+  background: var(--background-base);
+  color: inherit;
 }
 
 /* Remove hover effects from action column headers */
 .playlist-table th.playlist-song-actions {
   cursor: default;
   user-select: none;
-  width: 40px !important;
-  min-width: 40px;
-  max-width: 40px;
-  text-align: center;
-  padding: 12px 0px !important;
+  width: 64px;
+  text-align: right;
+  padding: 12px 16px 12px 4px;
 }
 
 .playlist-table th.playlist-song-actions:hover {
-  background: var(--background-base) !important;
-  color: inherit !important;
+  background: var(--background-base);
+  color: inherit;
 }
 
 .playlist-song-duration {
-  width: 80px;
+  width: 60px;
   text-align: right;
   color: #b3b3b3;
   font-size: 0.97em;
 }
 
 .playlist-table th.playlist-song-duration {
-  text-align: right !important;
-  padding: 12px 4px 12px 0px !important;
-  width: 80px !important;
-  min-width: 80px !important;
-  max-width: 80px !important;
-  margin: 0px 0px 0px -20px !important;
+  text-align: right;
+  padding: 12px 6px 12px 10px;
+  width: 60px;
+  margin: 0px;
   position: relative;
 }
 
 .playlist-table td.playlist-song-duration {
-  text-align: right !important;
-  padding: 12px 4px 12px 0px !important;
-  width: 80px !important;
-  margin: 0px 0px 0px -20px !important;
+  text-align: right;
+  padding: 12px 6px 12px 10px;
+  width: 60px;
+  margin: 0px;
   position: relative;
 }
 
@@ -285,12 +401,6 @@
 .playlist-table th.menu-btn {
   cursor: default;
   user-select: none;
-}
-
-.playlist-table th.add-btn:hover,
-.playlist-table th.menu-btn:hover {
-  background: var(--background-base) !important;
-  color: inherit !important;
 }
 
 .playlist-row-actions {
@@ -316,7 +426,7 @@
 .song-play-pause-btn,
 .song-play-pause-btn:hover,
 .song-play-pause-btn:focus {
-  background: none !important;
+  background: none;
   border: none;
   outline: none;
   box-shadow: none;
@@ -332,7 +442,6 @@
   font-size: 1.1em;
   cursor: pointer;
   padding: 4px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,6 +469,19 @@
   opacity: 1;
 }
 
+/* Remove circular background hover effects on buttons in focused rows */
+.playlist-table tr.focused .menu-btn:hover,
+.playlist-table tr.focused .add-btn:hover {
+  background: none;
+  border-radius: 0;
+}
+
+.playlist-table tr.focused .menu-btn,
+.playlist-table tr.focused .add-btn {
+  background: none;
+  border-radius: 0;
+}
+
 .playlist-title-btn {
   background: none;
   border: none;
@@ -380,133 +502,10 @@
 .playlist-title-btn,
 .playlist-title-btn:hover,
 .playlist-title-btn:focus {
-  background: none !important;
-  border-radius: 0 !important;
+  background: none;
+  border-radius: 0;
   outline: none;
   box-shadow: none;
-}
-
-.playlist-edit-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.2s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-content {
-  background: #181818;
-  padding: 40px 32px 32px 32px;
-  border-radius: 16px;
-  min-width: 340px;
-  color: #fff;
-  font-family: "Inter", "Roboto", Arial, sans-serif;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  position: relative;
-}
-
-.modal-content h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
-}
-
-.modal-field {
-  position: relative;
-  margin-bottom: 24px;
-}
-
-.modal-field input,
-.modal-field textarea {
-  width: 100%;
-  padding: 22px 12px 8px 12px; /* more top padding */
-  background: #232323;
-  border: 1.5px solid #333;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 1.08rem;
-  outline: none;
-  transition: border 0.2s, box-shadow 0.2s;
-  resize: none;
-}
-
-.modal-field input:focus,
-.modal-field textarea:focus {
-  border: 1.5px solid #1ed760;
-  box-shadow: 0 0 0 2px #1ed76033;
-}
-
-.modal-field label {
-  position: absolute;
-  left: 12px;
-  top: -10px; /* sits on the border line - tweak value as needed */
-  padding: 0 6px;
-  background: #181818; /* match modal background so it looks embedded */
-  color: #b3b3b3;
-  font-size: 0.85rem;
-  line-height: 1;
-  border-radius: 6px;
-  pointer-events: none;
-  opacity: 0;
-  transform-origin: left center;
-  transition: opacity 0.12s ease, top 0.12s ease, color 0.12s ease;
-  z-index: 2;
-}
-/* show label when input/textarea focused */
-.modal-field input:focus + label,
-.modal-field textarea:focus + label {
-  top: -7px; /* slightly move up on focus for emphasis */
-  color: #1ed760;
-  opacity: 1;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.modal-actions button {
-  background: #232323;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.18s, color 0.18s;
-}
-
-.modal-actions button[type="submit"] {
-  background: #1ed760;
-  color: #181818;
-}
-
-.modal-actions button[type="submit"]:hover {
-  background: #1ad760;
-}
-
-.modal-actions button[type="button"]:hover {
-  background: #333;
-  color: #1ed760;
 }
 
 .now-playing-animation svg .bar {

@@ -118,10 +118,14 @@ export function ContextMenu({
       const maxAllowedHeight = Math.min(300, spaceBelow); // Don't exceed 300px or available space
       const needsScrolling = estimatedSubmenuHeight > maxAllowedHeight;
 
+      // Check if submenu would go off-screen on the right
+      const submenuWidth = 180;
+      const spaceOnRight = viewport.width - itemRect.right;
+      const shouldFlipLeft = spaceOnRight < submenuWidth + 20; // 20px buffer
+
       setSubmenuPosition({
-        x: itemRect.left - 170, // Slightly more space to prevent overlap
-        y: itemRect.top,
         maxHeight: needsScrolling ? maxAllowedHeight : undefined,
+        flipLeft: shouldFlipLeft,
       });
       setActiveSubmenu(index);
     } else {
@@ -204,47 +208,73 @@ export function ContextMenu({
               {item.shortcut && (
                 <span className="context-menu-shortcut">{item.shortcut}</span>
               )}
+
+              {/* Render submenu as child for CSS positioning */}
+              {item.submenu && activeSubmenu === index && (
+                <ul
+                  className={`context-menu context-submenu ${
+                    submenuPosition.flipLeft ? "flip-left" : ""
+                  }`}
+                  style={{
+                    maxHeight: submenuPosition.maxHeight
+                      ? `${submenuPosition.maxHeight}px`
+                      : "300px",
+                  }}
+                  onMouseEnter={handleSubmenuEnter}
+                  onMouseLeave={handleSubmenuLeave}
+                >
+                  {item.submenu.map((subItem, subIndex) => (
+                    <li
+                      key={subItem.id || subIndex}
+                      className={`context-menu-item ${
+                        subItem.disabled ? "disabled" : ""
+                      } ${subItem.danger ? "danger" : ""}`}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onMouseUp={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!subItem.disabled) {
+                          handleSubmenuItemClick(subItem);
+                        }
+                      }}
+                    >
+                      {subItem.icon && (
+                        <span className="context-menu-icon">
+                          {subItem.icon}
+                        </span>
+                      )}
+                      <span className="context-menu-text">{subItem.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           );
         })}
       </ul>
-
-      {/* Submenu */}
-      {activeSubmenu !== null && menuItems[activeSubmenu]?.submenu && (
-        <ul
-          className="context-menu context-submenu"
-          style={{
-            position: "fixed",
-            top: submenuPosition.y,
-            left: submenuPosition.x,
-            zIndex: 10001,
-            maxHeight: submenuPosition.maxHeight
-              ? `${submenuPosition.maxHeight}px`
-              : "300px",
-          }}
-          onMouseEnter={handleSubmenuEnter}
-          onMouseLeave={handleSubmenuLeave}
-        >
-          {menuItems[activeSubmenu].submenu.map((subItem, subIndex) => (
-            <li
-              key={subItem.id || subIndex}
-              className={`context-menu-item ${
-                subItem.disabled ? "disabled" : ""
-              } ${subItem.danger ? "danger" : ""}`}
-              onClick={() =>
-                !subItem.disabled && handleSubmenuItemClick(subItem)
-              }
-            >
-              {subItem.icon && (
-                <span className="context-menu-icon">{subItem.icon}</span>
-              )}
-              <span className="context-menu-text">{subItem.label}</span>
-            </li>
-          ))}
-        </ul>
-      )}
     </>
   );
+}
+
+// util function for calculating X & Y coordiantes of menu based on bounding rectangle of the clicked button/element
+export function calculateMenuPosition(boundingRectangle, menuWidth = 180) {
+  // Calculate  menu position with viewport awareness
+  let menuX = boundingRectangle.left - 160; // Default: left of button
+  let menuY = boundingRectangle.top + 10; // Default: below button
+
+  // Check viewport boundaries
+  if (menuX < 10) {
+    // Too far left, position to right of button
+    menuX = boundingRectangle.right - menuWidth;
+  } else if (menuX + menuWidth > window.innerWidth - 10) {
+    // Too far right, adjust leftward
+    menuX = window.innerWidth - menuWidth - 10;
+  }
+
+  return { menuX, menuY };
 }
 
 // Hook for easier usage

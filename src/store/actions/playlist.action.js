@@ -89,7 +89,9 @@ export function addSong(playlistId, song) {
           song: updatedPlaylist.songs.find((s) => s._id === song._id),
         },
       });
-      showSuccessMsg(`Song '${song.title}' successfully added to playlist`);
+      showSuccessMsg(
+        `Song '${song.title}' successfully added to playlist '${updatedPlaylist.title}'`
+      );
     })
     .catch((err) => {
       console.log("Playlist Actions: Having issues with adding song:", err);

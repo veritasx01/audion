@@ -110,11 +110,32 @@
   content: "";
   position: absolute;
   top: 0;
-  left: -15px; /* Extend hover area to the left towards submenu */
+  right: -2px; /* Extend hover area to the right towards submenu */
   bottom: 0;
-  width: 15px;
+  width: 2px;
   background: transparent;
   pointer-events: auto;
+}
+
+/* Position submenu relative to parent item for consistency */
+.context-menu-item.has-submenu {
+  position: relative;
+}
+
+.context-menu-item.has-submenu .context-submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 0px; /* No gap */
+  min-width: 180px;
+}
+
+/* Use JavaScript-controlled class to flip submenu when needed */
+.context-menu-item.has-submenu .context-submenu.flip-left {
+  left: auto;
+  right: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .context-menu-arrow {

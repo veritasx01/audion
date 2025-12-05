@@ -18,7 +18,7 @@ import {
 import { clearSongQueue, setSongQueue } from "../store/actions/songQueue.action.js";
 import { arraysEqual } from "../services/util.service.js";
 
-export function PlaylistDetailsHeaderControlls({ playlist }) {
+export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isShuffleEnabled = useSelector(
@@ -85,8 +85,7 @@ export function PlaylistDetailsHeaderControlls({ playlist }) {
       id: "edit",
       label: "Edit details",
       icon: editDetailsIcon({}),
-      onClick: () =>
-        showSuccessMsg("TBD - open edit playlist details modal..."),
+      onClick: onOpenModal,
     },
     {
       id: "delete",
