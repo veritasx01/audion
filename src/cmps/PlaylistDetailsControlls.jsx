@@ -76,7 +76,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
 
   // Define menu items for playlist options
   const playlistMenuItems = [
-    {
+    /*{
       id: "add-to-queue",
       label: "Add to queue",
       icon: addToQueueIcon({}),
@@ -85,7 +85,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
           "Added to queue (Not really, queue is not implemented yet...)"
         ),
     },
-    { type: "separator" },
+    { type: "separator" },*/
     {
       id: "edit",
       label: "Edit details",
