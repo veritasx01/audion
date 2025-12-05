@@ -8,6 +8,13 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  will-change: transform;
+}
+
+.profile-button:hover {
+  scale: 1.04;
+  transition-duration: 150ms;
+  background: #1e1e1e;
 }
 
 .profile-button-span {
@@ -18,4 +25,5 @@
   background: rgb(88, 155, 245);
   color: black;
   line-height: 32px;
+  font-weight: 700;
 }
