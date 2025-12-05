@@ -6,9 +6,11 @@ export const TOGGLE_REPEAT = 'TOGGLE_REPEAT';
 export const TOGGLE_REPEAT_CURRENT = 'TOGGLE_REPEAT_CURRENT';
 export const SET_SONG_QUEUE = 'SET_SONG_QUEUE';
 export const SEEK_INDEX = 'SEEK_INDEX';
+export const SET_PLAYLIST_ID = 'SET_PLAYLIST_ID';
 
 const initialState = {
   currentIndex: 0,
+  playlistId: null,
   songQueue: [],
   isRepeating: false,
   isShuffle: false,
@@ -17,7 +19,7 @@ const initialState = {
 export function songQueueReducer(state = initialState, action) {
   switch (action.type) {
     case CLEAR_QUEUE:
-      return { ...state, currentIndex: 0, songQueue: [] };
+      return { ...state, currentIndex: 0, songQueue: [], playlistId: null };
     case PREV_SONG:
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };
@@ -44,6 +46,8 @@ export function songQueueReducer(state = initialState, action) {
       return { ...state, isRepeating: !state.isRepeating };
     case TOGGLE_SHUFFLE:
       return { ...state, isShuffle: !state.isShuffle };
+    case SET_PLAYLIST_ID:
+      return { ...state, playlistId: action.payload };
     default:
       return state;
   }

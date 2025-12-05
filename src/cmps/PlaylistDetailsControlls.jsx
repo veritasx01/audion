@@ -15,7 +15,11 @@ import {
   enableShuffleIcon,
   disableShuffleIcon,
 } from "../services/icon.service.jsx";
-import { clearSongQueue, setSongQueue } from "../store/actions/songQueue.action.js";
+import {
+  clearSongQueue,
+  setPlaylistId,
+  setSongQueue,
+} from "../store/actions/songQueue.action.js";
 import { arraysEqual } from "../services/util.service.js";
 
 export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
@@ -33,6 +37,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     if (songQueue.length === 0 || !arraysEqual(songQueue, playlist.songs)) {
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
+      dispatch(setPlaylistId(playlist._id));
     }
     dispatch(togglePlaying());
   }
