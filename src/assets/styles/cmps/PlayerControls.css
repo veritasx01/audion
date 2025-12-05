@@ -35,7 +35,7 @@
   background: white;
 }
 
-.shuffle-button-on svg:hover {
+.green-hover svg:hover {
   color: var(--text-bright-accent);
   fill: var(--text-bright-accent);
 }

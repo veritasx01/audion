@@ -42,6 +42,8 @@ export function songQueueReducer(state = initialState, action) {
       return { ...state, currentIndex: action.payload };
     case TOGGLE_REPEAT:
       return { ...state, isRepeating: !state.isRepeating };
+    case TOGGLE_SHUFFLE:
+      return { ...state, isShuffle: !state.isShuffle };
     default:
       return state;
   }

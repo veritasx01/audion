@@ -3,6 +3,7 @@ import {
   goToNextSong,
   goToPreviousSong,
   toggleRepeat,
+  toggleShuffle,
 } from "../store/actions/songQueue.action";
 import { SongProgress } from "./SongProgress";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,20 +13,27 @@ export function PlayerControls() {
   // this is not currently the case as the gap is equal, also the buttons don't have margins
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const repeating = useSelector((state) => state.songQueueModule.isRepeating);
+  const isShuffle = useSelector((state) => state.songQueueModule.isShuffle);
   const dispatch = useDispatch();
 
   const nextSong = () => dispatch(goToNextSong());
   const prevSong = () => dispatch(goToPreviousSong());
   const toggleSongRepeat = () => dispatch(toggleRepeat());
+  const toggleSongShuffle = () => dispatch(toggleShuffle());
 
   return (
     <div className="player-container flex column">
       <div className="generals-container flex align-center">
         {/* shuffle button */}
         <div style={{ marginRight: "8px", display: "flex", gap: "8px" }}>
-          <button className="smaller-button hov-enlarge">
+          <button
+            className={`smaller-button hov-enlarge${
+              isShuffle ? " green-hover" : ""
+            }`}
+            onClick={toggleSongShuffle}
+          >
             <span className="size-16" aria-hidden="true">
-              {shuffleIcon()}
+              {shuffleIcon(isShuffle)}
             </span>
           </button>
           {/* previous button */}
@@ -54,7 +62,7 @@ export function PlayerControls() {
           {/* enable repeat button */}
           <button
             className={`smaller-button hov-enlarge${
-              repeating ? " shuffle-button-on" : ""
+              repeating ? " green-hover" : ""
             }`}
             onClick={toggleSongRepeat}
           >
@@ -69,7 +77,15 @@ export function PlayerControls() {
   );
 }
 
-function shuffleIcon() {
+function shuffleIcon(on) {
+  if (on) {
+    return (
+      <svg viewBox="0 0 16 16" fill="#1ed760">
+        <path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"></path>
+        <path d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"></path>
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 16 16" fill="#b2b2b2">
       <path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"></path>
