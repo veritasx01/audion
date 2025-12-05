@@ -30,11 +30,14 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   );
   const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
-  const songQueue = useSelector((state) => state.songQueueModule.songQueue);
+  const queueState = useSelector((state) => state.songQueueModule);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   function handlePlayPause() {
-    if (songQueue.length === 0 || !arraysEqual(songQueue, playlist.songs)) {
+    if (
+      queueState.songQueue.length === 0 ||
+      !arraysEqual(queueState.songQueue, playlist.songs)
+    ) {
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
       dispatch(setPlaylistId(playlist._id));
@@ -115,10 +118,14 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {/* Play/Pause Button */}
         <button
           className="playlist-play-pause-btn"
-          title={`${isNowPlaying ? "Pause" : "Play"} ${playlist.title}`}
+          title={`${
+            isNowPlaying && playlist._id === queueState?.playlistId
+              ? "Pause"
+              : "Play"
+          } ${playlist.title}`}
           onClick={() => handlePlayPause()}
         >
-          {isNowPlaying && currentlyPlayingSong._id === playlist.songs?.[0]?._id
+          {isNowPlaying && playlist._id === queueState?.playlistId
             ? pauseIcon({})
             : playIcon({})}
         </button>
