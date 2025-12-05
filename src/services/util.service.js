@@ -11,9 +11,9 @@ export const utilService = {
 };
 
 export function makeId(length = 16) {
-  var txt = "";
+  var txt = '';
   var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (var i = 0; i < length; i++) {
     txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -23,43 +23,43 @@ export function makeId(length = 16) {
 
 export function makeLorem(size = 100) {
   var words = [
-    "The sky",
-    "above",
-    "the port",
-    "was",
-    "the color of television",
-    "tuned",
-    "to",
-    "a dead channel",
-    ".",
-    "All",
-    "this happened",
-    "more or less",
-    ".",
-    "I",
-    "had",
-    "the story",
-    "bit by bit",
-    "from various people",
-    "and",
-    "as generally",
-    "happens",
-    "in such cases",
-    "each time",
-    "it",
-    "was",
-    "a different story",
-    ".",
-    "It",
-    "was",
-    "a pleasure",
-    "to",
-    "burn",
+    'The sky',
+    'above',
+    'the port',
+    'was',
+    'the color of television',
+    'tuned',
+    'to',
+    'a dead channel',
+    '.',
+    'All',
+    'this happened',
+    'more or less',
+    '.',
+    'I',
+    'had',
+    'the story',
+    'bit by bit',
+    'from various people',
+    'and',
+    'as generally',
+    'happens',
+    'in such cases',
+    'each time',
+    'it',
+    'was',
+    'a different story',
+    '.',
+    'It',
+    'was',
+    'a pleasure',
+    'to',
+    'burn',
   ];
-  var txt = "";
+  var txt = '';
   while (size > 0) {
     size--;
-    txt += words[Math.floor(Math.random() * words.length)] + " ";
+    txt += words[Math.floor(Math.random() * words.length)] + ' ';
   }
   return txt;
 }
@@ -103,9 +103,9 @@ function extractYouTubeId(url) {
 }
 const key = import.meta.env.VITE_YOUTUBE_API_KEY;
 export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
-  if (!videoUrl || videoUrl === "") return 0;
+  if (!videoUrl || videoUrl === '') return 0;
   const videoId = extractYouTubeId(videoUrl);
-  if (!videoId) throw new Error("Invalid YouTube URL");
+  if (!videoId) throw new Error('Invalid YouTube URL');
 
   const response = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${apiKey}`
@@ -113,7 +113,7 @@ export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
   const data = await response.json();
 
   const isoDuration = data.items?.[0]?.contentDetails?.duration;
-  if (!isoDuration) throw new Error("Duration not found");
+  if (!isoDuration) throw new Error('Duration not found');
 
   // Convert ISO 8601 duration (e.g., PT4M13S) → seconds
   return isoDurationToSeconds(isoDuration);
@@ -129,7 +129,7 @@ function isoDurationToSeconds(iso) {
 
 export function getRandomValues(arr, m = 1) {
   if (m > arr.length) {
-    throw new Error("m cannot be larger than array length");
+    throw new Error('m cannot be larger than array length');
   }
 
   const indices = Array.from({ length: arr.length }, (_, i) => i);
@@ -144,7 +144,7 @@ export function getRandomValues(arr, m = 1) {
 export function formatTimeFromSecs(secs) {
   secs = Math.floor(secs);
   const minutes = String(Math.floor(secs / 60));
-  const seconds = String(secs % 60).padStart(2, "0");
+  const seconds = String(secs % 60).padStart(2, '0');
   const formattedTime = `${minutes}:${seconds}`;
   return formattedTime;
 }
@@ -168,13 +168,13 @@ function _calculateBrightness(color) {
   let r, g, b;
 
   // Handle both hex and rgba formats
-  if (color.startsWith("#")) {
+  if (color.startsWith('#')) {
     // Hex format
-    const hex = color.replace("#", "");
+    const hex = color.replace('#', '');
     r = parseInt(hex.substring(0, 2), 16);
     g = parseInt(hex.substring(2, 4), 16);
     b = parseInt(hex.substring(4, 6), 16);
-  } else if (color.startsWith("rgba(")) {
+  } else if (color.startsWith('rgba(')) {
     // RGBA format - extract RGB values
     const matches = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
     if (matches) {
@@ -207,14 +207,27 @@ export function sortColorsByBrightness(colors, maxColorsToReturn = 3) {
   return sortedColors;
 }
 
+// array utils
+
 export function arraysEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
-    return false; 
+    return false;
   }
   for (let i = 0; i < arr1.length; i++) {
     if (arr1[i] !== arr2[i]) {
-      return false; 
+      return false;
     }
   }
   return true;
+}
+
+export function shuffleArray(array) {
+  const arrayCopy = [...array];
+
+  for (let i = arrayCopy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+  }
+
+  return arrayCopy;
 }
