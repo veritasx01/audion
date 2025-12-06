@@ -95,7 +95,6 @@
 .playlist-shuffle-btn:hover {
   background: none;
   opacity: 1;
-  transform: scale(1.1);
 }
 
 .playlist-shuffle-btn:focus,
@@ -104,10 +103,23 @@
   outline: none;
 }
 
+.playlist-shuffle-btn {
+  position: relative;
+}
+
 .playlist-shuffle-btn svg {
   width: 40px;
   height: 40px;
   opacity: 1;
+}
+
+.playlist-shuffle-btn.green-button::after {
+  bottom: 4px;
+  transform: translateX(-50%);
+}
+
+.playlist-shuffle-btn.green-button:hover::after {
+  transform: translateX(-50%) scale(1.05);
 }
 
 /* Context Menu */

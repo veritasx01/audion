@@ -131,7 +131,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         </button>
         {/* Enable/Disable Shuffle Button */}
         <button
-          className={`playlist-shuffle-btn ${
+          className={`playlist-shuffle-btn hov-enlarge ${
             isShuffleEnabled ? "green-button" : ""
           }`}
           title={`${
