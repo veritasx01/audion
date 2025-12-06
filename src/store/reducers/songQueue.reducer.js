@@ -1,3 +1,8 @@
+import {
+  getRandomExcept,
+} from '../../services/util.service';
+
+/* eslint-disable no-case-declarations */
 export const CLEAR_QUEUE = 'CLEAR_QUEUE';
 export const PREV_SONG = 'PREV_SONG';
 export const NEXT_SONG = 'NEXT_SONG';
@@ -10,6 +15,7 @@ export const SEEK_INDEX = 'SEEK_INDEX';
 const initialState = {
   currentIndex: 0,
   songQueue: [],
+  shuffleArray: [],
   isRepeating: false,
   isShuffle: false,
 };
@@ -22,6 +28,19 @@ export function songQueueReducer(state = initialState, action) {
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };
     case NEXT_SONG:
+      if (state.isShuffle) {
+        if (state.songQueue.length <= 1) {
+          return state;
+        }
+        return {
+          ...state,
+          currentIndex: getRandomExcept(
+            0,
+            state.songQueue.length - 1,
+            state.currentIndex
+          ),
+        };
+      }
       if (state.currentIndex === state.songQueue.length - 1) {
         if (state.isRepeating) {
           return { ...state, currentIndex: 0 };
