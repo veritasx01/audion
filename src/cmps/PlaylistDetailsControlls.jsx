@@ -19,6 +19,7 @@ import {
   clearSongQueue,
   setPlaylistId,
   setSongQueue,
+  toggleShuffle,
 } from "../store/actions/songQueue.action.js";
 import { arraysEqual } from "../services/util.service.js";
 
@@ -26,7 +27,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isShuffleEnabled = useSelector(
-    (state) => state.playlistModule.isShuffle
+    (state) => state.songQueueModule.isShuffle
   );
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
@@ -134,13 +135,14 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
           title={`${
             isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
           } for ${playlist.title}`}
-          onClick={() =>
+          onClick={() => {
+            dispatch(toggleShuffle());
             showSuccessMsg(
               `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
                 playlist.title
               }`
-            )
-          }
+            );
+          }}
         >
           {isShuffleEnabled ? disableShuffleIcon({}) : enableShuffleIcon({})}
         </button>
