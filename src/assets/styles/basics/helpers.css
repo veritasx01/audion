@@ -24,6 +24,11 @@
   transform: scale(1.04);
 }
 
+.hov-enlarge:hover {
+  transition-duration: 50ms;
+  transform: scale(1.04);
+}
+
 .hov-enlarge:active {
   opacity: 0.7;
   transform: scale(1);

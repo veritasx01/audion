@@ -117,18 +117,24 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
                     className="song-thumbnail"
                   />
                   <div className="song-details">
-                    <div className="song-title">{song.title}</div>
-                    <div className="song-artist">{song.artist}</div>
+                    <div className="song-title" title="Song title">
+                      {song.title}
+                    </div>
+                    <div className="song-artist" title="Artist">
+                      {song.artist}
+                    </div>
                   </div>
                 </div>
-                <div className="song-album">{song.albumName}</div>
-                <div className="song-duration">
+                <div className="song-album" title="Album">
+                  {song.albumName}
+                </div>
+                <div className="song-duration" title="Song Duration">
                   {formatDuration(song.duration)}
                 </div>
                 <button
-                  className="add-song-btn"
+                  className="add-song-btn hov-enlarge"
                   onClick={() => handleAddSong(song)}
-                  title={`Add "${song.title}" to playlist`}
+                  title={`Add "${song.title}" to playlist "${playlist.title}"`}
                 >
                   Add
                 </button>

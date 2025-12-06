@@ -134,7 +134,7 @@
 
 .search-result-item {
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
+  grid-template-columns: 2fr 1fr 80px 80px;
   gap: 16px;
   align-items: center;
   padding: 8px 0px 8px 12px; /* Add left padding for thumbnail spacing */
@@ -178,7 +178,7 @@
 }
 
 .song-artist {
-  color: var(--gray5);
+  color: var(--text-base);
   font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -186,30 +186,28 @@
 }
 
 .song-album {
-  color: var(--gray5);
+  color: var(--text-base);
   font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  justify-self: start;
+  text-align: left;
 }
 
 .song-duration {
-  color: var(--gray5);
+  color: var(--text-base);
   font-size: 13px;
-  text-align: right;
-  width: 50px;
-  flex-shrink: 0;
+  text-align: left;
 }
 
 .add-song-btn {
   background: transparent;
   border: 1px solid var(--gray5);
-  color: var(--gray5);
+  color: var(--text-base);
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -220,6 +218,7 @@
   border-color: var(--text-base);
   color: var(--text-base);
   background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.04);
 }
 
 .no-results {
