@@ -20,7 +20,7 @@
   border: 0;
   border-radius: 8px;
   cursor: default;
-  overflow-x: hidden;
+  overflow: hidden; /* Prevent any scrollbars on main container */
 }
 
 .library-header {
@@ -519,53 +519,61 @@
   }
 }
 
-/* Library list container with hover-only scrollbar */
+/* Library list container - hide scrollbar but add visual indicator */
 .library-list {
   flex: 1;
-  overflow: hidden;
   margin-left: 12px;
-}
-
-/* The list itself - hide scrollbar by default */
-.your-library-list {
-  height: 100%;
   overflow-y: auto;
-  padding-right: 20px;
-  width: calc(100% + 20px);
-  margin-right: -20px;
+  position: relative;
 
-  /* Cross-browser scrollbar hiding */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  /* Completely hide all scrollbars always */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.your-library-list::-webkit-scrollbar {
-  display: none; /* Webkit browsers */
-}
-
-/* Show scrollbar on library-list hover */
-.library-list:hover .your-library-list {
-  padding-right: 8px;
-  width: 100%;
-  margin-right: 0;
-  scrollbar-width: thin; /* Firefox */
-}
-
-.library-list:hover .your-library-list::-webkit-scrollbar {
-  display: block;
+/* Real scrollbar elements */
+.custom-scrollbar {
+  position: fixed;
   width: 12px;
-  background: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
 }
 
-.library-list:hover .your-library-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 0;
+.custom-scrollbar-track {
+  width: 100%;
+  height: 100%;
+  background: rgba(100, 100, 100, 0.3);
+  border-radius: 5px;
 }
 
-.library-list:hover .your-library-list::-webkit-scrollbar-track {
-  background: transparent;
+.custom-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(179, 179, 179, 0.8);
+  border-radius: 5px;
 }
 
-.library-list:hover .your-library-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+/* When collapsed, force perfect centering */
+.library-list:has(.your-library-list.collapsed) {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+/* Always hide webkit scrollbars */
+.library-list::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+/* Show custom scrollbar on hover and during scroll */
+.library-list:hover + .custom-scrollbar,
+.library-list.scrolling + .custom-scrollbar {
+  opacity: 1;
 }

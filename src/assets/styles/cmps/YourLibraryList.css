@@ -5,20 +5,30 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
+  min-height: 100%; /* Ensure full height */
 }
 
-.your-library-list li {
+/* Expanded mode - take full width */
+.your-library-list:not(.collapsed) {
   width: 100%;
 }
 
-.your-library-list::-webkit-scrollbar {
-  width: 6px;
+.your-library-list:not(.collapsed) li {
+  width: 100%;
 }
 
-.your-library-list::-webkit-scrollbar-thumb {
-  background-color: #555;
-  border-radius: 3px;
+/* Collapsed mode - ensure perfect centering */
+.your-library-list.collapsed {
+  width: fit-content; /* Only as wide as content */
+  align-items: center;
+  margin: 0 auto; /* Force center even if parent flexbox fails */
+}
+
+.your-library-list.collapsed li {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto; /* Double ensure centering */
 }
 
 .your-library-list-preview {
@@ -56,18 +66,4 @@
 .your-library-list-preview button:hover {
   background-color: #3a3a3a;
   color: #fff;
-}
-
-/* Move scrollbar settings to parent container */
-
-.scrollable-library-list.collapsed {
-  margin: 0;
-}
-
-.library-container:hover .scrollable-library-list {
-  overflow-y: overlay;
-}
-
-.your-library-list.collapsed {
-  max-height: 100%;
 }
