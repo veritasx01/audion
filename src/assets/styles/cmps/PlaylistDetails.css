@@ -31,3 +31,9 @@
   margin: 4px;
   border-radius: 2px;
 }
+
+.find-more-section {
+  padding: 8px 20px; /* Match search component padding */
+  display: flex;
+  justify-content: flex-start;
+}

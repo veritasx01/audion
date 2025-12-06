@@ -4,11 +4,9 @@ import { addSong } from "../store/actions/playlist.action.js";
 import { searchIcon, clearIcon } from "../services/icon.service.jsx";
 import { useDebounce } from "../customHooks/useDebounce.js";
 
-export function PlaylistSongSearch({ playlist, loadPlaylist }) {
+export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-  // Auto-expand if playlist has no songs, otherwise start collapsed
-  const [isExpanded, setIsExpanded] = useState(playlist.songs?.length === 0);
 
   const debouncedSetSearch = useDebounce((query) => {
     setDebouncedSearchQuery(query);
@@ -57,111 +55,99 @@ export function PlaylistSongSearch({ playlist, loadPlaylist }) {
 
   return (
     <div className="playlist-song-search">
-      {!isExpanded ? (
-        <div className="search-header">
-          <button className="find-more-btn" onClick={() => setIsExpanded(true)}>
-            Find more
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="search-header">
-            <h3>Let's find something for your playlist</h3>
+      <div className="search-header">
+        <h3>Let's find something for your playlist</h3>
+      </div>
+      <div className="search-controls">
+        <div className="search-input-container">
+          <div className="search-icon">
+            {searchIcon({ height: 16, width: 16 })}
           </div>
-          <div className="search-controls">
-            <div className="search-input-container">
-              <div className="search-icon">
-                {searchIcon({ height: 16, width: 16 })}
-              </div>
-              <input
-                type="text"
-                placeholder="Search for songs"
-                value={searchQuery}
-                onChange={(e) => {
-                  const query = e.target.value;
-                  setSearchQuery(query);
-                  debouncedSetSearch(query);
-                }}
-                className="search-input"
-                title="Search for songs to add to this playlist by either song title, artist, or album"
-              />
-              {searchQuery && (
-                <button
-                  className="clear-search-btn"
-                  onClick={() => {
-                    setSearchQuery("");
-                    setDebouncedSearchQuery("");
-                  }}
-                  title="Clear search"
-                >
-                  {clearIcon({
-                    height: 16,
-                    width: 16,
-                    fill: "var(--text-base)",
-                  })}
-                </button>
-              )}
-            </div>
+          <input
+            type="text"
+            placeholder="Search for songs"
+            value={searchQuery}
+            onChange={(e) => {
+              const query = e.target.value;
+              setSearchQuery(query);
+              debouncedSetSearch(query);
+            }}
+            className="search-input"
+            title="Search for songs to add to this playlist by either song title, artist, or album"
+          />
+          {searchQuery && (
             <button
-              className="close-search-btn"
+              className="clear-search-btn"
               onClick={() => {
-                setIsExpanded(false);
                 setSearchQuery("");
                 setDebouncedSearchQuery("");
               }}
-              title="Close search"
+              title="Clear search"
             >
-              {clearIcon({ height: 24, width: 24, fill: "var(--text-base)" })}
+              {clearIcon({
+                height: 16,
+                width: 16,
+                fill: "var(--text-base)",
+              })}
             </button>
-          </div>
-        </>
-      )}
-
-      {isExpanded && (
-        <div className="search-results">
-          {searchQuery && filteredSongs.length > 0 ? (
-            <ul className="results-list">
-              {filteredSongs.map((song) => (
-                <li key={song._id} className="search-result-item">
-                  <div className="song-info">
-                    <img
-                      src={song.thumbnail}
-                      alt={song.title}
-                      className="song-thumbnail"
-                    />
-                    <div className="song-details">
-                      <div className="song-title">{song.title}</div>
-                      <div className="song-artist">{song.artist}</div>
-                    </div>
-                  </div>
-                  <div className="song-album">{song.albumName}</div>
-                  <div className="song-duration">
-                    {formatDuration(song.duration)}
-                  </div>
-                  <button
-                    className="add-song-btn"
-                    onClick={() => handleAddSong(song)}
-                    title={`Add "${song.title}" to playlist`}
-                  >
-                    Add
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            searchQuery &&
-            debouncedSearchQuery && (
-              <div className="no-results">
-                <h3>No results found for "{debouncedSearchQuery}"</h3>
-                <p>
-                  Please make sure your words are spelled correctly, or use
-                  fewer or different keywords.
-                </p>
-              </div>
-            )
           )}
         </div>
-      )}
+        <button
+          className="close-search-btn"
+          onClick={() => {
+            onClose();
+            setSearchQuery("");
+            setDebouncedSearchQuery("");
+          }}
+          title="Close search"
+        >
+          {clearIcon({ height: 24, width: 24, fill: "var(--text-base)" })}
+        </button>
+      </div>
+
+      <div className="search-results">
+        {searchQuery && filteredSongs.length > 0 ? (
+          <ul className="results-list">
+            {filteredSongs.map((song) => (
+              <li key={song._id} className="search-result-item">
+                <div className="song-info">
+                  <img
+                    src={song.thumbnail}
+                    alt={song.title}
+                    className="song-thumbnail"
+                  />
+                  <div className="song-details">
+                    <div className="song-title">{song.title}</div>
+                    <div className="song-artist">{song.artist}</div>
+                  </div>
+                </div>
+                <div className="song-album">{song.albumName}</div>
+                <div className="song-duration">
+                  {formatDuration(song.duration)}
+                </div>
+                <button
+                  className="add-song-btn"
+                  onClick={() => handleAddSong(song)}
+                  title={`Add "${song.title}" to playlist`}
+                >
+                  Add
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          searchQuery &&
+          debouncedSearchQuery && (
+            <div className="no-results">
+              <h3>No results found for "{debouncedSearchQuery}"</h3>
+              <p>
+                Please make sure your words are spelled correctly, or use fewer
+                or different keywords.
+              </p>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
