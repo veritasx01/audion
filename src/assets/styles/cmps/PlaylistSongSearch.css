@@ -1,6 +1,6 @@
 /* Playlist Song Search Component */
 .playlist-song-search {
-  margin: 40px 0;
+  margin: 24px 0 40px 0; /* Reduce top margin to minimize space between separator and header */
   padding: 0 20px; /* Match table wrapper padding for alignment */
   position: relative;
   background: var(--background-base);
@@ -10,20 +10,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .search-header h3 {
-  color: #ffffff;
+  color: var(--text-base);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 750;
   margin: 0;
 }
 
 .find-more-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
+  color: var(--text-base);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
@@ -35,7 +35,7 @@
 }
 
 .find-more-btn:hover {
-  border-color: #ffffff;
+  border-color: var(--text-base);
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -43,7 +43,7 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-bottom: 12px; /* Reduced from 24px to minimize space */
+  margin-bottom: 4px; /* Further reduced to minimize space */
 }
 
 .close-search-btn {
@@ -63,13 +63,13 @@
 
 .close-search-btn:hover {
   background: transparent; /* Ensure no background on hover */
-  color: #ffffff; /* Only change color on hover */
+  color: var(--text-base); /* Only change color on hover */
 }
 
 .search-input-container {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 420px;
   display: flex;
   align-items: center;
 }
@@ -105,7 +105,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: none; /* Remove default border */
   border-radius: 6px;
-  color: #ffffff;
+  color: var(--text-base);
   font-size: 14px;
   transition: all 0.2s ease;
 }
@@ -123,11 +123,11 @@
   background: var(--background-base);
   border-radius: 8px;
   min-height: 300px;
-  padding: 16px 0;
+  padding: 2px 0;
 }
 
 .results-list {
-  padding: 4px 0; /* Reduced from 8px to minimize space */
+  padding: 2px; /* Remove padding to minimize space */
   margin: 0;
   list-style: none; /* Remove default list bullets */
 }
@@ -137,9 +137,9 @@
   grid-template-columns: 1fr auto auto auto;
   gap: 16px;
   align-items: center;
-  padding: 8px 16px;
-  margin: 4px 16px; /* Add margin for border radius spacing */
-  border-radius: 6px; /* Add border radius */
+  padding: 8px 0px 8px 12px; /* Add left padding for thumbnail spacing */
+  margin: 4px 0px; /* Remove horizontal margin to align with table */
+  border-radius: 6px;
   transition: background-color 0.1s ease;
   cursor: pointer;
 }
@@ -168,7 +168,7 @@
 }
 
 .song-title {
-  color: #ffffff;
+  color: var(--text-base);
   font-size: 14px;
   font-weight: 400;
   margin: 0 0 4px 0;
@@ -217,8 +217,8 @@
 }
 
 .add-song-btn:hover {
-  border-color: #ffffff;
-  color: #ffffff;
+  border-color: var(--text-base);
+  color: var(--text-base);
   background: rgba(255, 255, 255, 0.1);
 }
 
