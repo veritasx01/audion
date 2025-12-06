@@ -5,11 +5,13 @@ import { YourLibrary } from "./YourLibrary";
 import { PlaylistDetails } from "../pages/PlaylistDetails";
 import { GenrePage } from "../pages/GenrePage";
 import { SearchPage } from "../pages/SearchPage";
+import { NowPlayingView } from "./NowPlayingView";
 
 export function MainView() {
   const nowPlayingView = useSelector(
     (state) => state.systemModule.nowPlayingView
   );
+  const songObj = useSelector((state) => state.songModule.songObj);
   const libraryView = useSelector((state) => state.systemModule.libraryView);
   const twoCols = nowPlayingView ? {} : { gridTemplateColumns: "auto 1fr" };
   const isHidden = nowPlayingView ? {} : { display: "none" };
@@ -29,12 +31,8 @@ export function MainView() {
           </Routes>
         </div>
       </div>
-      <div className="song-view" style={isHidden}>
-        <h1>
-          right view
-          <br />
-          song and artist details
-        </h1>
+      <div className="song-view" style={isHidden || songObj}>
+        <NowPlayingView songObj={songObj}></NowPlayingView>
       </div>
     </section>
   );

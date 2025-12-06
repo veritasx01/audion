@@ -1,0 +1,28 @@
+.now-playing-artist-header {
+  padding-left: 16px;
+  padding-top: 20px;
+}
+
+.now-playing-details-container {
+  width: 100%;
+  padding-left: 16px;
+}
+
+.now-playing-image {
+  border-radius: 8px;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.now-playing-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.now-playing-artist {
+  color: var(--text-subdued);
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
