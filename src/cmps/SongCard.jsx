@@ -1,10 +1,13 @@
 export function SongCard({ song, changeToSong }) {
+
+  const goToPlaylist = () =>{};
+
   return (
     <div className="song-card">
       <button className="play-button-carousel" onClick={() => changeToSong(song)}>
         <span className="size-48">{playIcon()}</span>
       </button>
-      <div style={{ width: "100%" }} onClick={() => changeToSong(song)}>
+      <div style={{ width: "100%" }} onClick={goToPlaylist}>
         <img src={song.thumbnail} alt={song.title} />
         <p className="card-title">{song.title}</p>
         <p className="card-artist">{song.artist}</p>
