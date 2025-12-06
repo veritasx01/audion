@@ -93,13 +93,17 @@ export function SongProgress() {
           <div className="bar-container">
             <div
               className={`bar ${dragging ? "active" : ""}`}
-              style={{ transform: `translateX(calc(-100% + ${progress}%))` }}
+              style={{
+                transform: song
+                  ? `translateX(calc(-100% + ${progress}%))`
+                  : `translateX(calc(-100%))`,
+              }}
             ></div>
           </div>
           <div
             className="ball"
             style={{
-              left: `calc(${progress}% - 6px)`,
+              left: song ? `calc(${progress}% - 6px)`: `calc(0% - 6px)`,
               display: dragging ? "block" : undefined,
               cursor: "pointer",
             }}
