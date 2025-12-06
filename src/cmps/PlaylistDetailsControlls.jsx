@@ -28,7 +28,6 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const isShuffleEnabled = useSelector(
     (state) => state.playlistModule.isShuffleEnabled
   );
-  const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
