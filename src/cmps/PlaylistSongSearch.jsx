@@ -1,21 +1,17 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { songs } from "../assets/data/songs.js";
 import { addSong } from "../store/actions/playlist.action.js";
 import { searchIcon } from "../services/icon.service.jsx";
+import { useDebounce } from "../customHooks/useDebounce.js";
 
 export function PlaylistSongSearch({ playlist, loadPlaylist }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Debounce the search query
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  const debouncedSetSearch = useDebounce((query) => {
+    setDebouncedSearchQuery(query);
+  }, 300);
 
   // Filter songs based on search query and exclude songs already in playlist
   const filteredSongs = useMemo(() => {
@@ -73,7 +69,11 @@ export function PlaylistSongSearch({ playlist, loadPlaylist }) {
             type="text"
             placeholder="Search for songs"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              const query = e.target.value;
+              setSearchQuery(query);
+              debouncedSetSearch(query);
+            }}
             onFocus={() => setIsExpanded(true)}
             className="search-input"
             title="Search for songs to add to this playlist by either song title, artist, or album"
