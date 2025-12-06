@@ -60,7 +60,6 @@
 
 .scrollable-library-list {
   min-height: 0;
-  max-height: calc(70vh - 120px);
   overflow-y: hidden;
   transition: overflow 0.2s;
   padding-right: 8px;
@@ -68,7 +67,6 @@
   scrollbar-color: #555 transparent;
   width: 100%;
   flex: 1;
-  height: 100%;
   border-right: 8px solid transparent;
   box-sizing: border-box;
   margin-left: 12px;
