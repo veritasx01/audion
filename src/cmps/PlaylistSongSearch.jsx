@@ -1,40 +1,47 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { songs } from "../assets/data/songs.js";
 import { addSong } from "../store/actions/playlist.action.js";
 import { searchIcon, clearIcon } from "../services/icon.service.jsx";
+import { songService } from "../services/song.service.js";
 import { useDebounce } from "../customHooks/useDebounce.js";
 
 export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const [filteredSongs, setFilteredSongs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedSetSearch = useDebounce((query) => {
     setDebouncedSearchQuery(query);
   }, 300);
 
-  // Filter songs based on search query and exclude songs already in playlist
-  const filteredSongs = useMemo(() => {
-    if (!debouncedSearchQuery.trim()) return [];
+  // Fetch songs when debouncedSearchQuery changes
+  useEffect(() => {
+    if (!debouncedSearchQuery.trim()) {
+      setFilteredSongs([]);
+      return;
+    }
 
+    setIsLoading(true);
     const playlistSongIds = new Set(
       playlist.songs?.map((song) => song._id) || []
     );
 
-    return songs
-      .filter(
-        (song) =>
-          !playlistSongIds.has(song._id) && // Exclude songs already in playlist
-          (song.title
-            .toLowerCase()
-            .includes(debouncedSearchQuery.toLowerCase()) ||
-            song.artist
-              .toLowerCase()
-              .includes(debouncedSearchQuery.toLowerCase()) ||
-            song.albumName
-              .toLowerCase()
-              .includes(debouncedSearchQuery.toLowerCase()))
-      )
-      .slice(0, 10); // Limit to 10 results
+    songService
+      .query({ freeText: debouncedSearchQuery })
+      .then((songs) => {
+        const matchedSongs = songs.filter(
+          (song) => !playlistSongIds.has(song._id) // Exclude songs already in the playlist
+        );
+        setFilteredSongs(matchedSongs.slice(0, 10)); // Limit to 10 results
+      })
+      .catch((error) => {
+        console.error("Error searching songs:", error);
+        setFilteredSongs([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [debouncedSearchQuery, playlist.songs]);
 
   const handleAddSong = async (song) => {
