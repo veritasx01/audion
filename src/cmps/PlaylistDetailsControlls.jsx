@@ -26,7 +26,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isShuffleEnabled = useSelector(
-    (state) => state.playlistModule.isShuffleEnabled
+    (state) => state.playlistModule.isShuffle
   );
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
@@ -138,7 +138,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
             showSuccessMsg(
               `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
                 playlist.title
-              } (TBD... shuffle functionality not implemented yet...)`
+              }`
             )
           }
         >
