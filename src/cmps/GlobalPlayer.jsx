@@ -5,6 +5,7 @@ import {
   setAudioEnded,
   updateSongObject,
   togglePlaying,
+  updateSecs,
 } from "../store/actions/song.action";
 import { fetchYouTubeDuration } from "../services/util.service";
 import { useEffect, useRef } from "react";
@@ -87,6 +88,7 @@ export function GlobalPlayer() {
           loop={false}
           onPlay={() => console.log("player:onPlay", { isPlaying, secs })}
           onPause={() => console.log("player:onPause", { isPlaying, secs })}
+          onReady={() => dispatch(updateSecs(0)) /* reset player when ready */}
           onEnded={() => {
             console.log("player:onEnded", { isPlaying, secs });
             dispatch(setAudioEnded(true));

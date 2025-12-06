@@ -70,6 +70,24 @@ export function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export function getRandomExcept(min, max, except) {
+  if (except < min || except > max) {
+    return getRandomIntInclusive(min,max);
+  }
+
+  if (max - min === 0 && min === except) {
+    console.error('Range only contains the excluded number.');
+    return null;
+  }
+
+  let random = getRandomIntInclusive(min, max)
+  if (random >= except) {
+    random += 1;
+  }
+
+  return random;
+}
+
 export function randomPastTime() {
   const hour = 1000 * 60 * 60;
   const week = 1000 * 60 * 60 * 24 * 7;
@@ -230,4 +248,10 @@ export function shuffleArray(array) {
   }
 
   return arrayCopy;
+}
+
+export function getShuffledIndexArray(length) {
+  let arr = [];
+  for (let i = 0; i < length; i++) arr.push(i);
+  return shuffleArray(arr);
 }
