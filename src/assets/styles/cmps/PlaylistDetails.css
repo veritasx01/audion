@@ -31,3 +31,28 @@
   margin: 4px;
   border-radius: 2px;
 }
+
+.find-more-section {
+  padding: 8px 20px; /* Match search component padding */
+  display: flex;
+  justify-content: flex-start;
+}
+
+.find-more-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-base);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto; /* Ensure it's pushed to the right */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.find-more-btn:hover {
+  border-color: var(--text-base);
+  background: rgba(255, 255, 255, 0.1);
+}

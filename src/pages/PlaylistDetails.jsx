@@ -15,12 +15,20 @@ export function PlaylistDetails() {
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [gradientColors, setGradientColors] = useState(null);
   const { colors } = useExtractColors(playlist?.thumbnail); // extract colors from playlist thumbnail for gradient background
 
   useEffect(() => {
     loadPlaylist();
   }, [playlistId]);
+
+  useEffect(() => {
+    /* Auto-expand search if playlist is empty */
+    if (playlist?.songs?.length === 0) {
+      setIsSearchExpanded(true);
+    }
+  }, [playlist?.songs?.length]);
 
   useEffect(() => {
     if (!colors || colors.length === 0) return;
@@ -103,8 +111,26 @@ export function PlaylistDetails() {
       />
 
       {/* Song search section */}
-      <div className="playlist-header-separator" />
-      <PlaylistSongSearch playlist={playlist} loadPlaylist={loadPlaylist} />
+      {isSearchExpanded && (
+        <>
+          <div className="playlist-header-separator" />{" "}
+          <PlaylistSongSearch
+            playlist={playlist}
+            loadPlaylist={loadPlaylist}
+            onClose={() => setIsSearchExpanded(false)}
+          />
+        </>
+      )}
+      {!isSearchExpanded && (
+        <div className="find-more-section">
+          <button
+            className="find-more-btn"
+            onClick={() => setIsSearchExpanded(true)}
+          >
+            Find more
+          </button>
+        </div>
+      )}
     </div>
   );
 }
