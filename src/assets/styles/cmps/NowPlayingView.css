@@ -1,11 +1,17 @@
 .now-playing-artist-header {
   padding-left: 16px;
   padding-top: 20px;
+  transition: margin-left 140ms ease;
+  margin-left: 0;
 }
 
 .now-playing-details-container {
   width: 100%;
   padding-left: 16px;
+}
+
+.now-playing-details-container:hover .now-playing-artist-header {
+  margin-left: 50px;
 }
 
 .now-playing-image {
@@ -25,4 +31,32 @@
   color: var(--text-subdued);
   font-size: 0.85rem;
   margin-bottom: 0;
+}
+
+.now-playing-add-button {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 24px;
+  height: 24px;
+  will-change: transform;
+  margin: 0;
+  padding: 0;
+}
+.now-playing-add-button:hover {
+  background: black;
+}
+.now-playing-add-button svg:hover {
+  transition: fill 0.22s ease;
+  fill: white;
+}
+
+.now-playing-add-button.active {
+  color: #1ed760;
+}
+.now-playing-add-button.active svg {
+  fill: #1ed760; 
+}
+.now-playing-add-button.active svg:hover {
+  fill: currentColor; 
 }
