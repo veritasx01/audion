@@ -131,7 +131,9 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         </button>
         {/* Enable/Disable Shuffle Button */}
         <button
-          className="playlist-shuffle-btn"
+          className={`playlist-shuffle-btn ${
+            isShuffleEnabled ? "green-button" : ""
+          }`}
           title={`${
             isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
           } for ${playlist.title}`}
@@ -144,7 +146,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
             );
           }}
         >
-          {isShuffleEnabled ? disableShuffleIcon({}) : enableShuffleIcon({})}
+          {enableShuffleIcon({})}
         </button>
         {/* More Options Button */}
         <button
