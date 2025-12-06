@@ -183,23 +183,22 @@
 
 .add-song-btn {
   background: transparent;
-  border: 1px solid var(--gray5);
+  border: 2px solid var(--gray5);
   color: var(--text-base);
-  padding: 6px 12px;
+  padding: 8px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  margin-right: 16px;
 }
 
 .add-song-btn:hover {
   border-color: var(--text-base);
   color: var(--text-base);
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .no-results {
