@@ -3,6 +3,7 @@ import { songs } from "../assets/data/songs.js";
 import { addSong } from "../store/actions/playlist.action.js";
 import { searchIcon, clearIcon } from "../services/icon.service.jsx";
 import { songService } from "../services/song.service.js";
+import { formatTimeFromSecs } from "../services/util.service.js";
 import { useDebounce } from "../customHooks/useDebounce.js";
 
 export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
@@ -52,12 +53,6 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
     } catch (error) {
       console.error("Error adding song to playlist:", error);
     }
-  };
-
-  const formatDuration = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -136,7 +131,7 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
                   {song.albumName}
                 </div>
                 <div className="song-duration" title="Song Duration">
-                  {formatDuration(song.duration)}
+                  {formatTimeFromSecs(song.duration)}
                 </div>
                 <button
                   className="add-song-btn hov-enlarge"
