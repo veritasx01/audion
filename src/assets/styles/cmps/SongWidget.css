@@ -32,13 +32,15 @@
   margin: 0 8px;
 }
 
-.song-heading {
+.widget-song-header {
   font-size: 0.875rem;
   padding-right: 8px;
+  font-weight: 400
 }
 
-.song-artist {
+.widget-song-artist {
+  padding-top: 4px;
   font-size: 0.75rem;
   padding-right: 8px;
-  color: #b2b2b2;
+  color: var(--text-subdued);
 }

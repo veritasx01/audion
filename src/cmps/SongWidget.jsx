@@ -9,8 +9,8 @@ export function SongWidget() {
         <img src={songObj.thumbnail || fallbackImage} alt="song widget photo"></img>
       </div>
       <div className="song-description">
-        <p className="song-heading">{songObj.title || "----------"}</p>
-        <p className="song-artist">{songObj.artist || "-------"}</p>
+        <p className="widget-song-header">{songObj.title || "----------"}</p>
+        <p className="widget-song-artist">{songObj.artist || "-------"}</p>
       </div>
       <div style={{ height: "32px", justifySelf: "center", margin: "0 8px" }}>
         <button className="add-button hov-enlarge">
