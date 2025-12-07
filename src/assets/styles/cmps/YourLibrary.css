@@ -34,6 +34,7 @@
 /* Reduce bottom padding in collapsed mode */
 .library-container.collapsed .library-header {
   padding-bottom: 2px;
+  justify-content: center;
 }
 
 /* Make the left group take available space so title sits flush left */
@@ -43,6 +44,11 @@
   flex: 1;
   gap: 0px;
   position: relative;
+}
+
+/* Center the toggle button in collapsed mode */
+.library-container.collapsed .library-header-left {
+  justify-content: center;
 }
 
 /* Wrapper to push create button to the right */
@@ -211,7 +217,7 @@
 .library-collapsed-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   padding: 0px 4px 6px 2px;
 }
 
@@ -533,7 +539,6 @@
 
 /* Real scrollbar elements */
 
-
 /* When collapsed, force perfect centering */
 .library-list:has(.your-library-list.collapsed) {
   display: flex;
@@ -548,5 +553,3 @@
   display: none;
   width: 0;
 }
-
-
