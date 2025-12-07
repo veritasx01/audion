@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { songs } from "../assets/data/songs.js";
 import { addSong } from "../store/actions/playlist.action.js";
 import { searchIcon, clearIcon } from "../services/icon.service.jsx";
-import { songService } from "../services/song.service.js";
+import { songService } from "../services/song/song.service.js";
 import { formatTimeFromSecs } from "../services/util.service.js";
 import { useDebounce } from "../customHooks/useDebounce.js";
 
