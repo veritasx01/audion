@@ -27,12 +27,10 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
           <div className="playlist-metadata">
             <span className="creator">
               <img
-                src={`https://randomuser.me/api/portraits/thumb/men/${Math.floor(
-                  Math.random() * 100
-                )}.jpg`}
+                src={playlist.createdBy.profileImg}
                 alt={playlist.createdBy.username}
               />
-              {playlist.createdBy}
+              {playlist.createdBy.fullName}
             </span>
             {playlist.songs.length > 0 && (
               <>
