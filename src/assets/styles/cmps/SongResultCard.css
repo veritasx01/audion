@@ -1,5 +1,7 @@
 .song-result-card-image {
   border-radius: 4px;
+  height: 40px;
+  width: 40px;
 }
 
 .song-result-card-text {
@@ -23,7 +25,6 @@
   gap: 10px;
   grid-auto-flow: column;
   position: relative;
-  left: 75%;
   align-content: center;
   align-items: center;
 }

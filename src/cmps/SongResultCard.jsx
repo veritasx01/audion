@@ -2,7 +2,6 @@ import { formatTimeFromSecs } from "../services/util.service";
 import { meatBallMenuIcon } from "../services/icon.service";
 
 export function SongResultCard({ song }) {
-  console.log("song:", song);
   return (
     <div className="result-song-list-item">
       <div className="flex" style={{ width: "100%" }}>
@@ -11,15 +10,15 @@ export function SongResultCard({ song }) {
           <a className="song-result-card-title">{song?.title}</a>
           <a className="song-result-card-artist">{song?.artist}</a>
         </div>
-        <div className="song-result-options">
-          <button className={`add-button hov-enlarge`}>
-            <span className="size-16">{addToLikedIcon()}</span>
-          </button>
-          <p>{formatTimeFromSecs(song?.duration)}</p>
-          <button className={`song-result-meatball-button hov-enlarge`}>
-            <span className="size-24">{meatBallMenuIcon({})}</span>
-          </button>
-        </div>
+      </div>
+      <div className="song-result-options">
+        <button className={`add-button hov-enlarge`}>
+          <span className="size-16">{addToLikedIcon()}</span>
+        </button>
+        <p>{formatTimeFromSecs(song?.duration)}</p>
+        <button className={`song-result-meatball-button hov-enlarge`}>
+          <span className="size-24">{meatBallMenuIcon({})}</span>
+        </button>
       </div>
     </div>
   );
