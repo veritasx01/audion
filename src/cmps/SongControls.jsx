@@ -1,11 +1,19 @@
 import { VolumeBar } from "./VolumeBar";
 import { toggleNowPlaying } from "../store/actions/system.action";
 import { useDispatch, useSelector } from "react-redux";
+import { showErrorMsg } from "../services/event-bus.service";
 
 export function SongControls() {
   const dispatch = useDispatch();
   const nowPlaying = useSelector((state) => state.systemModule.nowPlayingView);
-  const toggleNowPlayingView = () => dispatch(toggleNowPlaying());
+  const globalSong = useSelector((state) => state.songModule.songObj);
+  const toggleNowPlayingView = () => {
+    if (Object.keys(globalSong).length > 0) {
+      dispatch(toggleNowPlaying());
+    } else {
+      showErrorMsg("No song is loaded in the player.");
+    }
+  };
   return (
     <div>
       <div className="controls-container">

@@ -53,4 +53,5 @@
 @import "cmps/HomeHeader.css";
 @import "cmps/ProfileCircle.css";
 @import "cmps/NowPlayingView.css";
-@import "cmps/CustomScrollbar";
+@import "cmps/GlobalPlayer.css";
+@import "cmps/CustomScrollbar.css";

@@ -57,7 +57,6 @@ function PlaylistCard({ song, setHeaderColor }) {
       className="playlist-card"
       onMouseEnter={() => {
         setHeaderColor(mainColor);
-        console.log("main color", mainColor);
       }}
       onMouseLeave={() => setHeaderColor(DEFAULT_COLOR)}
     >
