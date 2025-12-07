@@ -1,0 +1,50 @@
+.song-result-card-image {
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+}
+
+.song-result-card-text {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-left: 8px;
+  text-justify: left;
+}
+
+.song-result-card-title {
+  margin-bottom: 2px;
+}
+
+.song-result-card-artist {
+  color: var(--text-subdued);
+}
+
+.song-result-options {
+  display: grid;
+  gap: 10px;
+  grid-auto-flow: column;
+  position: relative;
+  align-content: center;
+  align-items: center;
+}
+
+.song-result-options p {
+  color: var(--text-subdued);
+  margin: 0;
+  padding-left: 8px;
+}
+
+.song-result-meatball-button {
+  width: 24px;
+  height: 24px;
+  padding: 8px 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  will-change: transform;
+}
+
+.song-result-meatball {
+  background: transparent;
+}
