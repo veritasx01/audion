@@ -1,3 +1,4 @@
+import { storageService } from "./async-storage.service.js";
 import { utilService } from "../../services/util.service.js";
 
 export const userService = {
@@ -27,13 +28,16 @@ function getDefaultUser() {
 }
 
 function getUserById(userId) {
-  return;
+  return storageService.get(STORAGE_KEY, userId);
   /*
   const user = await httpService.get(`user/${userId}`)
 	return user
   */
 }
 function updateUser(userId, updatedFields) {
+  const user = getUserById(userId);
+  const updatedUser = { ...user, ...updatedFields }; // TBD : validate updatedFields
+  save(updatedUser);
   return;
   /*
   const user = await httpService.get(`user/${userId}`)
