@@ -20,6 +20,7 @@ import {
 } from "../services/icon.service.jsx";
 import { Navigate } from "react-router";
 import { songs } from "../assets/data/songs.js";
+import { useCustomScrollbar } from "../customHooks/useCustomScrollbar.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
 export function YourLibrary() {
@@ -36,9 +37,6 @@ export function YourLibrary() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
   const searchWrapperRef = useRef(null);
-  const libraryListRef = useRef(null);
-  const scrollThumbRef = useRef(null);
-  const scrollbarRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,52 +58,9 @@ export function YourLibrary() {
         return itemTypeMatches && searchStringMatches;
       });
 
-  // Handle custom scrollbar position
-  useEffect(() => {
-    const libraryList = libraryListRef.current;
-    if (!libraryList) return;
-
-    let scrollTimeout;
-
-    const handleScroll = () => {
-      const thumb = scrollThumbRef.current;
-      const scrollbar = scrollbarRef.current;
-      if (!thumb || !scrollbar) return;
-
-      libraryList.classList.add("scrolling");
-
-      // Position scrollbar to match the library list container
-      const containerRect = libraryList.getBoundingClientRect();
-      scrollbar.style.position = "fixed";
-      scrollbar.style.top = `${containerRect.top}px`;
-      scrollbar.style.height = `${containerRect.height}px`;
-      scrollbar.style.left = `${containerRect.right - 12}px`; // Position at right edge of container
-
-      const { scrollTop, scrollHeight, clientHeight } = libraryList;
-      const maxScroll = scrollHeight - clientHeight;
-
-      if (maxScroll > 0) {
-        const scrollPercent = scrollTop / maxScroll;
-        const availableHeight = containerRect.height - 240; // 240px thumb height
-        const thumbPosition = scrollPercent * availableHeight;
-
-        thumb.style.transition = "top 0.1s ease-out";
-        thumb.style.top = `${thumbPosition}px`;
-      }
-
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        libraryList.classList.remove("scrolling");
-      }, 1000);
-    };
-
-    libraryList.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial position
-
-    return () => {
-      libraryList.removeEventListener("scroll", handleScroll);
-    };
-  }, [filteredItems]);
+  const { containerRef: libraryListRef, ScrollbarElement } = useCustomScrollbar(
+    [filteredItems]
+  );
 
   function handleOnCreatePlaylist() {
     const newPlaylist = playlistService.createPlaylist(
@@ -272,17 +227,14 @@ export function YourLibrary() {
           </div>
         </>
       )}
-      <div className="library-list" ref={libraryListRef}>
+      <div className="library-list scrollable-container" ref={libraryListRef}>
         {!isLoading ? (
           <YourLibraryList items={filteredItems} isCollapsed={isCollapsed} />
         ) : (
           <div></div>
         )}
       </div>
-      <div className="custom-scrollbar" ref={scrollbarRef}>
-        <div className="custom-scrollbar-track"></div>
-        <div className="custom-scrollbar-thumb" ref={scrollThumbRef}></div>
-      </div>
+      {ScrollbarElement}
     </div>
   );
 }
