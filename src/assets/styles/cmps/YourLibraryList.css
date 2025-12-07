@@ -8,9 +8,10 @@
   min-height: 100%; /* Ensure full height */
 }
 
-/* Expanded mode - take full width */
+/* Expanded mode - add padding for whitespace like Spotify */
 .your-library-list:not(.collapsed) {
   width: 100%;
+  padding: 0 12px 0 0;
 }
 
 .your-library-list:not(.collapsed) li {
