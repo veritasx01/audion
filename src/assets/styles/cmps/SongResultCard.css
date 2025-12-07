@@ -17,3 +17,33 @@
 .song-result-card-artist {
   color: var(--text-subdued);
 }
+
+.song-result-options {
+  display: grid;
+  gap: 10px;
+  grid-auto-flow: column;
+  position: relative;
+  left: 75%;
+  align-content: center;
+  align-items: center;
+}
+
+.song-result-options p {
+  color: var(--text-subdued);
+  margin: 0;
+  padding-left: 8px;
+}
+
+.song-result-meatball-button {
+  width: 24px;
+  height: 24px;
+  padding: 8px 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  will-change: transform;
+}
+
+.song-result-meatball {
+  background: transparent;
+}

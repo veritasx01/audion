@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SongResultCard } from "./SongResultCard";
 
 const defaultSong = {
@@ -9,7 +9,16 @@ const defaultSong = {
 };
 
 export function SearchHeader({ searchWord }) {
-  useEffect(() => {}, [searchWord]);
+  const [topResult, setTopResult] = useState({});
+  const [songsResult, setSongsResult] = useState([
+    defaultSong,
+    defaultSong,
+    defaultSong,
+    defaultSong,
+  ]);
+  useEffect(() => {
+    // add searching mechanism here
+  }, [searchWord]);
 
   return (
     <div className="search-header-container">
@@ -27,10 +36,9 @@ export function SearchHeader({ searchWord }) {
           </section>
           <section className="songs-section">
             <h2>Songs</h2>
-            <SongResultCard song={defaultSong}></SongResultCard>
-            <SongResultCard song={defaultSong}></SongResultCard>
-            <SongResultCard song={defaultSong}></SongResultCard>
-            <SongResultCard song={defaultSong}></SongResultCard>
+            {songsResult.map((song) => (
+              <SongResultCard key={song._id} song={song}></SongResultCard>
+            ))}
           </section>
         </div>
       </div>
