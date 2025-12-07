@@ -102,7 +102,11 @@ export function addSongToLikedSongs(userId, song) {
   return playlistService
     .getLikedSongsPlaylistForUser(userId)
     .then((likedSongsPlaylist) => {
-      playlistService
+      if (likedSongsPlaylist.songs.some((s) => s._id === song._id)) {
+        showSuccessMsg(`Song '${song.title}' is already in Liked Songs`);
+        return;
+      }
+      return playlistService
         .addSong(likedSongsPlaylist._id, song)
         .then((updatedPlaylist) => {
           store.dispatch({
