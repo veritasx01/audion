@@ -8,13 +8,15 @@ import likedSongsThumbnail from "../../assets/images/liked-songs.jpg";
 
 export const playlistService = {
   createPlaylist,
-  createLikedSongsCollectionForUser,
   addSong,
   removeSong,
   getById,
   query,
   save,
   remove,
+  createLikedSongsCollectionForUser,
+  isLikedSongsPlaylist,
+  getLikedSongsPlaylistForUser,
   formatPlaylistDuration,
 };
 
@@ -109,6 +111,12 @@ function query(filterBy) {
           )
         );
       }
+      // filter for including/excluding liked songs collections
+      if (filterBy?.isLikedSongs !== undefined) {
+        playlists = playlists.filter(
+          (playlist) => playlist.isLikedSongs === filterBy.isLikedSongs
+        );
+      }
       return playlists;
     })
     .catch((error) => {
@@ -136,7 +144,7 @@ function save(playlistToSave) {
   }
 }
 
-function createLikedSongsCollectionForUser(user) {
+export function createLikedSongsCollectionForUser(user) {
   const likedSongsPlaylist = createPlaylist(
     "Liked Songs",
     "Your collection of liked songs",
@@ -147,6 +155,18 @@ function createLikedSongsCollectionForUser(user) {
   likedSongsPlaylist.thumbnail = likedSongsThumbnail;
   likedSongsPlaylist.isLikedSongs = true; // special flag to identify liked songs playlist
   return likedSongsPlaylist;
+}
+
+export function isLikedSongsPlaylist(playlist) {
+  return playlist?.isLikedSongs;
+}
+
+export function getLikedSongsPlaylistForUser(userId) {
+  if (userId === undefined || userId === null || userId === "")
+    return Promise.resolve(null);
+  return query({ userId, isLikedSongs: true }).then((playlists) => {
+    return playlists.length > 0 ? playlists[0] : null;
+  });
 }
 
 // util function for formatting total duration of playlist songs
