@@ -1,11 +1,19 @@
 import { formatTimeFromSecs } from "../services/util.service";
 import { meatBallMenuIcon } from "../services/icon.service";
+import { updateSongObject } from "../store/actions/song.action";
+import { useDispatch } from "react-redux";
 
 export function SongResultCard({ song }) {
+  const dispatch = useDispatch();
+
   return (
     <div className="result-song-list-item">
       <div className="flex" style={{ width: "100%" }}>
-        <img className="song-result-card-image" src={song?.thumbnail}></img>
+        <img
+          className="song-result-card-image"
+          src={song?.thumbnail}
+          onClick={() => dispatch(updateSongObject(song))}
+        ></img>
         <div className="song-result-card-text">
           <a className="song-result-card-title">{song?.title}</a>
           <a className="song-result-card-artist">{song?.artist}</a>

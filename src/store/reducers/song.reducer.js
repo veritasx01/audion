@@ -2,6 +2,7 @@
 export const SET_SONG = 'SET_SONG';
 export const SET_SONG_OBJ = 'SET_SONG_OBJ';
 export const TOGGLE_PLAYING = 'TOGGLE_PLAYING';
+export const SET_PLAYING = 'SET_PLAYING';
 export const SET_VOLUME = 'SET_VOLUME';
 export const SET_DURATION = 'SET_DURATION';
 export const SET_SECS = 'SET_SECS';
@@ -27,6 +28,8 @@ export function songReducer(state = initialState, action) {
       return { ...state, volume: action.payload };
     case TOGGLE_PLAYING:
       return { ...state, isPlaying: !state.isPlaying };
+    case SET_PLAYING:
+      return { ...state, isPlaying: action.payload };
     case SET_DURATION:
       return { ...state, currentDuration: action.payload };
     case SET_SONG_OBJ:
@@ -38,7 +41,7 @@ export function songReducer(state = initialState, action) {
         songObj: { ...state.songObj, ...action.payload },
       };
     case SET_SECS:
-      const ended = action.payload >= state.currentDuration
+      const ended = action.payload >= state.currentDuration;
       return { ...state, secs: action.payload, hasEnded: ended };
     case SET_ENDED:
       return { ...state, hasEnded: action.payload };
