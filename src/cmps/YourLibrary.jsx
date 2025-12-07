@@ -215,7 +215,6 @@ export function YourLibrary() {
                   }}
                 >
                   <div className="input-with-icon">
-                    {/* left icon INSIDE the input wrapper */}
                     <span className="library-search-icon" aria-hidden="true">
                       {searchIcon({})}
                     </span>
