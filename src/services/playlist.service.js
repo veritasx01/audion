@@ -69,15 +69,42 @@ function query(filterBy) {
   return storageService
     .query(STORAGE_KEY)
     .then((playlists) => {
-      if (filterBy) {
-        let { title = "", description = "", createdBy = "" } = filterBy;
+      // filter by playlists created by specific user
+      if (filterBy?.userId) {
         playlists = playlists.filter(
-          (playlist) =>
-            playlist.title.toLowerCase().includes(title.toLowerCase()) &&
-            playlist.description
-              .toLowerCase()
-              .includes(description.toLowerCase()) &&
-            playlist.createdBy.toLowerCase().includes(createdBy.toLowerCase())
+          (playlist) => playlist.createdBy?._id === filterBy.userId
+        );
+      }
+      // filter by playlist IDs if provided (array of playlist IDs)
+      if (filterBy?.playlistIds && Array.isArray(filterBy.playlistIds)) {
+        playlists = playlists.filter((playlist) =>
+          filterBy.playlistIds.includes(playlist._id)
+        );
+      }
+      // filter by artist name in playlist songs
+      if (filterBy?.artist) {
+        // TBD support artist ID when artists are implemented
+        playlists = playlists.filter((playlist) =>
+          playlist.songs?.some(
+            (song) =>
+              song.artist.toLowerCase() === filterBy.artist.toLowerCase()
+          )
+        );
+      }
+      // filter by free text in title, description or createdBy
+      if (filterBy?.freeText) {
+        let { freeText } = filterBy;
+        const regexExpression = new RegExp( // // Create regex for word boundary matching (case insensitive)
+          `\\b${utilService.escapeRegexSpecialCharacters(freeText)}\\b`, // word boundary
+          "i"
+        ); // case insensitive);
+        playlists = playlists.filter((playlist) =>
+          playlist.songs?.some(
+            (song) =>
+              regexExpression.test(song.title) ||
+              regexExpression.test(song.artist) ||
+              regexExpression.test(song.albumName)
+          )
         );
       }
       return playlists;
