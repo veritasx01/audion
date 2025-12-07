@@ -1,8 +1,8 @@
-import { storageService } from "./async-storage.service.js";
-import { userService } from "./user/user.service.js";
-import { makeId, utilService } from "./util.service";
+import { storageService } from "../async-storage.service.js";
+import { userService } from "../user/user.service.js";
+import { makeId, utilService } from "../util.service.js";
 import { faker } from "@faker-js/faker";
-import { songs } from "../assets/data/songs.js";
+import { songs } from "../../assets/data/songs.js";
 import defaultThumbnail from "../assets/images/default-playlist-thumbnail.svg";
 
 export const playlistService = {

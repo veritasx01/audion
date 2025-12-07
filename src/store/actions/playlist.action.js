@@ -1,4 +1,4 @@
-import { playlistService } from "../../services/playlist.service";
+import { playlistService } from "../../services/playlist/playlist.service.js";
 import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service";
 import { store } from "../store";
 import {

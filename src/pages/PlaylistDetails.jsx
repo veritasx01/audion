@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useExtractColors } from "react-extract-colors";
-import { playlistService } from "../services/playlist.service";
+import { playlistService } from "../services/playlist/playlist.service.js";
 import { sortColorsByBrightness } from "../services/util.service.js";
 import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";

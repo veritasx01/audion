@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { formatPlaylistDuration } from "../services/playlist.service.js";
+import { formatPlaylistDuration } from "../services/playlist/playlist.service.js";
 
 export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
   return (

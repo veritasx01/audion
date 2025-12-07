@@ -8,7 +8,7 @@ import {
   addPlaylist,
 } from "../store/actions/playlist.action.js";
 import { showErrorMsg } from "../services/event-bus.service.js";
-import { playlistService } from "../services/playlist.service.js";
+import { playlistService } from "../services/playlist/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
 import {
   clearIcon,
