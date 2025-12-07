@@ -27,8 +27,8 @@ export function YourLibraryPreview({
   const isCurrentlyPlaying = isNowPlaying && isCurrentPlaylist;
 
   function handlePlayPause() {
-    // If it's already the current playlist and playing, just toggle
-    if (isCurrentPlaylist && isNowPlaying) {
+    // If it's already the current playlist (regardless of play state), just toggle
+    if (isCurrentPlaylist) {
       dispatch(togglePlaying());
     } else if (songs?.length > 0) {
       // Load this playlist and start playing
