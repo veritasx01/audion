@@ -54,4 +54,6 @@
 @import "cmps/ProfileCircle.css";
 @import "cmps/NowPlayingView.css";
 @import "cmps/GlobalPlayer.css";
+@import "cmps/SearchHeader.css";
+@import "cmps/SongResultCard.css";
 @import "cmps/CustomScrollbar.css";

@@ -1,14 +1,11 @@
 import { useParams } from "react-router";
+import { SearchHeader } from "../cmps/SearchHeader";
 
 export function SearchPage() {
   const { searchWord } = useParams();
   return (
     <div>
-      <h1>{searchWord}</h1>
-      <h1>Top result</h1>
-      <h1>Artists</h1>
-      <h1>Albums</h1>
-      <h1>Playlists</h1>
+      <SearchHeader searchWord={searchWord}></SearchHeader>
     </div>
   );
 }

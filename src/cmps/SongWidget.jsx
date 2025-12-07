@@ -37,7 +37,7 @@ export function SongWidget() {
   );
 }
 
-function addToLikedIcon(addedToLiked) {
+function addToLikedIcon(addedToLiked = false) {
   if (addedToLiked) {
     return (
       <svg viewBox="0 0 16 16" fill="#1ed760">
