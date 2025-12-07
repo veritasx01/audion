@@ -13,9 +13,10 @@ import {
 } from "../reducers/userLibrary.reducer.js";
 
 // load playlists from backend to the store
-export function loadLibraryPlaylists(userId) {
+export function loadLibraryPlaylists(
+  userId = userService.getDefaultUser()._id
+) {
   store.dispatch({ type: SET_IS_LOADING, payload: true });
-  const userId = userId || userService.getDefaultUser()._id;
   return userService
     .getUserById(userId)
     .then((user) => {
