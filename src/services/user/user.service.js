@@ -5,16 +5,19 @@ export const userService = {
   removeUser,
   signup,
   login,
-  logout
+  logout,
+  save, // temp for demo data
 };
+
+const STORAGE_KEY = "usersDB"; // temp for demo data
 
 function getDefaultUser() {
   return {
-    username: 'admin',
-    fullname: 'admin',
-    email: 'admin@admin.com',
-    password: 'admin',
-    profilePicture: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
+    username: "admin",
+    fullname: "admin",
+    email: "admin@admin.com",
+    password: "admin",
+    profilePicture: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
     isAdmin: true,
     library: [],
   };
@@ -59,10 +62,22 @@ async function login(userCred) {
   */
 }
 
-
 async function logout() {
   return;
   /*
 	return await httpService.post('auth/logout')
   */
+}
+
+async function save(user) {
+  // temp for demo data
+  let users = utilService.loadFromStorage(STORAGE_KEY) || [];
+  const idx = users.findIndex((u) => u._id === user._id);
+  if (idx !== -1) {
+    users[idx] = user;
+  } else {
+    users.push(user);
+  }
+  utilService.saveToStorage(STORAGE_KEY, users);
+  return user;
 }

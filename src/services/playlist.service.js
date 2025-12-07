@@ -1,6 +1,6 @@
 import { storageService } from "./async-storage.service.js";
-import { createDummySongs } from "./song.service.js";
-import { utilService } from "./util.service";
+import { userService } from "./user/user.service.js";
+import { makeId, utilService } from "./util.service";
 import { faker } from "@faker-js/faker";
 import { songs } from "../assets/data/songs.js";
 import defaultThumbnail from "../assets/images/default-playlist-thumbnail.svg";
@@ -174,21 +174,45 @@ function _createPlaylists() {
       song.genres.includes("country")
     );
     const houseSongs = songs.filter((song) => song.genres.includes("house"));
-    playlists.push(
-      createPlaylist(
-        "Rock Classics",
-        "Best of rock music",
-        "user1",
-        new Date(),
-        rockSongs.map((song) => ({ ...song, addedAt: new Date() }))
-      )
-    );
+
+    // create demo users
+    defaultUser = userService.getDefaultUser();
+
+    user1 = {
+      _id: makeId(),
+      username: "user1",
+      fullName: "Alice Johnson",
+      email: "alice@example.com",
+      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+        Math.random() * 100
+      )}.jpg`,
+    };
+
+    user2 = {
+      _id: makeId(),
+      username: "user2",
+      fullName: "Bob Smith",
+      email: "bob@example.com",
+      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+        Math.random() * 100
+      )}.jpg`,
+    };
+
+    user3 = {
+      _id: makeId(),
+      username: "user3",
+      fullName: "Charlie Brown",
+      email: "charlie@example.com",
+      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+        Math.random() * 100
+      )}.jpg`,
+    };
 
     playlists.push(
       createPlaylist(
         "Pop Hits",
         "Top pop songs",
-        "user2",
+        defaultUser,
         new Date(),
         popSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -197,7 +221,7 @@ function _createPlaylists() {
       createPlaylist(
         "Jazz Vibes",
         "Smooth jazz tunes",
-        "user3",
+        user1,
         new Date(),
         jazzSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -207,7 +231,7 @@ function _createPlaylists() {
       createPlaylist(
         "Blues Essentials",
         "Classic blues tracks",
-        "user4",
+        user1,
         new Date(),
         bluesSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -217,7 +241,7 @@ function _createPlaylists() {
       createPlaylist(
         "The Beatles Collection",
         "Hits from The Beatles and solo works",
-        "SYSTEM",
+        user2,
         new Date(),
         beatlesSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -227,7 +251,7 @@ function _createPlaylists() {
       createPlaylist(
         "Elton John Greatest Hits",
         "Hits from Elton John",
-        "bob alison",
+        user2,
         new Date(),
         eltonJohnSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -237,7 +261,7 @@ function _createPlaylists() {
       createPlaylist(
         "Psychedelic Rock",
         "Trippy and mind-bending rock tunes",
-        "SYSTEM",
+        user2,
         new Date(),
         psychedelicRockSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -247,7 +271,7 @@ function _createPlaylists() {
       createPlaylist(
         "Country Roads",
         "Best of country music",
-        "user5",
+        user3,
         new Date(),
         countrySongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -257,7 +281,7 @@ function _createPlaylists() {
       createPlaylist(
         "House Party",
         "Upbeat house music tracks",
-        "user6",
+        user3,
         new Date(),
         houseSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
@@ -267,7 +291,7 @@ function _createPlaylists() {
       createPlaylist(
         "Rap Hits",
         "Top rap songs",
-        "Marshall Mathers",
+        user3,
         new Date(),
         rapSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
