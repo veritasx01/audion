@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { playIcon, pauseIcon } from "../services/icon.service.jsx";
+import {
+  playIcon,
+  pauseIcon,
+  fullSpeakerIcon,
+} from "../services/icon.service.jsx";
 import { arraysEqual } from "../services/util.service.js";
 import { togglePlaying } from "../store/actions/song.action";
 import {
@@ -62,10 +66,25 @@ export function YourLibraryPreview({
         </div>
         {!isCollapsed && (
           <div className="your-library-info">
-            <h4 className="your-library-title">{title}</h4>
+            <h4
+              className={`your-library-title ${
+                isCurrentPlaylist ? "current-playlist" : ""
+              }`}
+            >
+              {title}
+            </h4>
             <p className="your-library-meta">
               {itemType} • {createdBy}
             </p>
+          </div>
+        )}
+        {!isCollapsed && isCurrentlyPlaying && (
+          <div className="speaker-icon">
+            {fullSpeakerIcon({
+              width: 14,
+              height: 14,
+              fill: "var(--text-bright-accent)",
+            })}
           </div>
         )}
       </Link>

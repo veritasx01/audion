@@ -1,4 +1,5 @@
 .your-library-preview {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -73,6 +74,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Green title for current playlist */
+.your-library-title.current-playlist {
+  color: var(--text-bright-accent);
+}
+
+/* Speaker icon positioning */
+.speaker-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1;
 }
 
 .your-library-meta {
