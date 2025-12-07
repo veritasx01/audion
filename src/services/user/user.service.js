@@ -15,13 +15,14 @@ const STORAGE_KEY = "usersDB"; // temp for demo data
 
 function getDefaultUser() {
   return {
+    _id: utilService.makeId(),
     username: "admin",
-    fullname: "admin",
+    fullName: "admin",
     email: "admin@admin.com",
     password: "admin",
-    profilePicture: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
+    profileImg: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
     isAdmin: true,
-    library: [],
+    library: { playlists: [] },
   };
 }
 
