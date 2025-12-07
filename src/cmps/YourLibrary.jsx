@@ -20,6 +20,7 @@ import {
 } from "../services/icon.service.jsx";
 import { Navigate } from "react-router";
 import { songs } from "../assets/data/songs.js";
+import { useCustomScrollbar } from "../customHooks/useCustomScrollbar.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
 export function YourLibrary() {
@@ -57,11 +58,14 @@ export function YourLibrary() {
         return itemTypeMatches && searchStringMatches;
       });
 
+  const { containerRef: libraryListRef, ScrollbarElement } = useCustomScrollbar(
+    [filteredItems]
+  );
+
   function handleOnCreatePlaylist() {
     const newPlaylist = playlistService.createPlaylist(
       `My Playlist #${playlists.length + 1}`
     );
-    console.log("Created new playlist:", newPlaylist);
 
     // Save the playlist to storage first, then navigate
     addPlaylist(newPlaylist)
@@ -223,13 +227,14 @@ export function YourLibrary() {
           </div>
         </>
       )}
-      <div className="library-list">
+      <div className="library-list scrollable-container" ref={libraryListRef}>
         {!isLoading ? (
           <YourLibraryList items={filteredItems} isCollapsed={isCollapsed} />
         ) : (
           <div></div>
         )}
       </div>
+      {ScrollbarElement}
     </div>
   );
 }

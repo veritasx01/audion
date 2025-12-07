@@ -33,16 +33,20 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const queueState = useSelector((state) => state.songQueueModule);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
+  const isCurrentPlaylist = queueState?.playlistId === playlist._id;
+  const isCurrentlyPlaying = isNowPlaying && isCurrentPlaylist;
+
   function handlePlayPause() {
-    if (
-      queueState.songQueue.length === 0 ||
-      !arraysEqual(queueState.songQueue, playlist.songs)
-    ) {
+    // If it's already the current playlist (regardless of play state), just toggle
+    if (isCurrentPlaylist) {
+      dispatch(togglePlaying());
+    } else {
+      // Load this playlist and start playing
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
       dispatch(setPlaylistId(playlist._id));
+      dispatch(togglePlaying());
     }
-    dispatch(togglePlaying());
   }
 
   function onShowOptionsMenu(event) {
@@ -119,15 +123,11 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         <button
           className="playlist-play-pause-btn"
           title={`${
-            isNowPlaying && playlist._id === queueState?.playlistId
-              ? "Pause"
-              : "Play"
+            isCurrentlyPlaying ? "Pause" : "Play"
           } ${playlist.title}`}
           onClick={() => handlePlayPause()}
         >
-          {isNowPlaying && playlist._id === queueState?.playlistId
-            ? pauseIcon({})
-            : playIcon({})}
+          {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
         </button>
         {/* Enable/Disable Shuffle Button */}
         <button

@@ -1,4 +1,5 @@
 .your-library-preview {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -13,13 +14,20 @@
 .your-library-preview.collapsed {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   margin: 2px;
-  padding: 2px;
-  border-radius: 1px;
-  justify-content: left;
+  padding: 0 12px;
   min-width: 0;
+  margin: 0;
+  border-radius: 8px;
+  width: 60px;
+  height: 60px;
+}
+
+.your-library-preview.collapsed:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .your-library-preview:hover {
@@ -68,6 +76,22 @@
   text-overflow: ellipsis;
 }
 
+/* Green title for current playlist */
+.your-library-title.current-playlist {
+  color: var(--text-bright-accent);
+}
+
+/* Speaker icon positioning */
+.speaker-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
 .your-library-meta {
   font-size: 13px;
   color: #b3b3b3;
@@ -75,4 +99,84 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Link styling */
+.your-library-preview-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+}
+
+/* Thumbnail container for play button overlay */
+.your-library-thumbnail-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Thumbnail container needs relative positioning for overlay */
+.your-library-thumbnail-container {
+  position: relative;
+}
+
+/* Play button overlay - just white triangle */
+.your-library-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.your-library-play-btn:hover {
+  background: transparent;
+}
+
+/* Show play button on thumbnail hover */
+.your-library-thumbnail-container:hover .your-library-play-btn {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Darken thumbnail on hover when play button appears */
+.your-library-thumbnail-container:hover .your-library-thumbnail {
+  filter: brightness(0.6);
+}
+
+.your-library-play-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--text-base);
+  margin-left: 2px; /* Slight offset to visually center the triangle */
+}
+
+/* Show play button on preview hover - only in expanded mode */
+.your-library-preview:not(.collapsed):hover .your-library-play-btn {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Darken thumbnail on hover to make play button more visible */
+.your-library-preview:not(.collapsed):hover .your-library-thumbnail {
+  filter: brightness(0.6);
+  transition: filter 0.3s ease;
 }

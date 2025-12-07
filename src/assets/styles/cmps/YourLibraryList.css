@@ -5,20 +5,31 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
+  min-height: 100%; /* Ensure full height */
 }
 
-.your-library-list li {
+/* Expanded mode - add padding for whitespace like Spotify */
+.your-library-list:not(.collapsed) {
+  width: 100%;
+  padding: 0 12px 0 0;
+}
+
+.your-library-list:not(.collapsed) li {
   width: 100%;
 }
 
-.your-library-list::-webkit-scrollbar {
-  width: 6px;
+/* Collapsed mode - ensure perfect centering */
+.your-library-list.collapsed {
+  width: fit-content; /* Only as wide as content */
+  align-items: center;
+  margin: 0 auto; /* Force center even if parent flexbox fails */
 }
 
-.your-library-list::-webkit-scrollbar-thumb {
-  background-color: #555;
-  border-radius: 3px;
+.your-library-list.collapsed li {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto; /* Double ensure centering */
 }
 
 .your-library-list-preview {
@@ -56,45 +67,4 @@
 .your-library-list-preview button:hover {
   background-color: #3a3a3a;
   color: #fff;
-}
-
-.scrollable-library-list {
-  min-height: 0;
-  max-height: calc(70vh - 120px);
-  overflow-y: hidden;
-  transition: overflow 0.2s;
-  padding-right: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: #555 transparent;
-  width: 100%;
-  flex: 1;
-  height: 100%;
-  border-right: 8px solid transparent;
-  box-sizing: border-box;
-  margin-left: 12px;
-}
-
-.scrollable-library-list.collapsed {
-  margin: 0;
-}
-
-.library-container:hover .scrollable-library-list {
-  overflow-y: overlay;
-}
-
-.scrollable-library-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.scrollable-library-list::-webkit-scrollbar-thumb {
-  background-color: #555;
-  border-radius: 2px;
-}
-
-.scrollable-library-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.your-library-list.collapsed {
-  max-height: 100%;
 }
