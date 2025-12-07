@@ -111,7 +111,6 @@ export function YourLibrary() {
     const newPlaylist = playlistService.createPlaylist(
       `My Playlist #${playlists.length + 1}`
     );
-    console.log("Created new playlist:", newPlaylist);
 
     // Save the playlist to storage first, then navigate
     addPlaylist(newPlaylist)
