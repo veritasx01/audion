@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
 /**
  * Custom hook for Spotify-style overlay scrollbar
@@ -11,7 +11,7 @@ export function useCustomScrollbar(dependencies = [], options = {}) {
     thumbHeight = 240,
     scrollbarWidth = 12,
     hideTimeout = 1000,
-    scrollingClass = 'scrolling'
+    scrollingClass = "scrolling",
   } = options;
 
   const containerRef = useRef(null);
@@ -35,10 +35,10 @@ export function useCustomScrollbar(dependencies = [], options = {}) {
       // Position scrollbar to match container
       const rect = container.getBoundingClientRect();
       Object.assign(scrollbar.style, {
-        position: 'fixed',
+        position: "fixed",
         top: `${rect.top}px`,
         height: `${rect.height}px`,
-        left: `${rect.right - scrollbarWidth}px`
+        left: `${rect.right - scrollbarWidth}px`,
       });
 
       // Calculate thumb position
@@ -50,8 +50,22 @@ export function useCustomScrollbar(dependencies = [], options = {}) {
         const availableHeight = rect.height - thumbHeight;
         const thumbPosition = scrollPercent * availableHeight;
 
-        thumb.style.transition = 'top 0.1s ease-out';
+        thumb.style.transition = "top 0.1s ease-out";
         thumb.style.top = `${thumbPosition}px`;
+
+        // Add appropriate border radius based on position
+        if (scrollPercent < 0.05) {
+          // At top edge - round top corners
+          thumb.classList.add("at-top-edge");
+          thumb.classList.remove("at-bottom-edge");
+        } else if (scrollPercent > 0.95) {
+          // At bottom edge - round bottom corners
+          thumb.classList.add("at-bottom-edge");
+          thumb.classList.remove("at-top-edge");
+        } else {
+          // In middle - square corners
+          thumb.classList.remove("at-top-edge", "at-bottom-edge");
+        }
       }
 
       // Hide scrollbar after timeout
@@ -61,11 +75,11 @@ export function useCustomScrollbar(dependencies = [], options = {}) {
       }, hideTimeout);
     };
 
-    container.addEventListener('scroll', handleScroll);
+    container.addEventListener("scroll", handleScroll);
     handleScroll(); // Initial position
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener("scroll", handleScroll);
       clearTimeout(scrollTimeout);
     };
   }, dependencies);
@@ -82,6 +96,6 @@ export function useCustomScrollbar(dependencies = [], options = {}) {
     containerRef,
     scrollbarRef,
     scrollThumbRef,
-    ScrollbarElement
+    ScrollbarElement,
   };
 }
