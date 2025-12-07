@@ -18,13 +18,11 @@ const STORAGE_KEY = "usersDB"; // temp for demo data
 
 function getDefaultUser() {
   return {
-    _id: utilService.makeId(),
-    username: "admin",
-    fullName: "admin",
-    email: "admin@admin.com",
-    password: "admin",
+    _id: "123456789", // needs to be a constant for persistent demo data
+    username: "johndoe",
+    fullName: "John Doe",
+    email: "johndoe@example.com",
     profileImg: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
-    isAdmin: true,
     library: { playlists: [] },
   };
 }
