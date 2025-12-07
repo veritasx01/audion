@@ -4,7 +4,7 @@ import { makeId, utilService } from "../util.service.js";
 import { faker } from "@faker-js/faker";
 import { songs } from "../../assets/data/songs.js";
 import defaultThumbnail from "../../assets/images/default-playlist-thumbnail.svg";
-import likedSongsThumbnail from "../../assets/images/liked-songs-playlist-thumbnail.svg";
+import likedSongsThumbnail from "../../assets/images/liked-songs.jpg";
 
 export const playlistService = {
   createPlaylist,
@@ -314,6 +314,12 @@ function _createPlaylists() {
       )
     );
 
+    // create "liked songs" collection for each demo user
+    demoUsers.forEach((user) => {
+      demoPlaylists.push(createLikedSongsCollectionForUser(user));
+    });
+
+    // generate playlist IDs
     demoPlaylists.forEach((playlist) => {
       playlist._id = utilService.makeId();
     });
@@ -321,14 +327,14 @@ function _createPlaylists() {
     // save playlists to storage
     utilService.saveToStorage(STORAGE_KEY, demoPlaylists);
 
-    demoUsers.forEach(
-      (user) =>
-        (user.library = {
-          playlists: demoPlaylists
-            .filter((p) => p.createdBy._id === user._id)
-            .map((p) => p._id),
-        }) && userService.save(user)
-    );
+    // update demo users with their library playlists
+    demoUsers.forEach((user) => {
+      (user.library = {
+        playlists: demoPlaylists
+          .filter((p) => p.createdBy._id === user._id)
+          .map((p) => p._id),
+      }) && userService.save(user);
+    });
   }
   return demoPlaylists;
 }
