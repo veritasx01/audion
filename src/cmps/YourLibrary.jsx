@@ -1,13 +1,20 @@
 // components/YourLibrary.jsx
-import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { toggleLibrary } from "../store/actions/system.action";
 import {
   loadPlaylists,
   addPlaylist,
 } from "../store/actions/playlist.action.js";
+import {
+  loadLibraryPlaylists,
+  addPlaylistToLibrary,
+  removePlaylistFromLibrary,
+} from "../store/actions/userLibrary.action.js";
+
 import { showErrorMsg } from "../services/event-bus.service.js";
+import { userService } from "../services/user/user.service.js";
 import { playlistService } from "../services/playlist/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
 import {
@@ -18,8 +25,6 @@ import {
   sideBarToLeftIcon as collapseLibraryIcon,
   createIcon,
 } from "../services/icon.service.jsx";
-import { Navigate } from "react-router";
-import { songs } from "../assets/data/songs.js";
 import { useCustomScrollbar } from "../customHooks/useCustomScrollbar.jsx";
 
 // TODO: add support for artists, albums & optionaly podcasts
@@ -27,12 +32,15 @@ export function YourLibrary() {
   const dispatch = useDispatch();
   const [itemTypeFilter, setItemTypeFilter] = useState("All");
   const [searchString, setSearchString] = useState("");
-  const playlists = useSelector((store) => store.playlistModule.playlists);
-  const libraryItems = useMemo(
-    () => playlists.map((playlist) => ({ ...playlist, type: "Playlist" })),
-    [playlists]
+  const libraryPlaylists = useSelector(
+    (store) => store.userLibraryModule.playlists
   );
-  const isLoading = useSelector((store) => store.playlistModule.isLoading);
+  const libraryItems = useMemo(
+    () =>
+      libraryPlaylists.map((playlist) => ({ ...playlist, type: "Playlist" })),
+    [libraryPlaylists]
+  );
+  const isLoading = useSelector((store) => store.userLibraryModule.isLoading);
   const isCollapsed = !useSelector((store) => store.systemModule.libraryView);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
@@ -40,8 +48,8 @@ export function YourLibrary() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadPlaylists().catch((err) => {
-      showErrorMsg("Cannot load playlists!");
+    loadLibraryPlaylists().catch((err) => {
+      showErrorMsg("Error occurred while loading your library");
     });
   }, [itemTypeFilter, searchString]);
 
@@ -53,7 +61,7 @@ export function YourLibrary() {
         const searchStringMatches =
           item.title?.toLowerCase().includes(searchString) ||
           item.description?.toLowerCase().includes(searchString) ||
-          item.createdBy?.toLowerCase().includes(searchString);
+          item.createdBy?.fullName.toLowerCase().includes(searchString);
 
         return itemTypeMatches && searchStringMatches;
       });
@@ -63,15 +71,31 @@ export function YourLibrary() {
   );
 
   function handleOnCreatePlaylist() {
+    // (1) create playlist object in-memory
     const newPlaylist = playlistService.createPlaylist(
-      `My Playlist #${playlists.length + 1}`
+      `My Playlist #${libraryPlaylists.length + 1}`, // title
+      "", // description
+      userService.getDefaultUser() // createdBy
     );
 
-    // Save the playlist to storage first, then navigate
+    // (2) Save the playlist on backend storage & add it playlist store
     addPlaylist(newPlaylist)
-      .then(() => {
-        navigate(`/playlist/${newPlaylist._id}`);
-        loadPlaylists();
+      .then((savedPlaylist) => {
+        // (3) add the new playlist to user's library on backend & in store
+        return addPlaylistToLibrary(
+          savedPlaylist.createdBy?._id,
+          savedPlaylist._id
+        ).then(() => savedPlaylist); // Return the savedPlaylist for the next chain
+      })
+      .then((savedPlaylist) => {
+        // (4) reload user's library playlists
+        return loadLibraryPlaylists(savedPlaylist.createdBy?._id).then(
+          () => savedPlaylist
+        ); // Return the savedPlaylist for the next chain
+      })
+      .then((savedPlaylist) => {
+        // (5) navigate to the new playlist's page
+        navigate(`/playlist/${savedPlaylist._id}`);
       })
       .catch((err) => {
         console.error("Error creating playlist:", err);

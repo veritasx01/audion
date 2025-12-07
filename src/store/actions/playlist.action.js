@@ -68,6 +68,7 @@ export function addPlaylist(playlist) {
     .then((savedPlaylist) => {
       store.dispatch({ type: ADD_PLAYLIST, payload: savedPlaylist });
       showSuccessMsg("Playlist added");
+      return savedPlaylist;
     })
     .catch((err) => {
       console.log("Playlist Actions: Having issues with adding playlist:", err);
