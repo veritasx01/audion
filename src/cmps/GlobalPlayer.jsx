@@ -33,16 +33,7 @@ export function GlobalPlayer() {
 
     fetchYoutube();
   }, [globalSong, dispatch]);
-  /*
-  useEffect(() => {
-    if (ended && songQueue.length > 0) {
-      dispatch(goToNextSong());
-      console.log("song queue: ", songQueue);
-      console.log("new index: ", index);
-      dispatch(updateSongObject(songQueue[index]));
-    }
-  }, [ended, dispatch, index, songQueue]);
-  */
+
   useEffect(() => {
     if (ended && songQueue.length > 0) {
       dispatch(goToNextSong());
@@ -72,28 +63,15 @@ export function GlobalPlayer() {
 
   return (
     <div>
-      <div
-        style={{
-          position: "absolute",
-          width: 0,
-          height: 0,
-          overflow: "hidden",
-        }}
-      >
+      <div className="global-player-container">
         <ReactPlayer
           ref={playerRef}
           src={globalSong}
           playing={ended ? false : isPlaying}
           volume={volume}
           loop={false}
-          onPlay={() => console.log("player:onPlay", { isPlaying, secs })}
-          onPause={() => console.log("player:onPause", { isPlaying, secs })}
           onReady={() => dispatch(updateSecs(0)) /* reset player when ready */}
-          onEnded={() => {
-            console.log("player:onEnded", { isPlaying, secs });
-            dispatch(setAudioEnded(true));
-          }}
-          onProgress={(state) => console.log("player:onProgress", state)}
+          onEnded={() => dispatch(setAudioEnded(true))}
         />
       </div>
     </div>
