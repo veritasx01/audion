@@ -15,24 +15,32 @@ import {
   enableShuffleIcon,
   disableShuffleIcon,
 } from "../services/icon.service.jsx";
-import { clearSongQueue, setSongQueue } from "../store/actions/songQueue.action.js";
+import {
+  clearSongQueue,
+  setPlaylistId,
+  setSongQueue,
+  toggleShuffle,
+} from "../store/actions/songQueue.action.js";
 import { arraysEqual } from "../services/util.service.js";
 
 export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isShuffleEnabled = useSelector(
-    (state) => state.playlistModule.isShuffleEnabled
+    (state) => state.songQueueModule.isShuffle
   );
-  const currentlyPlayingSong = useSelector((state) => state.songModule.songObj);
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
-  const songQueue = useSelector((state) => state.songQueueModule.songQueue);
+  const queueState = useSelector((state) => state.songQueueModule);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   function handlePlayPause() {
-    if (songQueue.length === 0 || !arraysEqual(songQueue, playlist.songs)) {
+    if (
+      queueState.songQueue.length === 0 ||
+      !arraysEqual(queueState.songQueue, playlist.songs)
+    ) {
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
+      dispatch(setPlaylistId(playlist._id));
     }
     dispatch(togglePlaying());
   }
@@ -71,7 +79,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
 
   // Define menu items for playlist options
   const playlistMenuItems = [
-    {
+    /*{
       id: "add-to-queue",
       label: "Add to queue",
       icon: addToQueueIcon({}),
@@ -80,7 +88,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
           "Added to queue (Not really, queue is not implemented yet...)"
         ),
     },
-    { type: "separator" },
+    { type: "separator" },*/
     {
       id: "edit",
       label: "Edit details",
@@ -110,28 +118,35 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {/* Play/Pause Button */}
         <button
           className="playlist-play-pause-btn"
-          title={`${isNowPlaying ? "Pause" : "Play"} ${playlist.title}`}
+          title={`${
+            isNowPlaying && playlist._id === queueState?.playlistId
+              ? "Pause"
+              : "Play"
+          } ${playlist.title}`}
           onClick={() => handlePlayPause()}
         >
-          {isNowPlaying && currentlyPlayingSong._id === playlist.songs?.[0]?._id
+          {isNowPlaying && playlist._id === queueState?.playlistId
             ? pauseIcon({})
             : playIcon({})}
         </button>
         {/* Enable/Disable Shuffle Button */}
         <button
-          className="playlist-shuffle-btn"
+          className={`playlist-shuffle-btn hov-enlarge ${
+            isShuffleEnabled ? "green-button" : ""
+          }`}
           title={`${
             isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
           } for ${playlist.title}`}
-          onClick={() =>
+          onClick={() => {
+            dispatch(toggleShuffle());
             showSuccessMsg(
               `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
                 playlist.title
-              } (TBD... shuffle functionality not implemented yet...)`
-            )
-          }
+              }`
+            );
+          }}
         >
-          {isShuffleEnabled ? disableShuffleIcon({}) : enableShuffleIcon({})}
+          {enableShuffleIcon({})}
         </button>
         {/* More Options Button */}
         <button

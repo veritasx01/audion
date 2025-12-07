@@ -24,6 +24,7 @@ import {
 } from "../services/icon.service.jsx";
 import {
   seekSongQueueIndex,
+  setPlaylistId,
   setSongQueue,
 } from "../store/actions/songQueue.action.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
@@ -34,6 +35,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const [focusedRow, setFocusedRow] = useState(null);
   const isPlaying = useSelector((store) => store.songModule.isPlaying);
   const playingSongId = useSelector((store) => store.songModule.songObj._id);
+  const playingPlaylistId = useSelector(
+    (store) => store.songQueueModule.playlistId
+  );
   const playlists = useSelector((store) => store.playlistModule.playlists);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
@@ -187,7 +191,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
             >
               <td className={"song-number-col"} key="num">
                 {hoveredRow === idx ? (
-                  playingSongId === song._id && isPlaying ? (
+                  playingPlaylistId === playlist._id &&
+                  playingSongId === song._id &&
+                  isPlaying ? (
                     <button
                       className="song-play-pause-btn"
                       onClick={() => dispatch(togglePlaying())}
@@ -199,10 +205,17 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                     <button
                       className="song-play-pause-btn"
                       onClick={() => {
-                        if (playingSongId === song._id && !isPlaying) {
+                        if (
+                          // if clicking play on the currently loaded song but it's paused, just toggle play
+                          playingPlaylistId === playlist._id &&
+                          playingSongId === song._id &&
+                          !isPlaying
+                        ) {
                           dispatch(togglePlaying());
                         } else {
+                          // otherwise, load the song queue starting from this song
                           dispatch(setSongQueue([...playlist.songs]));
+                          dispatch(setPlaylistId(playlist._id));
                           dispatch(seekSongQueueIndex(idx));
                         }
                       }}
@@ -211,14 +224,19 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                       {playIcon({})}
                     </button>
                   )
-                ) : playingSongId === song._id && isPlaying ? (
+                ) : playingPlaylistId === playlist._id &&
+                  playingSongId === song._id &&
+                  isPlaying ? (
                   <span className="now-playing-animation" title="Now Playing">
                     {nowPlayingBarChartIcon({})}
                   </span>
                 ) : (
                   <span
                     className={`song-number-col ${
-                      playingSongId === song._id ? "active" : ""
+                      playingPlaylistId === playlist._id &&
+                      playingSongId === song._id
+                        ? "active"
+                        : ""
                     }`}
                   >
                     {idx + 1}
@@ -235,7 +253,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   <div className="playlist-song-text">
                     <span
                       className={`playlist-song-title ${
-                        playingSongId === song._id ? "active" : ""
+                        playingPlaylistId === playlist._id &&
+                        playingSongId === song._id
+                          ? "active"
+                          : ""
                       }`}
                     >
                       {song.title}

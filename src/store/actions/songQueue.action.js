@@ -6,6 +6,7 @@ import {
   TOGGLE_REPEAT,
   SET_SONG_QUEUE,
   SEEK_INDEX,
+  SET_PLAYLIST_ID,
 } from '../reducers/songQueue.reducer';
 
 export function clearSongQueue() {
@@ -34,4 +35,8 @@ export function setSongQueue(newSongs) {
 
 export function seekSongQueueIndex(index) {
   return { type: SEEK_INDEX, payload: index };
+}
+
+export function setPlaylistId(playlistId) {
+  return { type: SET_PLAYLIST_ID, payload: playlistId };
 }
