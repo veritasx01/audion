@@ -4,9 +4,11 @@ import { makeId, utilService } from "../util.service.js";
 import { faker } from "@faker-js/faker";
 import { songs } from "../../assets/data/songs.js";
 import defaultThumbnail from "../../assets/images/default-playlist-thumbnail.svg";
+import likedSongsThumbnail from "../../assets/images/liked-songs-playlist-thumbnail.svg";
 
 export const playlistService = {
   createPlaylist,
+  createLikedSongsCollectionForUser,
   addSong,
   removeSong,
   getById,
@@ -132,6 +134,19 @@ function save(playlistToSave) {
   } else {
     return storageService.post(STORAGE_KEY, playlistToSave);
   }
+}
+
+function createLikedSongsCollectionForUser(user) {
+  const likedSongsPlaylist = createPlaylist(
+    "Liked Songs",
+    "Your collection of liked songs",
+    user,
+    new Date(),
+    []
+  );
+  likedSongsPlaylist.thumbnail = likedSongsThumbnail;
+  likedSongsPlaylist.isLikedSongs = true; // special flag to identify liked songs playlist
+  return likedSongsPlaylist;
 }
 
 // util function for formatting total duration of playlist songs
