@@ -5,7 +5,7 @@ import { arraysEqual } from "../services/util.service.js";
 import { togglePlaying } from "../store/actions/song.action";
 import {
   clearSongQueue,
-  //setPlaylistId,
+  setPlaylistId,
   setSongQueue,
   toggleShuffle,
 } from "../store/actions/songQueue.action.js";
@@ -23,16 +23,20 @@ export function YourLibraryPreview({
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
 
+  const isCurrentPlaylist = queueState?.playlistId === _id;
+  const isCurrentlyPlaying = isNowPlaying && isCurrentPlaylist;
+
   function handlePlayPause() {
-    if (
-      queueState.songQueue.length === 0 ||
-      !arraysEqual(queueState.songQueue, songs)
-    ) {
+    // If it's already the current playlist and playing, just toggle
+    if (isCurrentPlaylist && isNowPlaying) {
+      dispatch(togglePlaying());
+    } else if (songs?.length > 0) {
+      // Load this playlist and start playing
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...songs]));
-      //dispatch(setPlaylistId(playlist._id));
+      dispatch(setPlaylistId(_id));
+      dispatch(togglePlaying());
     }
-    dispatch(togglePlaying());
   }
 
   return (
@@ -50,15 +54,9 @@ export function YourLibraryPreview({
             <button
               className="your-library-play-btn"
               onClick={handlePlayPause}
-              title={`${
-                isNowPlaying && _id === queueState?.playlistId
-                  ? "Pause"
-                  : "Play"
-              } ${title}`}
+              title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${title}`}
             >
-              {isNowPlaying && _id === queueState?.playlistId
-                ? pauseIcon({})
-                : playIcon({})}
+              {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
             </button>
           )}
         </div>
