@@ -10,6 +10,8 @@ export const userService = {
   login,
   logout,
   save, // temp for demo data
+  addPlaylistToUserLibrary,
+  removePlaylistFromUserLibrary,
 };
 
 const STORAGE_KEY = "usersDB"; // temp for demo data
@@ -34,11 +36,10 @@ function getUserById(userId) {
 	return user
   */
 }
-function updateUser(userId, updatedFields) {
-  const user = getUserById(userId);
+async function updateUser(userId, updatedFields) {
+  const user = await getUserById(userId);
   const updatedUser = { ...user, ...updatedFields }; // TBD : validate updatedFields
-  save(updatedUser);
-  return;
+  await save(updatedUser);
   /*
   const user = await httpService.get(`user/${userId}`)
 	return user
@@ -87,4 +88,26 @@ async function save(user) {
   }
   utilService.saveToStorage(STORAGE_KEY, users);
   return user;
+}
+
+async function addPlaylistToUserLibrary(userId, playlistId) {
+  const user = await getUserById(userId);
+  if (!user || !user.library) throw new Error("User or user library not found");
+
+  user.library = {
+    ...user.library,
+    playlists: [...user.library.playlists, playlistId],
+  };
+
+  await save(user);
+}
+
+async function removePlaylistFromUserLibrary(userId, playlistId) {
+  const user = await getUserById(userId);
+  if (!user || !user.library) throw new Error("User or user library not found");
+
+  user.library.playlists = user.library.playlists.filter(
+    (id) => id !== playlistId
+  );
+  await save(user);
 }
