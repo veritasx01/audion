@@ -1,0 +1,19 @@
+.song-result-card-image {
+  border-radius: 4px;
+}
+
+.song-result-card-text {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-left: 8px;
+  text-justify: left;
+}
+
+.song-result-card-title {
+  margin-bottom: 2px;
+}
+
+.song-result-card-artist {
+  color: var(--text-subdued);
+}

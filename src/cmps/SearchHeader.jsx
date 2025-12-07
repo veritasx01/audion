@@ -1,4 +1,12 @@
 import { useEffect } from "react";
+import { SongResultCard } from "./SongResultCard";
+
+const defaultSong = {
+  title: "Song Title",
+  artist: "the artist",
+  thumbnail: `https://picsum.photos/seed/2/40`,
+  duration: 200,
+};
 
 export function SearchHeader({ searchWord }) {
   useEffect(() => {}, [searchWord]);
@@ -10,29 +18,19 @@ export function SearchHeader({ searchWord }) {
           <section className="top-result-section">
             <h2>Top result</h2>
             <div className="top-result-card">
-              <div className="card-image-placeholder"></div>
-              <h3>{searchWord || "Artist Name"}</h3>
-              <span>Artist</span>
+              <img
+                className="result-card-image"
+                src="https://i.scdn.co/image/ab67616d00001e02db6b8ae97f69fee1d432334d"
+              ></img>
+              <h1>Song Result Here</h1>
             </div>
           </section>
           <section className="songs-section">
             <h2>Songs</h2>
-            <div className="result-song-list-item">
-              <span>Song 1</span>
-              <span>3:45</span>
-            </div>
-            <div className="result-song-list-item">
-              <span>Song 2</span>
-              <span>2:30</span>
-            </div>
-            <div className="result-song-list-item">
-              <span>Song 3</span>
-              <span>4:12</span>
-            </div>
-            <div className="result-song-list-item">
-              <span>Song 4</span>
-              <span>3:35</span>
-            </div>
+            <SongResultCard song={defaultSong}></SongResultCard>
+            <SongResultCard song={defaultSong}></SongResultCard>
+            <SongResultCard song={defaultSong}></SongResultCard>
+            <SongResultCard song={defaultSong}></SongResultCard>
           </section>
         </div>
       </div>

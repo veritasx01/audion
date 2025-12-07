@@ -9,6 +9,7 @@
 }
 
 .search-header-container {
+  margin-top: 2rem;
   padding: 24px;
   width: 100%;
   box-sizing: border-box;
@@ -41,37 +42,42 @@ h2 {
   flex-direction: column;
   gap: 20px;
   height: 226px;
+  max-width: 393px;
   transition: background-color 0.3s;
   cursor: pointer;
+}
+
+.top-result-card h1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .top-result-card:hover {
   background-color: #282828;
 }
 
-.card-image-placeholder {
+.result-card-image {
   width: 92px;
   height: 92px;
   background-color: #333;
-  border-radius: 50%;
+  border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .result-song-list-item {
   display: flex;
   justify-content: space-between;
-  padding: 8px 12px;
-  margin-bottom: 6px;
-  flex: 0 0 calc(20% - 24px);
-  min-width: 160px;
-  background-color: #181818;
-  border-radius: 8px;
-  box-sizing: border-box;
-  flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  gap: 6px;
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  min-width: 160px;
+  max-height: 54px;
+  background-color: #121212;
+  border-radius: 8px;
 }
 
-.song-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.result-song-list-item:hover {
+  background-color: hsla(0, 0%, 100%, 0.1);
 }
