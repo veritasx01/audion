@@ -153,6 +153,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     });
   }
 
+  if (!playlist.songs || playlist.songs.length === 0) {
+    return;
+  }
+
   return (
     <div className="playlist-table-wrapper">
       <table className="playlist-table">
