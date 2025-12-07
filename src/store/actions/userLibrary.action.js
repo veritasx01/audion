@@ -6,10 +6,12 @@ import {
 } from "../../services/event-bus.service.js";
 import { store } from "../store.js";
 import {
-  SET_PLAYLISTS_IN_LIBRARY,
-  REMOVE_PLAYLIST_FROM_LIBRARY,
-  ADD_PLAYLIST_TO_LIBRARY,
   SET_IS_LOADING,
+  ADD_PLAYLIST_TO_LIBRARY,
+  REMOVE_PLAYLIST_FROM_LIBRARY,
+  SET_PLAYLISTS_IN_LIBRARY,
+  ADD_SONG_TO_LIKED_SONGS,
+  REMOVE_SONG_FROM_LIKED_SONGS,
 } from "../reducers/userLibrary.reducer.js";
 
 // load playlists from backend to the store
@@ -87,6 +89,64 @@ export function addPlaylistToLibrary(userId, playlistId) {
         err
       );
       showErrorMsg("Having issues with adding playlist to library");
+      throw err;
+    })
+    .finally(() => {
+      store.dispatch({ type: SET_IS_LOADING, payload: false });
+    });
+}
+
+// add song to liked songs collection in user library
+export function addSongToLikedSongs(userId, song) {
+  store.dispatch({ type: SET_IS_LOADING, payload: true });
+  return playlistService
+    .getLikedSongsPlaylistForUser(userId)
+    .then((likedSongsPlaylist) => {
+      playlistService
+        .addSong(likedSongsPlaylist._id, song)
+        .then((updatedPlaylist) => {
+          store.dispatch({
+            type: ADD_SONG_TO_LIKED_SONGS,
+            payload: song,
+          });
+          showSuccessMsg(`Song '${song.title}' Added to Liked Songs`);
+        });
+    })
+    .catch((err) => {
+      console.log(
+        `User Library Actions: Having issues with adding song ${song.title} to liked songs for user ${userId}:`,
+        err
+      );
+      showErrorMsg(
+        `Error occurred while adding song ${song.title} to Liked Songs`
+      );
+      throw err;
+    })
+    .finally(() => {
+      store.dispatch({ type: SET_IS_LOADING, payload: false });
+    });
+}
+
+// remove song from liked songs collection in user library
+export function removeSongFromLikedSongs(userId, songId) {
+  store.dispatch({ type: SET_IS_LOADING, payload: true });
+  return playlistService
+    .getLikedSongsPlaylistForUser(userId)
+    .then((likedSongsPlaylist) => {
+      playlistService.removeSong(likedSongsPlaylist._id, songId).then(() => {
+        store.dispatch({
+          type: REMOVE_SONG_FROM_LIKED_SONGS,
+          payload: songId,
+        });
+        showSuccessMsg(`Song successfully removed from Liked Songs`);
+      });
+    })
+    .catch((err) => {
+      console.log(
+        `User Library Actions: Having issues with removing song ${songId} from liked songs for user ${userId}:`,
+        err
+      );
+      showErrorMsg(`Error occurred while removing song from Liked Songs`);
       throw err;
     })
     .finally(() => {
