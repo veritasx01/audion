@@ -25,6 +25,7 @@ import {
   setSongQueue,
 } from "../store/actions/songQueue.action.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
+import { formatTimeFromSecs } from "../services/util.service.js";
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
@@ -150,13 +151,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       month: "short",
       year: "numeric",
     });
-  }
-
-  function formatSongDuration(totalSeconds) {
-    if (!totalSeconds) return "";
-    const minutes = Math.floor(totalSeconds / 60);
-    const secondsRemainder = totalSeconds % 60;
-    return `${minutes}:${secondsRemainder.toString().padStart(2, "0")}`;
   }
 
   return (
@@ -287,7 +281,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                 </button>
               </td>
               <td className="playlist-song-duration" key="duration">
-                {song.duration ? formatSongDuration(song.duration) : ""}
+                {song.duration ? formatTimeFromSecs(song.duration) : ""}
               </td>
               <td className="playlist-table-actions" key="actions">
                 <div className="playlist-row-actions">
