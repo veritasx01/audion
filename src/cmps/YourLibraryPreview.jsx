@@ -74,7 +74,7 @@ export function YourLibraryPreview({
               {title}
             </h4>
             <p className="your-library-meta">
-              {itemType} • {createdBy}
+              {itemType} • {createdBy.fullName}
             </p>
           </div>
         )}
