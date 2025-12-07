@@ -1,11 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
-import {
-  addSong,
-  removeSong,
-  loadPlaylists,
-} from "../store/actions/playlist.action.js";
+import { addSong, removeSong } from "../store/actions/playlist.action.js";
+import { loadLibraryPlaylists } from "../store/actions/userLibrary.action.js";
 import {
   ContextMenu,
   useContextMenu,
@@ -38,20 +35,22 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const playingPlaylistId = useSelector(
     (store) => store.songQueueModule.playlistId
   );
-  const playlists = useSelector((store) => store.playlistModule.playlists);
+  const userLibraryPlaylists = useSelector(
+    (store) => store.userLibraryModule.playlists
+  );
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const otherPlaylists = useMemo(
     () =>
-      playlists
+      userLibraryPlaylists
         .filter((pl) => pl._id !== playlist._id)
         .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
-    [playlists, playlist._id]
+    [userLibraryPlaylists, playlist._id]
   );
 
   // refresh library playlists when playlist changes (e.g., song added/removed)
   useEffect(() => {
-    loadPlaylists();
+    loadLibraryPlaylists();
   }, [playlist._id]);
 
   // Clear focused row when context menu closes
