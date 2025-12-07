@@ -156,9 +156,9 @@ function _getDefaultThumbnail() {
 
 // get playlists from storage or generate dummy data if none exist
 function _createPlaylists() {
-  let playlists = utilService.loadFromStorage(STORAGE_KEY);
-  if (!playlists || !playlists.length) {
-    playlists = [];
+  let demoPlaylists = utilService.loadFromStorage(STORAGE_KEY);
+  if (!demoPlaylists || !demoPlaylists.length) {
+    demoPlaylists = [];
     songs.sort(() => Math.random() - 0.5); // Shuffle the songs
     const rapSongs = songs.filter((song) => song.genres.includes("rap"));
     const rockSongs = songs.filter((song) => song.genres.includes("rock"));
@@ -176,39 +176,41 @@ function _createPlaylists() {
     const houseSongs = songs.filter((song) => song.genres.includes("house"));
 
     // create demo users
-    defaultUser = userService.getDefaultUser();
+    const defaultUser = userService.getDefaultUser();
 
-    user1 = {
+    const user1 = {
       _id: makeId(),
       username: "user1",
       fullName: "Alice Johnson",
       email: "alice@example.com",
-      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+      profileImg: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
         Math.random() * 100
       )}.jpg`,
     };
 
-    user2 = {
+    const user2 = {
       _id: makeId(),
       username: "user2",
       fullName: "Bob Smith",
       email: "bob@example.com",
-      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+      profileImg: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
         Math.random() * 100
       )}.jpg`,
     };
 
-    user3 = {
+    const user3 = {
       _id: makeId(),
       username: "user3",
       fullName: "Charlie Brown",
       email: "charlie@example.com",
-      profilePicture: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
+      profileImg: `https://randomuser.me/api/portraits/thumb/men/${Math.floor(
         Math.random() * 100
       )}.jpg`,
     };
 
-    playlists.push(
+    const demoUsers = [defaultUser, user1, user2, user3];
+
+    demoPlaylists.push(
       createPlaylist(
         "Pop Hits",
         "Top pop songs",
@@ -217,7 +219,7 @@ function _createPlaylists() {
         popSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
     );
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Jazz Vibes",
         "Smooth jazz tunes",
@@ -227,7 +229,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Blues Essentials",
         "Classic blues tracks",
@@ -237,7 +239,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "The Beatles Collection",
         "Hits from The Beatles and solo works",
@@ -247,7 +249,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Elton John Greatest Hits",
         "Hits from Elton John",
@@ -257,7 +259,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Psychedelic Rock",
         "Trippy and mind-bending rock tunes",
@@ -267,7 +269,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Country Roads",
         "Best of country music",
@@ -277,7 +279,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "House Party",
         "Upbeat house music tracks",
@@ -287,7 +289,7 @@ function _createPlaylists() {
       )
     );
 
-    playlists.push(
+    demoPlaylists.push(
       createPlaylist(
         "Rap Hits",
         "Top rap songs",
@@ -297,11 +299,21 @@ function _createPlaylists() {
       )
     );
 
-    playlists.forEach((playlist) => {
+    demoPlaylists.forEach((playlist) => {
       playlist._id = utilService.makeId();
     });
 
-    utilService.saveToStorage(STORAGE_KEY, playlists);
+    // save playlists to storage
+    utilService.saveToStorage(STORAGE_KEY, demoPlaylists);
+
+    demoUsers.forEach(
+      (user) =>
+        (user.library = {
+          playlists: demoPlaylists
+            .filter((p) => p.createdBy._id === user._id)
+            .map((p) => p._id),
+        }) && userService.save(user)
+    );
   }
-  return playlists;
+  return demoPlaylists;
 }
