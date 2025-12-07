@@ -71,39 +71,39 @@ export function YourLibrary() {
       const thumb = scrollThumbRef.current;
       const scrollbar = scrollbarRef.current;
       if (!thumb || !scrollbar) return;
-      
-      libraryList.classList.add('scrolling');
-      
+
+      libraryList.classList.add("scrolling");
+
       // Position scrollbar to match the library list container
       const containerRect = libraryList.getBoundingClientRect();
-      scrollbar.style.position = 'fixed';
+      scrollbar.style.position = "fixed";
       scrollbar.style.top = `${containerRect.top}px`;
       scrollbar.style.height = `${containerRect.height}px`;
       scrollbar.style.left = `${containerRect.right - 12}px`; // Position at right edge of container
-      
+
       const { scrollTop, scrollHeight, clientHeight } = libraryList;
       const maxScroll = scrollHeight - clientHeight;
-      
+
       if (maxScroll > 0) {
         const scrollPercent = scrollTop / maxScroll;
-        const availableHeight = containerRect.height - 40;
+        const availableHeight = containerRect.height - 240; // 240px thumb height
         const thumbPosition = scrollPercent * availableHeight;
-        
+
+        thumb.style.transition = "top 0.1s ease-out";
         thumb.style.top = `${thumbPosition}px`;
-        console.log('Scroll:', scrollPercent.toFixed(3), 'Container height:', containerRect.height, 'Thumb pos:', thumbPosition.toFixed(1));
       }
 
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        libraryList.classList.remove('scrolling');
+        libraryList.classList.remove("scrolling");
       }, 1000);
     };
 
-    libraryList.addEventListener('scroll', handleScroll);
+    libraryList.addEventListener("scroll", handleScroll);
     handleScroll(); // Initial position
 
     return () => {
-      libraryList.removeEventListener('scroll', handleScroll);
+      libraryList.removeEventListener("scroll", handleScroll);
     };
   }, [filteredItems]);
 
