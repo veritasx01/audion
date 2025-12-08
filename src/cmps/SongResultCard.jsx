@@ -1,11 +1,34 @@
 import { formatTimeFromSecs } from "../services/util.service";
-import { meatBallMenuIcon } from "../services/icon.service";
+import { meatBallMenuIcon, pauseIcon } from "../services/icon.service";
+import { togglePlaying, updateSongObject } from "../store/actions/song.action";
+import { playIcon } from "../services/icon.service";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export function SongResultCard({ song }) {
+  const dispatch = useDispatch();
+  const songId = useSelector((state) => state.songModule.songObj._id);
+  const isPlaying = useSelector((state) => state.songModule.isPlaying);
+  const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false);
+  useEffect(() => {
+    setIsCurrentlyPlaying(song._id === songId && isPlaying);
+  }, [songId, song, isPlaying]);
+
   return (
     <div className="result-song-list-item">
       <div className="flex" style={{ width: "100%" }}>
-        <img className="song-result-card-image" src={song?.thumbnail}></img>
+        <div className="search-card-thumbnail-container">
+          <img className="song-result-card-image" src={song?.thumbnail}></img>
+          <button
+            className="search-card-play-btn"
+            onClick={() => {
+              dispatch(updateSongObject(song));
+              dispatch(togglePlaying());
+            }}
+          >
+            {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
+          </button>
+        </div>
         <div className="song-result-card-text">
           <a className="song-result-card-title">{song?.title}</a>
           <a className="song-result-card-artist">{song?.artist}</a>

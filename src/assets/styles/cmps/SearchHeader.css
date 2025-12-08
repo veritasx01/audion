@@ -81,3 +81,71 @@
 .result-song-list-item:hover {
   background-color: hsla(0, 0%, 100%, 0.1);
 }
+
+.results-play-button {
+  position: relative;
+  background-color: var(--text-bright-accent);
+  opacity: 0;
+  width: 48px;
+  height: 48px;
+  right: -19rem;
+  bottom: -8rem;
+  margin: 0;
+  will-change: transform;
+  transition: opacity 0.2s ease-in-out;
+}
+.results-play-button:hover {
+  background-color: var(--text-bright-accent);
+}
+
+.top-result-card:hover {
+  .results-play-button {
+    opacity: 1;
+  }
+}
+
+.search-card-thumbnail-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-card-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.search-card-play-btn:hover {
+  background: transparent;
+}
+.search-card-thumbnail-container:hover .search-card-play-btn {
+  opacity: 1;
+  visibility: visible;
+}
+.search-card-thumbnail-container:hover .song-result-card-image {
+  filter: brightness(0.6);
+}
+.search-card-play-btn svg {
+  position: relative;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  fill: var(--text-base);
+  margin-left: 2px;
+}

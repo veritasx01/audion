@@ -40,7 +40,7 @@ export function songReducer(state = initialState, action) {
         songObj: { ...state.songObj, ...action.payload },
       };
     case SET_SECS:
-      const ended = action.payload >= state.currentDuration
+      const ended = action.payload >= state.currentDuration;
       return { ...state, secs: action.payload, hasEnded: ended };
     case SET_ENDED:
       return { ...state, hasEnded: action.payload };
