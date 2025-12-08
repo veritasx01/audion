@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SongResultCard } from "./SongResultCard";
-import { songService } from "../services/song.service";
+import { songService } from "../services/song/song.service.js";
 import { updateSongObject } from "../store/actions/song.action";
 import fallbackImage from "../assets/images/black_image.jpg";
 import { useDispatch } from "react-redux";
