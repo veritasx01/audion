@@ -30,7 +30,7 @@ export function PlaylistDetailsEditModal({
   };
 
   // Edit Playlist Details Modal
-  return showEditModal ? (
+  return showEditModal && !playlist.isLikedSongs ? (
     <div className="playlist-edit-modal">
       <div className="modal-content">
         <h2>Edit Details</h2>

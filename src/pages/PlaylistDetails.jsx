@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useExtractColors } from "react-extract-colors";
-import { playlistService } from "../services/playlist.service";
+import { playlistService } from "../services/playlist/playlist.service.js";
 import { sortColorsByBrightness } from "../services/util.service.js";
 import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
@@ -14,6 +15,9 @@ export function PlaylistDetails() {
   const navigate = useNavigate();
   const { playlistId } = useParams();
   const [playlist, setPlaylist] = useState(null);
+  const likedSongsFromStore = useSelector(
+    (state) => state.userLibraryModule.likedSongs
+  );
   const [showEditModal, setShowEditModal] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [gradientColors, setGradientColors] = useState(null);
@@ -22,6 +26,17 @@ export function PlaylistDetails() {
   useEffect(() => {
     loadPlaylist();
   }, [playlistId]);
+
+  // Update playlist when liked songs change in store (for immediate UI updates)
+  useEffect(() => {
+    if (
+      playlist?.isLikedSongs &&
+      likedSongsFromStore &&
+      playlist._id === likedSongsFromStore._id
+    ) {
+      setPlaylist(likedSongsFromStore);
+    }
+  }, [likedSongsFromStore, playlist?.isLikedSongs, playlist?._id]);
 
   useEffect(() => {
     /* Auto-expand search if playlist is empty */
@@ -71,7 +86,6 @@ export function PlaylistDetails() {
 
   const onOpenModal = () => {
     setShowEditModal(true);
-    console.log("Opening edit modal");
   };
 
   if (!playlist) return <div>Loading...</div>;

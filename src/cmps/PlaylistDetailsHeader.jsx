@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { formatPlaylistDuration } from "../services/playlist.service.js";
+import { formatPlaylistDuration } from "../services/playlist/playlist.service.js";
 
 export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
   return (
@@ -13,11 +13,15 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
         <div className="playlist-info">
           <span className="playlist-type">Playlist</span>
           <h1
-            className="playlist-title"
+            className={`playlist-title ${
+              playlist.isLikedSongs ? "disabled" : ""
+            }`}
             onClick={() => {
-              onOpenModal();
+              if (!playlist.isLikedSongs) {
+                onOpenModal();
+              }
             }}
-            title="Click to edit"
+            title={playlist.isLikedSongs ? "" : "Click to edit"}
           >
             {playlist.title}
           </h1>
@@ -27,12 +31,10 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
           <div className="playlist-metadata">
             <span className="creator">
               <img
-                src={`https://randomuser.me/api/portraits/thumb/men/${Math.floor(
-                  Math.random() * 100
-                )}.jpg`}
+                src={playlist.createdBy.profileImg}
                 alt={playlist.createdBy.username}
               />
-              {playlist.createdBy}
+              {playlist.createdBy.fullName}
             </span>
             {playlist.songs.length > 0 && (
               <>

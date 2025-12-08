@@ -1,4 +1,4 @@
-import { playlistService } from "../../services/playlist.service";
+import { playlistService } from "../../services/playlist/playlist.service.js";
 import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service";
 import { store } from "../store";
 import {
@@ -68,6 +68,7 @@ export function addPlaylist(playlist) {
     .then((savedPlaylist) => {
       store.dispatch({ type: ADD_PLAYLIST, payload: savedPlaylist });
       showSuccessMsg("Playlist added");
+      return savedPlaylist;
     })
     .catch((err) => {
       console.log("Playlist Actions: Having issues with adding playlist:", err);
