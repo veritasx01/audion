@@ -7,6 +7,7 @@ import {
   SET_ENDED,
   SET_SECS,
   SET_IS_READY,
+  SET_PLAYING,
 } from '../reducers/song.reducer';
 
 export function updateCurrentSong(song) {
@@ -40,3 +41,8 @@ export function setAudioEnded(hasEnded) {
 export function setAudioReady(isReady) {
   return { type: SET_IS_READY, payload: isReady };
 }
+
+export function setPlaying(isPlaying) {
+  return { type: SET_PLAYING, payload: isPlaying };
+}
+
