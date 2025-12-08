@@ -31,6 +31,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   );
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
+  const likedSongs = useSelector((state) => state.userLibraryModule.likedSongs);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const isCurrentPlaylist = queueState?.playlistId === playlist._id;
@@ -81,6 +82,10 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     }
   }
 
+  const isPlaylistEditable =
+    !playlist.isLikedSongs &&
+    playlist.createdBy._id === likedSongs?.createdBy?._id;
+
   // Define menu items for playlist options
   const playlistMenuItems = [
     /*{
@@ -98,11 +103,13 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
       label: "Edit details",
       icon: editDetailsIcon({}),
       onClick: onOpenModal,
+      disabled: !isPlaylistEditable,
     },
     {
       id: "delete",
       label: "Delete",
       icon: deleteIcon({}),
+      disabled: !isPlaylistEditable,
       danger: true,
       onClick: onDeletePlaylist,
     },
@@ -116,38 +123,42 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     },
   ];
 
+  const isPlaylistEmpty = !playlist.songs || playlist.songs?.length === 0;
+
   return (
     <section className="playlist-controls">
       <div className="controls-primary">
         {/* Play/Pause Button */}
-        <button
-          className="playlist-play-pause-btn"
-          title={`${
-            isCurrentlyPlaying ? "Pause" : "Play"
-          } ${playlist.title}`}
-          onClick={() => handlePlayPause()}
-        >
-          {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
-        </button>
+        {!isPlaylistEmpty && (
+          <button
+            className={"playlist-play-pause-btn hov-enlarge"}
+            title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${playlist.title}`}
+            onClick={() => handlePlayPause()}
+          >
+            {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
+          </button>
+        )}
         {/* Enable/Disable Shuffle Button */}
-        <button
-          className={`playlist-shuffle-btn hov-enlarge ${
-            isShuffleEnabled ? "green-button" : ""
-          }`}
-          title={`${
-            isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
-          } for ${playlist.title}`}
-          onClick={() => {
-            dispatch(toggleShuffle());
-            showSuccessMsg(
-              `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
-                playlist.title
-              }`
-            );
-          }}
-        >
-          {enableShuffleIcon({})}
-        </button>
+        {!isPlaylistEmpty && (
+          <button
+            className={`playlist-shuffle-btn hov-enlarge ${
+              isShuffleEnabled ? "green-button" : ""
+            }`}
+            title={`${
+              isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
+            } for ${playlist.title}`}
+            onClick={() => {
+              dispatch(toggleShuffle());
+              showSuccessMsg(
+                `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
+                  playlist.title
+                }`
+              );
+            }}
+          >
+            {enableShuffleIcon({})}
+          </button>
+        )}
         {/* More Options Button */}
         <button
           className="playlist-options-btn"

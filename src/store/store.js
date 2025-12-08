@@ -2,17 +2,19 @@ import {
   legacy_createStore as createStore,
   combineReducers,
   compose,
-} from 'redux';
-import { songReducer } from './reducers/song.reducer';
-import { playlistReducer } from './reducers/playlist.reducer';
-import { systemReducer } from './reducers/system.reducer';
-import { songQueueReducer } from './reducers/songQueue.reducer';
+} from "redux";
+import { songReducer } from "./reducers/song.reducer";
+import { playlistReducer } from "./reducers/playlist.reducer";
+import { systemReducer } from "./reducers/system.reducer";
+import { songQueueReducer } from "./reducers/songQueue.reducer";
+import { userLibraryReducer } from "./reducers/userLibrary.reducer";
 
 const rootReducer = combineReducers({
   songModule: songReducer,
   playlistModule: playlistReducer,
   systemModule: systemReducer,
   songQueueModule: songQueueReducer,
+  userLibraryModule: userLibraryReducer,
 });
 
 const composeEnhancers =

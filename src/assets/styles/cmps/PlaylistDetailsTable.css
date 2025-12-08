@@ -447,6 +447,23 @@
   justify-content: center;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Remove all button focus/active states that could cause black circles */
+.add-btn:focus,
+.add-btn:active,
+.add-btn:hover,
+.menu-btn:focus,
+.menu-btn:active,
+.menu-btn:hover {
+  background: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
 }
 
 /* Show buttons only when row is hovered or focused */

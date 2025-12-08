@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
+import { addSong, removeSong } from "../store/actions/playlist.action.js";
 import {
-  addSong,
-  removeSong,
-  loadPlaylists,
-} from "../store/actions/playlist.action.js";
+  addSongToLikedSongs,
+  removeSongFromLikedSongs,
+  loadLibraryPlaylists,
+} from "../store/actions/userLibrary.action.js";
 import {
   ContextMenu,
   useContextMenu,
@@ -28,6 +29,7 @@ import {
   setSongQueue,
 } from "../store/actions/songQueue.action.js";
 import { showSuccessMsg } from "../services/event-bus.service.js";
+import { formatTimeFromSecs } from "../services/util.service.js";
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
@@ -38,20 +40,25 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const playingPlaylistId = useSelector(
     (store) => store.songQueueModule.playlistId
   );
-  const playlists = useSelector((store) => store.playlistModule.playlists);
+  const libraryPlaylists = useSelector(
+    (store) => store.userLibraryModule.playlists
+  );
+  const likedSongsCollection = useSelector(
+    (store) => store.userLibraryModule.likedSongs
+  );
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const otherPlaylists = useMemo(
     () =>
-      playlists
+      libraryPlaylists
         .filter((pl) => pl._id !== playlist._id)
         .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
-    [playlists, playlist._id]
+    [libraryPlaylists, playlist._id]
   );
 
   // refresh library playlists when playlist changes (e.g., song added/removed)
   useEffect(() => {
-    loadPlaylists();
+    loadLibraryPlaylists();
   }, [playlist._id]);
 
   // Clear focused row when context menu closes
@@ -77,6 +84,25 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     };
   }, []);
 
+  function isSongInLikedSongs(songId) {
+    return likedSongsCollection?.songs?.some((s) => s._id === songId);
+  }
+
+  function onAddSongToLikedSongs(song) {
+    addSongToLikedSongs(likedSongsCollection.createdBy?._id, song).then(() => {
+      loadLibraryPlaylists();
+    });
+  }
+  function onRemoveSongFromLikedSongs(song) {
+    removeSongFromLikedSongs(likedSongsCollection.createdBy._id, song._id);
+    loadLibraryPlaylists();
+
+    // If currently viewing Liked Songs playlist, refresh it on playlist details view as well
+    if (playlist._id === likedSongsCollection._id) {
+      loadPlaylist();
+    }
+  }
+
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
     const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
@@ -95,6 +121,30 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     );
 
     // Create menu items specific to the selected song
+    let libraryMenuItem;
+
+    if (isSongInLikedSongs(song._id)) {
+      libraryMenuItem = {
+        id: "remove-from-liked-songs",
+        label: "Remove from your Liked Songs",
+        icon: checkmarkIcon({}),
+        onClick: () => {
+          onRemoveSongFromLikedSongs(song);
+          hideContextMenu();
+        },
+      };
+    } else {
+      libraryMenuItem = {
+        id: "add-to-liked-songs",
+        label: "Save to your Liked Songs",
+        icon: addToCollectionIcon({}),
+        onClick: () => {
+          onAddSongToLikedSongs(song);
+          hideContextMenu();
+        },
+      };
+    }
+
     const songMenuItems = [
       {
         id: "add-to-playlist",
@@ -107,7 +157,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   id: `playlist-${otherPlaylist._id}`,
                   label: otherPlaylist.title,
                   onClick: () => {
-                    addSong(otherPlaylist._id, song).then(() => loadPlaylist());
+                    addSong(otherPlaylist._id, song).then(() => {
+                      loadLibraryPlaylists();
+                      loadPlaylist();
+                    });
                     hideContextMenu();
                   },
                 };
@@ -120,7 +173,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                 },
               ],
       },
-      { type: "separator" },
       {
         id: "remove-from-playlist",
         label: "Remove from this playlist",
@@ -129,17 +181,12 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
           removeSong(playlist._id, song._id).then(() => loadPlaylist());
           hideContextMenu();
         },
+        disabled:
+          playlist.createdBy?._id !== likedSongsCollection.createdBy?._id,
       },
-      {
-        id: "add-to-liked-songs",
-        label: "Save to Your Liked Songs",
-        icon: addToCollectionIcon({}),
-        onClick: () => {
-          //onAddSong(playlist._id, song._id).then(() => loadPlaylist());
-          showSuccessMsg("To be implemented...");
-          hideContextMenu();
-        },
-      },
+      { type: "separator" },
+
+      libraryMenuItem,
     ];
 
     showContextMenu(modifiedEvent, songMenuItems);
@@ -153,11 +200,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     });
   }
 
-  function formatSongDuration(totalSeconds) {
-    if (!totalSeconds) return "";
-    const minutes = Math.floor(totalSeconds / 60);
-    const secondsRemainder = totalSeconds % 60;
-    return `${minutes}:${secondsRemainder.toString().padStart(2, "0")}`;
+  if (!playlist.songs || playlist.songs.length === 0) {
+    return;
   }
 
   return (
@@ -277,18 +321,28 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               <td className="playlist-song-add-action" key="add-action">
                 <button
                   className="add-btn"
-                  title="Save to your Liked Songs"
+                  title={
+                    !isSongInLikedSongs(song._id)
+                      ? "Save to your Liked Songs"
+                      : "Remove from your Liked Songs"
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     setFocusedRow(idx);
-                    showSuccessMsg("To be implemented...");
+                    if (!isSongInLikedSongs(song._id)) {
+                      onAddSongToLikedSongs(song);
+                    } else {
+                      onRemoveSongFromLikedSongs(song);
+                    }
                   }}
                 >
-                  {checkmarkIcon({})}
+                  {!isSongInLikedSongs(song._id)
+                    ? addToCollectionIcon({})
+                    : checkmarkIcon({})}
                 </button>
               </td>
               <td className="playlist-song-duration" key="duration">
-                {song.duration ? formatSongDuration(song.duration) : ""}
+                {song.duration ? formatTimeFromSecs(song.duration) : ""}
               </td>
               <td className="playlist-table-actions" key="actions">
                 <div className="playlist-row-actions">
