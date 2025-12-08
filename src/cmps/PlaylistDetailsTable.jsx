@@ -84,6 +84,25 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     };
   }, []);
 
+  function isSongInLikedSongs(songId) {
+    return likedSongsCollection?.songs?.some((s) => s._id === songId);
+  }
+
+  function onAddSongToLikedSongs(song) {
+    addSongToLikedSongs(likedSongsCollection.createdBy?._id, song).then(() => {
+      loadLibraryPlaylists();
+    });
+  }
+  function onRemoveSongFromLikedSongs(song) {
+    removeSongFromLikedSongs(likedSongsCollection.createdBy._id, song._id);
+    loadLibraryPlaylists();
+
+    // If currently viewing Liked Songs playlist, refresh it on playlist details view as well
+    if (playlist._id === likedSongsCollection._id) {
+      loadPlaylist();
+    }
+  }
+
   function handleOnSongMoreOptionsClick(e, song) {
     e.preventDefault();
     const buttonRect = e.currentTarget.getBoundingClientRect(); // Get the button's position
@@ -104,23 +123,14 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     // Create menu items specific to the selected song
     let libraryMenuItem;
 
-    if (likedSongsCollection?.songs?.some((s) => s._id === song._id)) {
+    if (isSongInLikedSongs(song._id)) {
       libraryMenuItem = {
         id: "remove-from-liked-songs",
         label: "Remove from your Liked Songs",
         icon: checkmarkIcon({}),
         onClick: () => {
-          removeSongFromLikedSongs(
-            likedSongsCollection.createdBy._id,
-            song._id
-          );
-          loadLibraryPlaylists();
+          onRemoveSongFromLikedSongs(song);
           hideContextMenu();
-
-          // If currently viewing Liked Songs playlist, refresh it on playlist details view
-          if (playlist._id === likedSongsCollection._id) {
-            loadPlaylist();
-          }
         },
       };
     } else {
@@ -129,9 +139,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         label: "Save to your Liked Songs",
         icon: addToCollectionIcon({}),
         onClick: () => {
-          addSongToLikedSongs(playlist.createdBy._id, song).then(() => {
-            loadLibraryPlaylists();
-          });
+          onAddSongToLikedSongs(song);
           hideContextMenu();
         },
       };
@@ -311,14 +319,24 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               <td className="playlist-song-add-action" key="add-action">
                 <button
                   className="add-btn"
-                  title="Save to your Liked Songs"
+                  title={
+                    !isSongInLikedSongs(song._id)
+                      ? "Save to your Liked Songs"
+                      : "Remove from your Liked Songs"
+                  }
                   onClick={(e) => {
                     e.preventDefault();
                     setFocusedRow(idx);
-                    showSuccessMsg("To be implemented...");
+                    if (!isSongInLikedSongs(song._id)) {
+                      onAddSongToLikedSongs(song);
+                    } else {
+                      onRemoveSongFromLikedSongs(song);
+                    }
                   }}
                 >
-                  {checkmarkIcon({})}
+                  {!isSongInLikedSongs(song._id)
+                    ? addToCollectionIcon({})
+                    : checkmarkIcon({})}
                 </button>
               </td>
               <td className="playlist-song-duration" key="duration">
