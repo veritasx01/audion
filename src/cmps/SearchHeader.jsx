@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { SongResultCard } from "./SongResultCard";
 import { songService } from "../services/song/song.service.js";
 import fallbackImage from "../assets/images/black_image.jpg";
-import { useDispatch } from "react-redux";
 import { playIcon, pauseIcon } from "../services/icon.service.jsx";
 import { useSongController } from "../customHooks/useSongController.jsx";
 
@@ -35,7 +34,6 @@ const defaultSongs = [
 
 export function SearchHeader({ searchWord }) {
   const [songsResult, setSongsResult] = useState(defaultSongs);
-  const dispatch = useDispatch();
   useEffect(() => {
     // add searching mechanism here
     const loadSongs = async () => {
