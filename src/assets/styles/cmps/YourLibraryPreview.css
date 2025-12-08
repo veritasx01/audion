@@ -111,6 +111,15 @@
   flex: 1;
 }
 
+.your-library-preview-link:hover {
+  text-decoration: none;
+}
+
+.your-library-preview-link:hover .your-library-title,
+.your-library-preview-link:hover .your-library-meta {
+  text-decoration: none;
+}
+
 /* Thumbnail container for play button overlay */
 .your-library-thumbnail-container {
   position: relative;
