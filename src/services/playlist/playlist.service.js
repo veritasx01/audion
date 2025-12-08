@@ -122,6 +122,17 @@ function query(filterBy) {
           (playlist) => playlist.isLikedSongs === filterBy.isLikedSongs
         );
       }
+
+      // filter by genere in playlist songs
+      if (filterBy?.genre) {
+        playlists = playlists.filter((playlist) =>
+          playlist.songs?.some((song) =>
+            song.genres
+              .map((genre) => genre.toLowerCase())
+              .includes(filterBy.genre.toLowerCase())
+          )
+        );
+      }
       return playlists;
     })
     .catch((error) => {

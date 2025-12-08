@@ -42,6 +42,12 @@ export function query(filterBy) {
             regexExpression.test(song.albumName)
         );
       }
+      if (filterBy?.genre) {
+        const genre = filterBy.genre.toLowerCase();
+        songs = songs.filter((song) =>
+          song.genres.some((songGenre) => songGenre.toLowerCase() === genre)
+        );
+      }
       return songs;
     })
     .catch((error) => {
