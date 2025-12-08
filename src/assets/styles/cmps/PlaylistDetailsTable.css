@@ -478,6 +478,11 @@
   opacity: 1;
 }
 
+/* Always show add button when song is liked */
+.add-btn.liked {
+  opacity: 1;
+}
+
 /* Keep buttons visible when they are focused or active */
 .add-btn:focus,
 .menu-btn:focus,

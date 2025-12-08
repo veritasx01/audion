@@ -320,7 +320,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
 
               <td className="playlist-song-add-action" key="add-action">
                 <button
-                  className="add-btn"
+                  className={`add-btn ${
+                    isSongInLikedSongs(song._id) ? "liked" : ""
+                  }`}
                   title={
                     !isSongInLikedSongs(song._id)
                       ? "Save to your Liked Songs"
