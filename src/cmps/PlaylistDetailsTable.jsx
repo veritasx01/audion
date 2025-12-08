@@ -181,6 +181,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
           removeSong(playlist._id, song._id).then(() => loadPlaylist());
           hideContextMenu();
         },
+        disabled:
+          playlist.createdBy?._id !== likedSongsCollection.createdBy?._id,
       },
       { type: "separator" },
 
