@@ -118,36 +118,42 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     },
   ];
 
+  const isPlaylistEmpty = !playlist.songs || playlist.songs?.length === 0;
+
   return (
     <section className="playlist-controls">
       <div className="controls-primary">
         {/* Play/Pause Button */}
-        <button
-          className="playlist-play-pause-btn"
-          title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${playlist.title}`}
-          onClick={() => handlePlayPause()}
-        >
-          {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
-        </button>
+        {!isPlaylistEmpty && (
+          <button
+            className={"playlist-play-pause-btn hov-enlarge"}
+            title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${playlist.title}`}
+            onClick={() => handlePlayPause()}
+          >
+            {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
+          </button>
+        )}
         {/* Enable/Disable Shuffle Button */}
-        <button
-          className={`playlist-shuffle-btn hov-enlarge ${
-            isShuffleEnabled ? "green-button" : ""
-          }`}
-          title={`${
-            isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
-          } for ${playlist.title}`}
-          onClick={() => {
-            dispatch(toggleShuffle());
-            showSuccessMsg(
-              `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
-                playlist.title
-              }`
-            );
-          }}
-        >
-          {enableShuffleIcon({})}
-        </button>
+        {!isPlaylistEmpty && (
+          <button
+            className={`playlist-shuffle-btn hov-enlarge ${
+              isShuffleEnabled ? "green-button" : ""
+            }`}
+            title={`${
+              isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
+            } for ${playlist.title}`}
+            onClick={() => {
+              dispatch(toggleShuffle());
+              showSuccessMsg(
+                `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
+                  playlist.title
+                }`
+              );
+            }}
+          >
+            {enableShuffleIcon({})}
+          </button>
+        )}
         {/* More Options Button */}
         <button
           className="playlist-options-btn"
