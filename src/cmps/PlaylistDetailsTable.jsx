@@ -146,7 +146,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   id: `playlist-${otherPlaylist._id}`,
                   label: otherPlaylist.title,
                   onClick: () => {
-                    addSong(otherPlaylist._id, song).then(() => loadPlaylist());
+                    addSong(otherPlaylist._id, song).then(() => {
+                      loadLibraryPlaylists();
+                      loadPlaylist();
+                    });
                     hideContextMenu();
                   },
                 };
