@@ -98,11 +98,13 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
       label: "Edit details",
       icon: editDetailsIcon({}),
       onClick: onOpenModal,
+      disabled: playlist.isLikedSongs,
     },
     {
       id: "delete",
       label: "Delete",
       icon: deleteIcon({}),
+      disabled: playlist.isLikedSongs,
       danger: true,
       onClick: onDeletePlaylist,
     },
@@ -122,9 +124,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {/* Play/Pause Button */}
         <button
           className="playlist-play-pause-btn"
-          title={`${
-            isCurrentlyPlaying ? "Pause" : "Play"
-          } ${playlist.title}`}
+          title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${playlist.title}`}
           onClick={() => handlePlayPause()}
         >
           {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
