@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { songs } from "../assets/data/songs.js";
 import { addSong } from "../store/actions/playlist.action.js";
+import { loadLibraryPlaylists } from "../store/actions/userLibrary.action.js";
 import { searchIcon, clearIcon } from "../services/icon.service.jsx";
-import { songService } from "../services/song.service.js";
+import { songService } from "../services/song/song.service.js";
 import { formatTimeFromSecs } from "../services/util.service.js";
 import { useDebounce } from "../customHooks/useDebounce.js";
 
@@ -49,6 +49,7 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
     try {
       await addSong(playlist._id, song);
       loadPlaylist();
+      loadLibraryPlaylists();
       // Don't clear search to allow adding multiple songs
     } catch (error) {
       console.error("Error adding song to playlist:", error);

@@ -20,6 +20,7 @@ export const iconService = {
   removeIcon,
   addToCollectionIcon,
   fullSpeakerIcon,
+  createPlaylistIcon,
 };
 
 // icon for collapsing a left side bar or expanding a right side bar
@@ -411,6 +412,24 @@ export function fullSpeakerIcon({ height, width, fill, stroke, viewBox }) {
     >
       <path d="M10.016 1.125A.75.75 0 0 0 8.99.85l-6.925 4a3.64 3.64 0 0 0 0 6.299l6.925 4a.75.75 0 0 0 1.125-.65v-13a.75.75 0 0 0-.1-.375zM11.5 5.56a2.75 2.75 0 0 1 0 4.88z"></path>
       <path d="M16 8a5.75 5.75 0 0 1-4.5 5.614v-1.55a4.252 4.252 0 0 0 0-8.127v-1.55A5.75 5.75 0 0 1 16 8"></path>
+    </svg>
+  );
+}
+
+// for creating a new playlist from your-library menu
+export function createPlaylistIcon({ height, width, fill, stroke, viewBox }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      height={height || "16"}
+      width={width || "16"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+    >
+      <path d="M2 0v2H0v1.5h2v2h1.5v-2h2V2h-2V0zm11.5 2.5H8.244A5.5 5.5 0 0 0 7.966 1H15v11.75A2.75 2.75 0 1 1 12.25 10h1.25zm0 9h-1.25a1.25 1.25 0 1 0 1.25 1.25zM4 8.107a5.5 5.5 0 0 0 1.5-.593v5.236A2.75 2.75 0 1 1 2.75 10H4zM4 11.5H2.75A1.25 1.25 0 1 0 4 12.75z"></path>
+      ;
     </svg>
   );
 }

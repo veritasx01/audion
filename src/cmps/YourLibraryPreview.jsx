@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, generatePath } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
+import { userService } from "../services/user/user.service.js";
+import { playlistService } from "../services/playlist/playlist.service.js";
 import {
-  playIcon,
-  pauseIcon,
-  fullSpeakerIcon,
-} from "../services/icon.service.jsx";
-import { arraysEqual } from "../services/util.service.js";
+  addPlaylist,
+  removePlaylist,
+} from "../store/actions/playlist.action.js";
+import {
+  addPlaylistToLibrary,
+  removePlaylistFromLibrary,
+  loadLibraryPlaylists,
+} from "../store/actions/userLibrary.action.js";
 import { togglePlaying } from "../store/actions/song.action";
 import {
   clearSongQueue,
@@ -13,6 +20,17 @@ import {
   setSongQueue,
   toggleShuffle,
 } from "../store/actions/songQueue.action.js";
+import {
+  playIcon,
+  pauseIcon,
+  fullSpeakerIcon,
+  addToQueueIcon,
+  editDetailsIcon,
+  deleteIcon,
+  createPlaylistIcon,
+  copyIcon,
+} from "../services/icon.service.jsx";
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 
 export function YourLibraryPreview({
   _id,
@@ -24,8 +42,14 @@ export function YourLibraryPreview({
   isCollapsed,
 }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
+  const likedSongs = useSelector((state) => state.userLibraryModule.likedSongs);
+  const libraryPlaylists = useSelector(
+    (store) => store.userLibraryModule.playlists
+  );
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const isCurrentPlaylist = queueState?.playlistId === _id;
   const isCurrentlyPlaying = isNowPlaying && isCurrentPlaylist;
@@ -43,8 +67,114 @@ export function YourLibraryPreview({
     }
   }
 
+  async function onSharePlaylistURL() {
+    try {
+      // Generate URL for this specific playlist
+      const playlistPath = generatePath("/playlist/:id", { id: _id });
+      const playlistUrl = `${window.location.origin}${playlistPath}`;
+
+      await navigator.clipboard.writeText(playlistUrl);
+      showSuccessMsg("Link copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy URL: ", err);
+      showErrorMsg("Failed to copy link");
+    }
+  }
+
+  function handleOnCreatePlaylist() {
+    // (1) create playlist object in-memory
+    const newPlaylist = playlistService.createPlaylist(
+      `My Playlist #${libraryPlaylists.length + 1}`, // title
+      "", // description
+      userService.getDefaultUser() // createdBy
+    );
+    // (2) Save the playlist on backend storage & add it playlist store
+    addPlaylist(newPlaylist)
+      .then((savedPlaylist) => {
+        // (3) add the new playlist to user's library on backend & in store
+        return addPlaylistToLibrary(
+          savedPlaylist.createdBy?._id,
+          savedPlaylist._id
+        ).then(() => savedPlaylist); // Return the savedPlaylist for the next chain
+      })
+      .then((savedPlaylist) => {
+        // (4) reload user's library playlists
+        return loadLibraryPlaylists(savedPlaylist.createdBy?._id).then(
+          () => savedPlaylist
+        ); // Return the savedPlaylist for the next chain
+      })
+      .then((savedPlaylist) => {
+        // (5) navigate to the new playlist's page
+        navigate(`/playlist/${savedPlaylist._id}`);
+      })
+      .catch((err) => {
+        console.error("Error creating playlist:", err);
+        showErrorMsg("Failed to create playlist");
+      });
+  }
+
+  function handleContextMenu(ev) {
+    showContextMenu(ev, getContextMenuItems());
+  }
+
+  function getContextMenuItems() {
+    const menuItems = [];
+
+    menuItems.push({
+      id: "add-to-queue",
+      label: "Add to queue",
+      icon: addToQueueIcon({}),
+      disabled: true, // TODO: enable when queue merging is implemented
+      onClick: () => {
+        // TBD: handle adding to queue without intefering play of current song
+        dispatch(setSongQueue([...queueState.songQueue, ...songs]));
+        // dispatch(setPlaylistId(_id));
+      },
+    });
+    menuItems.push({ type: "separator" });
+    menuItems.push({
+      id: "edit-details",
+      label: "Edit details",
+      icon: editDetailsIcon({}),
+      disabled: true,
+      onClick: () => {},
+    });
+    menuItems.push({
+      id: "delete",
+      label: "Delete playlist",
+      icon: deleteIcon({}),
+      danger: true,
+      disabled:
+        likedSongs._id === _id || createdBy._id !== likedSongs?.createdBy?._id,
+      onClick: () => {
+        removePlaylist(_id);
+        removePlaylistFromLibrary(likedSongs.createdBy._id, _id);
+      },
+    });
+    menuItems.push({ type: "separator" });
+    menuItems.push({
+      id: "create",
+      label: "Create playlist",
+      icon: createPlaylistIcon({}),
+      onClick: () => {
+        handleOnCreatePlaylist();
+      },
+    });
+    menuItems.push({ type: "separator" });
+    menuItems.push({
+      id: "share",
+      label: "Copy link to playlist",
+      icon: copyIcon({}),
+      onClick: onSharePlaylistURL,
+    });
+    return menuItems;
+  }
+
   return (
-    <div className={`your-library-preview${isCollapsed ? " collapsed" : ""}`}>
+    <div
+      className={`your-library-preview${isCollapsed ? " collapsed" : ""}`}
+      onContextMenu={handleContextMenu}
+    >
       <Link to={`/${itemType}/${_id}`} className="your-library-preview-link">
         <div className="your-library-thumbnail-container">
           <img
@@ -74,7 +204,7 @@ export function YourLibraryPreview({
               {title}
             </h4>
             <p className="your-library-meta">
-              {itemType} • {createdBy}
+              {itemType} • {createdBy.fullName}
             </p>
           </div>
         )}
@@ -88,6 +218,14 @@ export function YourLibraryPreview({
           </div>
         )}
       </Link>
+
+      <ContextMenu
+        isVisible={contextMenu.isVisible}
+        position={contextMenu.position}
+        onClose={hideContextMenu}
+        menuItems={contextMenu.items}
+        className="library-context-menu"
+      />
     </div>
   );
 }
