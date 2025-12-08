@@ -103,3 +103,49 @@
     opacity: 1;
   }
 }
+
+.search-card-thumbnail-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-card-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.search-card-play-btn:hover {
+  background: transparent;
+}
+.search-card-thumbnail-container:hover .search-card-play-btn {
+  opacity: 1;
+  visibility: visible;
+}
+.search-card-thumbnail-container:hover .song-result-card-image {
+  filter: brightness(0.6);
+}
+.search-card-play-btn svg {
+  position: relative;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  fill: var(--text-base);
+  margin-left: 2px;
+}
