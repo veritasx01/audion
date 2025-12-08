@@ -35,10 +35,16 @@ export function YourLibrary() {
   const libraryPlaylists = useSelector(
     (store) => store.userLibraryModule.playlists
   );
+  const likedSongsCollection = useSelector(
+    (store) => store.userLibraryModule.likedSongs
+  );
   const libraryItems = useMemo(
     () =>
-      libraryPlaylists.map((playlist) => ({ ...playlist, type: "Playlist" })),
-    [libraryPlaylists]
+      [likedSongsCollection, ...libraryPlaylists].map((playlist) => ({
+        ...playlist,
+        type: "Playlist",
+      })),
+    [likedSongsCollection, libraryPlaylists]
   );
   const isLoading = useSelector((store) => store.userLibraryModule.isLoading);
   const isCollapsed = !useSelector((store) => store.systemModule.libraryView);
