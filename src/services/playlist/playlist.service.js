@@ -56,6 +56,11 @@ function addSong(playlistId, song) {
   const newSong = { ...song, addedAt: new Date() };
   return getById(playlistId).then((playlist) => {
     playlist.songs.push(newSong);
+
+    // if playlist has no thumbnail or default thumbnail, set to new song's thumbnail
+    if (!playlist.thumbnail || playlist.thumbnail === defaultThumbnail) {
+      playlist.thumbnail = newSong.thumbnail || defaultThumbnail;
+    }
     return save(playlist);
   });
 }
