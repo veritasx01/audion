@@ -282,6 +282,16 @@ function _createPlaylists() {
 
     demoPlaylists.push(
       createPlaylist(
+        "Rock Anthems",
+        "Classic rock tunes",
+        defaultUser,
+        new Date(),
+        rockSongs.map((song) => ({ ...song, addedAt: new Date() }))
+      )
+    );
+
+    demoPlaylists.push(
+      createPlaylist(
         "Blues Essentials",
         "Classic blues tracks",
         user1,
@@ -304,7 +314,7 @@ function _createPlaylists() {
       createPlaylist(
         "Elton John Greatest Hits",
         "Hits from Elton John",
-        user2,
+        defaultUser,
         new Date(),
         eltonJohnSongs.map((song) => ({ ...song, addedAt: new Date() }))
       )
