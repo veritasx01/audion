@@ -59,7 +59,15 @@
 }
 
 .context-menu-item.danger {
+  color: var(--text-base);
+}
+
+.context-menu-item.danger .context-menu-icon {
   color: #e22134;
+}
+
+.context-menu-item.danger .context-menu-icon svg {
+  fill: #e22134;
 }
 
 .context-menu-item.danger:hover:not(.disabled) {
@@ -251,11 +259,16 @@
   margin: 0 4px;
 }
 
-.your-library-preview.collapsed .library-context-menu .context-menu-item .context-menu-text {
+.your-library-preview.collapsed
+  .library-context-menu
+  .context-menu-item
+  .context-menu-text {
   text-align: left;
 }
 
-.your-library-preview.collapsed .library-context-menu .context-menu-item:hover:not(.disabled) {
+.your-library-preview.collapsed
+  .library-context-menu
+  .context-menu-item:hover:not(.disabled) {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
