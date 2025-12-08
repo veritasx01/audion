@@ -31,6 +31,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   );
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
+  const likedSongs = useSelector((state) => state.userLibraryModule.likedSongs);
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const isCurrentPlaylist = queueState?.playlistId === playlist._id;
@@ -81,6 +82,10 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     }
   }
 
+  const isPlaylistEditable =
+    !playlist.isLikedSongs &&
+    playlist.createdBy._id === likedSongs?.createdBy?._id;
+
   // Define menu items for playlist options
   const playlistMenuItems = [
     /*{
@@ -98,13 +103,13 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
       label: "Edit details",
       icon: editDetailsIcon({}),
       onClick: onOpenModal,
-      disabled: playlist.isLikedSongs,
+      disabled: !isPlaylistEditable,
     },
     {
       id: "delete",
       label: "Delete",
       icon: deleteIcon({}),
-      disabled: playlist.isLikedSongs,
+      disabled: !isPlaylistEditable,
       danger: true,
       onClick: onDeletePlaylist,
     },
