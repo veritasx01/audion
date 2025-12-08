@@ -41,7 +41,7 @@ export function GlobalPlayer() {
   }, [ended, dispatch, songQueue.length]);
 
   useEffect(() => {
-    if (index === songQueue.length) {
+    if (index === songQueue.length && songQueue.length > 0) {
       dispatch(togglePlaying());
       return;
     }
