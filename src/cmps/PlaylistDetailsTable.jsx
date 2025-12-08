@@ -2,7 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { togglePlaying } from "../store/actions/song.action";
 import { addSong, removeSong } from "../store/actions/playlist.action.js";
-import { loadLibraryPlaylists } from "../store/actions/userLibrary.action.js";
+import {
+  addSongToLikedSongs,
+  removeSongFromLikedSongs,
+  loadLibraryPlaylists,
+} from "../store/actions/userLibrary.action.js";
 import {
   ContextMenu,
   useContextMenu,
@@ -95,6 +99,41 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     );
 
     // Create menu items specific to the selected song
+    let libraryMenuItem;
+    const likedSongsCollection = userLibraryPlaylists.find(
+      (p) => p.isLikedSongs
+    );
+    if (likedSongsCollection?.songs?.some((s) => s._id === song._id)) {
+      libraryMenuItem = {
+        id: "remove-from-liked-songs",
+        label: "Remove from your Liked Songs",
+        icon: checkmarkIcon({}),
+        onClick: () => {
+          removeSongFromLikedSongs(
+            likedSongsCollection.createdBy._id,
+            song._id
+          );
+          loadLibraryPlaylists();
+          hideContextMenu();
+
+          // If currently viewing Liked Songs playlist, refresh it on playlist details view
+          if (playlist._id === likedSongsCollection._id) loadPlaylist();
+        },
+      };
+    } else {
+      libraryMenuItem = {
+        id: "add-to-liked-songs",
+        label: "Save to your Liked Songs",
+        icon: addToCollectionIcon({}),
+        onClick: () => {
+          addSongToLikedSongs(playlist.createdBy._id, song).then(() => {
+            loadLibraryPlaylists();
+          });
+          hideContextMenu();
+        },
+      };
+    }
+
     const songMenuItems = [
       {
         id: "add-to-playlist",
@@ -120,7 +159,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                 },
               ],
       },
-      { type: "separator" },
       {
         id: "remove-from-playlist",
         label: "Remove from this playlist",
@@ -130,16 +168,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
           hideContextMenu();
         },
       },
-      {
-        id: "add-to-liked-songs",
-        label: "Save to Your Liked Songs",
-        icon: addToCollectionIcon({}),
-        onClick: () => {
-          //onAddSong(playlist._id, song._id).then(() => loadPlaylist());
-          showSuccessMsg("To be implemented...");
-          hideContextMenu();
-        },
-      },
+      { type: "separator" },
+
+      libraryMenuItem,
     ];
 
     showContextMenu(modifiedEvent, songMenuItems);
