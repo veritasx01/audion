@@ -71,7 +71,6 @@ export function PlaylistDetails() {
 
   const onOpenModal = () => {
     setShowEditModal(true);
-    console.log("Opening edit modal");
   };
 
   if (!playlist) return <div>Loading...</div>;

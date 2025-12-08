@@ -13,11 +13,15 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
         <div className="playlist-info">
           <span className="playlist-type">Playlist</span>
           <h1
-            className="playlist-title"
+            className={`playlist-title ${
+              playlist.isLikedSongs ? "disabled" : ""
+            }`}
             onClick={() => {
-              onOpenModal();
+              if (!playlist.isLikedSongs) {
+                onOpenModal();
+              }
             }}
-            title="Click to edit"
+            title={playlist.isLikedSongs ? "" : "Click to edit"}
           >
             {playlist.title}
           </h1>
