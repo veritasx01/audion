@@ -40,17 +40,20 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const playingPlaylistId = useSelector(
     (store) => store.songQueueModule.playlistId
   );
-  const userLibraryPlaylists = useSelector(
+  const libraryPlaylists = useSelector(
     (store) => store.userLibraryModule.playlists
+  );
+  const likedSongsCollection = useSelector(
+    (store) => store.userLibraryModule.likedSongs
   );
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
 
   const otherPlaylists = useMemo(
     () =>
-      userLibraryPlaylists
-        .filter((pl) => pl._id !== playlist._id && !pl.isLikedSongs)
+      libraryPlaylists
+        .filter((pl) => pl._id !== playlist._id)
         .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
-    [userLibraryPlaylists, playlist._id]
+    [libraryPlaylists, playlist._id]
   );
 
   // refresh library playlists when playlist changes (e.g., song added/removed)
@@ -100,9 +103,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
 
     // Create menu items specific to the selected song
     let libraryMenuItem;
-    const likedSongsCollection = userLibraryPlaylists.find(
-      (p) => p.isLikedSongs
-    );
+
     if (likedSongsCollection?.songs?.some((s) => s._id === song._id)) {
       libraryMenuItem = {
         id: "remove-from-liked-songs",
@@ -117,7 +118,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
           hideContextMenu();
 
           // If currently viewing Liked Songs playlist, refresh it on playlist details view
-          if (playlist._id === likedSongsCollection._id) loadPlaylist();
+          if (playlist._id === likedSongsCollection._id) {
+            loadPlaylist();
+          }
         },
       };
     } else {
