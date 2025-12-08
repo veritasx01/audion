@@ -3,6 +3,7 @@ import { SongResultCard } from "./SongResultCard";
 import { songService } from "../services/song/song.service.js";
 import fallbackImage from "../assets/images/black_image.jpg";
 import { useDispatch } from "react-redux";
+import { updateSongObject } from "../store/actions/song.action.js";
 
 const defaultSongs = [
   {
