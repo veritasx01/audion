@@ -48,7 +48,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const otherPlaylists = useMemo(
     () =>
       userLibraryPlaylists
-        .filter((pl) => pl._id !== playlist._id)
+        .filter((pl) => pl._id !== playlist._id && !pl.isLikedSongs)
         .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
     [userLibraryPlaylists, playlist._id]
   );
