@@ -124,6 +124,7 @@ export function YourLibraryPreview({
       id: "add-to-queue",
       label: "Add to queue",
       icon: addToQueueIcon({}),
+      disabled: true, // TODO: enable when queue merging is implemented
       onClick: () => {
         // TBD: handle adding to queue without intefering play of current song
         dispatch(setSongQueue([...queueState.songQueue, ...songs]));
