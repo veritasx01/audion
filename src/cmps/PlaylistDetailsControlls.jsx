@@ -223,13 +223,15 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
           </button>
         )}
         {/* More Options Button */}
-        <button
-          className="playlist-options-btn hov-enlarge"
-          title={`More options for ${playlist.title}`}
-          onClick={(e) => onShowOptionsMenu(e, playlist)}
-        >
-          {moreOptionsIcon({})}
-        </button>
+        {!(playlistId === likedSongs._id) && (
+          <button
+            className="playlist-options-btn hov-enlarge"
+            title={`More options for ${playlist.title}`}
+            onClick={(e) => onShowOptionsMenu(e, playlist)}
+          >
+            {moreOptionsIcon({})}
+          </button>
+        )}
       </div>
       {/* Context Menu */}
       <ContextMenu
