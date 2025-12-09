@@ -5,6 +5,7 @@ import { useExtractColors } from "react-extract-colors";
 import { playlistService } from "../services/playlist/playlist.service.js";
 import { sortColorsByBrightness } from "../services/util.service.js";
 import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
+import { loadLibraryPlaylists } from "../store/actions/userLibrary.action.js";
 import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
 import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
 import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
@@ -82,6 +83,7 @@ export function PlaylistDetails() {
   function onSavePlaylistDetails(updatedPlaylist) {
     setPlaylist(updatedPlaylist);
     updatePlaylistDetails(updatedPlaylist);
+    loadLibraryPlaylists();
   }
 
   const onOpenModal = () => {
