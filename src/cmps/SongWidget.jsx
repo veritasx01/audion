@@ -38,6 +38,11 @@ export function SongWidget() {
             isSongInLibrary ? "active" : ""
           }`}
           onClick={() => onAddOrRemoveLikedSong(userId, song, isSongInLibrary)}
+          title={
+            !isSongInLibrary
+              ? "Add to Liked Songs"
+              : "Remove from your Liked Songs"
+          }
         >
           <span className="size-16" aria-hidden="true">
             {isSongInLibrary
