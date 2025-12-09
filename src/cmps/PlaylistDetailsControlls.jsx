@@ -14,7 +14,13 @@ import {
   deleteIcon,
   enableShuffleIcon,
   disableShuffleIcon,
+  addToCollectionIcon,
+  checkmarkIcon,
 } from "../services/icon.service.jsx";
+import {
+  addPlaylistToLibrary,
+  removePlaylistFromLibrary,
+} from "../store/actions/userLibrary.action.js";
 import {
   clearSongQueue,
   setPlaylistId,
@@ -32,10 +38,17 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
   const likedSongs = useSelector((state) => state.userLibraryModule.likedSongs);
+  const libraryPlaylists = useSelector(
+    (state) => state.userLibraryModule.playlists
+  );
   const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
-
   const isCurrentPlaylist = queueState?.playlistId === playlist._id;
   const isCurrentlyPlaying = isNowPlaying && isCurrentPlaylist;
+  const isPlaylistInLibrary = libraryPlaylists?.some(
+    (p) => p._id === playlist._id
+  );
+  const userId = likedSongs?.createdBy?._id;
+  const isPlaylistOwnedByUser = userId === playlist.createdBy._id;
 
   function handlePlayPause() {
     // If it's already the current playlist (regardless of play state), just toggle
@@ -47,6 +60,20 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
       dispatch(setSongQueue([...playlist.songs]));
       dispatch(setPlaylistId(playlist._id));
       dispatch(togglePlaying());
+    }
+  }
+
+  function onAddOrRemoveFromLibrary(
+    userId,
+    playlistId,
+    isPlaylistOwnedByUser,
+    isPlaylistInLibrary
+  ) {
+    if (isPlaylistOwnedByUser) return; // Prevent adding/removing own playlist
+    if (!isPlaylistInLibrary) {
+      addPlaylistToLibrary(userId, playlistId);
+    } else {
+      removePlaylistFromLibrary(userId, playlistId);
     }
   }
 
@@ -157,6 +184,31 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
             }}
           >
             {enableShuffleIcon({})}
+          </button>
+        )}
+        {/* Add/Remove from Library Button */}
+        {!isPlaylistOwnedByUser && (
+          <button
+            className={"playlist-library-btn hov-enlarge"}
+            onClick={() => {
+              onAddOrRemoveFromLibrary(
+                userId,
+                playlist._id,
+                isPlaylistOwnedByUser,
+                isPlaylistInLibrary
+              );
+            }}
+            title={
+              likedSongs?.playlists?.some((p) => p._id === playlist._id)
+                ? `Remove ${playlist.title} from Your Library`
+                : `Add ${playlist.title} to Your Library`
+            }
+          >
+            <span className="size-24">
+              {isPlaylistInLibrary
+                ? checkmarkIcon({})
+                : addToCollectionIcon({ fill: "#b2b2b2" })}
+            </span>
           </button>
         )}
         {/* More Options Button */}
