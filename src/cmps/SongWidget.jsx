@@ -37,8 +37,8 @@ export function SongWidget() {
         )}
       </div>
       <div className="song-description">
-        <p className="widget-song-header">{song.title || "----------"}</p>
-        <p className="widget-song-artist">{song.artist || "-------"}</p>
+        <p className="widget-song-header">{song.title || ""}</p>
+        <p className="widget-song-artist">{song.artist || ""}</p>
       </div>
       <div className="add-button-container">
         <button
