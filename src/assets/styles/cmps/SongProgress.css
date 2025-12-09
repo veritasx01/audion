@@ -17,6 +17,7 @@
 
 .playback-position {
   width: 50px;
+  min-width: 25px;
   height: 17px;
   font-size: 0.75rem;
   text-align: right;
@@ -25,6 +26,7 @@
 
 .playback-duration {
   width: 50px;
+  min-width: 25px;
   height: 17px;
   font-size: 0.75rem;
   text-align: left;

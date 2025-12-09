@@ -25,7 +25,6 @@
   flex-direction: column;
   justify-content: flex-end;
   padding-top: 48px;
-  padding-bottom: 8px;
   overflow: visible;
 }
 
@@ -56,6 +55,7 @@
   white-space: normal;
   overflow-wrap: break-word;
   max-width: 100%;
+  margin-left: -4px; /* align title to same line as other text */
 }
 
 /* When library is collapsed, allow larger fonts */

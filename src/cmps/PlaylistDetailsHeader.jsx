@@ -23,9 +23,7 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
         >
           <span className="playlist-type">Playlist</span>
           <h1
-            className={`playlist-title ${
-              playlist.isLikedSongs ? "disabled" : ""
-            }`}
+            className={`playlist-title`}
             onClick={() => {
               if (!playlist.isLikedSongs) {
                 onOpenModal();
