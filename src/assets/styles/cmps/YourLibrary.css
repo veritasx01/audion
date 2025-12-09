@@ -60,7 +60,7 @@
 .library-title {
   margin: 0;
   font-size: 0.95rem;
-  font-weight: 750;
+  font-weight: 700;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -277,7 +277,7 @@
 .library-filters button {
   box-sizing: border-box;
   background: var(--bg);
-  color: var(--muted);
+  color: var(--text-base);
   border: 0;
   padding: var(--filter-vert) var(--filter-horz); /* equal top/bottom padding */
   min-height: var(--filter-height);
@@ -285,7 +285,7 @@
   border-radius: 9999px; /* full pill shape */
   cursor: pointer;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 4px;
   line-height: 1; /* important for perfect vertical centering */
   display: inline-flex;

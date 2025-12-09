@@ -4,7 +4,6 @@
   height: 100vh;
   color: #fff;
   background: var(--background-base);
-  font-family: "Inter", "Roboto", "Arial", sans-serif;
 }
 
 .playlist-details .playlist-bg {
