@@ -205,6 +205,7 @@
 
 .library-create-text {
   line-height: 16px;
+  color: var(--text-base);
   margin: 0;
   padding: 0;
   display: inline-flex;
@@ -284,7 +285,8 @@
   height: auto; /* allow padding to control vertical spacing */
   border-radius: 9999px; /* full pill shape */
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-family: "Manrope", sans-serif;
   font-weight: 500;
   margin: 4px;
   line-height: 1; /* important for perfect vertical centering */
