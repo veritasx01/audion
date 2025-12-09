@@ -96,7 +96,7 @@
 .your-library-meta {
   font-size: 13px;
   font-weight: 500;
-  color: #b3b3b3;
+  color: var(--text-subdued);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
