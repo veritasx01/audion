@@ -27,7 +27,7 @@ export function query(filterBy) {
   return storageService
     .query(STORAGE_KEY)
     .then((songs) => {
-      if (filterBy?.freeText) {
+      if (filterBy?.freeText && filterBy?.freeText !== "*") {
         let { freeText } = filterBy;
         // Create regex for word boundary matching (case insensitive)
         const regexExpression = new RegExp(
