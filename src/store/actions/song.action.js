@@ -43,5 +43,6 @@ export function setAudioReady(isReady) {
 }
 
 export function setPlaying(isPlaying) {
-  return {type: SET_PLAYING, payload: isPlaying};
+  return { type: SET_PLAYING, payload: isPlaying };
 }
+

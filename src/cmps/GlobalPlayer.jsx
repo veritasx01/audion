@@ -48,7 +48,6 @@ export function GlobalPlayer() {
     if (songQueue && songQueue.length > 0) {
       const nextSong = songQueue[index];
       if (nextSong) {
-        console.log("Loading song at index:", index, nextSong);
         dispatch(setAudioEnded(false));
         dispatch(updateSongObject(nextSong));
       }
