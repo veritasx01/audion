@@ -46,8 +46,12 @@ export function SongWidget() {
         >
           <span className="size-16" aria-hidden="true">
             {isSongInLibrary
-              ? checkmarkIcon({})
-              : addToCollectionIcon({ fill: "#b0b0b0" })}
+              ? checkmarkIcon({ height: "16px", width: "16px" })
+              : addToCollectionIcon({
+                  height: "16px",
+                  width: "16px",
+                  fill: "#b0b0b0",
+                })}
           </span>
         </button>
       </div>
