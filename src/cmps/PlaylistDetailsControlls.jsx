@@ -204,10 +204,13 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
                 : `Add ${playlist.title} to Your Library`
             }
           >
-            <span className="size-24">
+            <span className="size-32">
               {isPlaylistInLibrary
-                ? checkmarkIcon({})
-                : addToCollectionIcon({ fill: "#b2b2b2" })}
+                ? checkmarkIcon({ height: 32, width: 32 })
+                : addToCollectionIcon({
+                    height: 32,
+                    width: 32,
+                  })}
             </span>
           </button>
         )}
