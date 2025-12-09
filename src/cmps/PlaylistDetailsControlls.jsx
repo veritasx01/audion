@@ -216,7 +216,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         )}
         {/* More Options Button */}
         <button
-          className="playlist-options-btn"
+          className="playlist-options-btn hov-enlarge"
           title={`More options for ${playlist.title}`}
           onClick={onShowOptionsMenu}
         >

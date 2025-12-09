@@ -26,17 +26,10 @@
   padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 8px 24px rgba(30, 215, 96, 0.3);
 }
 
 .playlist-play-pause-btn:hover {
   background: #1fdf64;
-  transform: scale(1.06);
-  box-shadow: 0 12px 32px rgba(30, 215, 96, 0.4);
-}
-
-.playlist-play-pause-btn:active {
-  transform: scale(0.98);
 }
 
 .playlist-play-pause-btn svg {
@@ -62,7 +55,6 @@
 .playlist-options-btn:hover {
   background: none;
   opacity: 1;
-  transform: scale(1.1);
 }
 
 .playlist-options-btn:focus,
