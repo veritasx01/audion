@@ -20,13 +20,13 @@
 
 .playlist-info {
   flex: 1;
-  height: 232px;
+  min-height: 232px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 48px;
   padding-bottom: 8px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .playlist-type {
@@ -35,22 +35,66 @@
   margin-bottom: 8px;
 }
 
-.playlist-title {
-  font-size: 72px;
+.playlist-info {
+  container-type: inline-size;
+}
+
+.playlist-header .playlist-info .playlist-title {
+  font-size: clamp(
+    1.8rem,
+    6cqi,
+    3.5rem
+  ); /* 29px to 56px based on container width */
   font-weight: 900;
   line-height: 1.1;
   color: white;
   margin: 0 0 8px 0;
   cursor: pointer;
   transition: opacity 0.2s;
+  word-break: break-word;
+  hyphens: auto;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
-.playlist-title.disabled {
+/* When library is collapsed, allow larger fonts */
+.playlist-info.library-collapsed .playlist-title {
+  font-size: clamp(2.2rem, 8cqi, 4rem); /* 35px to 64px */
+}
+
+/* When now-playing is expanded, use smaller fonts */
+.playlist-info.now-playing-expanded .playlist-title {
+  font-size: clamp(1.6rem, 6cqi, 3rem); /* 26px to 48px */
+}
+
+/* When library collapsed AND now-playing collapsed, use largest fonts */
+.playlist-info.library-collapsed:not(.now-playing-expanded) .playlist-title {
+  font-size: clamp(2.5rem, 9cqi, 4.5rem); /* 40px to 72px */
+}
+
+/* Short titles (≤15 chars) get larger fonts regardless of sidebar state */
+.playlist-info.short-title .playlist-title {
+  font-size: clamp(2.5rem, 10cqi, 5rem); /* 40px to 80px */
+}
+
+/* Short titles with library collapsed get even larger fonts */
+.playlist-info.short-title.library-collapsed .playlist-title {
+  font-size: clamp(3rem, 12cqi, 6rem); /* 48px to 96px */
+}
+
+/* Short titles with both sidebars in optimal state */
+.playlist-info.short-title.library-collapsed:not(.now-playing-expanded)
+  .playlist-title {
+  font-size: clamp(3.5rem, 14cqi, 7rem); /* 56px to 112px */
+}
+
+.playlist-header .playlist-info .playlist-title.disabled {
   cursor: default;
   opacity: 0.7;
 }
 
-.playlist-title:hover {
+.playlist-header .playlist-info .playlist-title:hover {
   opacity: 0.8;
 }
 
@@ -66,7 +110,8 @@
   align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
-  margin-top: auto;
+  margin-top: 16px;
+  flex-shrink: 0;
 }
 
 .creator {
@@ -91,28 +136,36 @@
 
 /* Medium-large screens - adjust for smaller viewports */
 @media (max-width: 1200px) {
-  .playlist-title {
-    font-size: 56px;
-  }
-  
   .playlist-info {
     padding-top: 24px;
   }
 }
 
-/* Medium screens - further adjustments */
+/* Medium screens - adjust container query limits */
 @media (max-width: 1024px) {
-  .playlist-title {
-    font-size: 48px;
+  .playlist-header .playlist-info .playlist-title {
+    font-size: clamp(1.5rem, 5cqi, 2.8rem); /* 24px to 45px */
   }
-  
+
+  .playlist-info.library-collapsed .playlist-title {
+    font-size: clamp(1.7rem, 6cqi, 3.2rem); /* 27px to 51px */
+  }
+
+  .playlist-info.short-title .playlist-title {
+    font-size: clamp(2rem, 8cqi, 4rem); /* 32px to 64px */
+  }
+
+  .playlist-info.short-title.library-collapsed .playlist-title {
+    font-size: clamp(2.5rem, 10cqi, 5rem); /* 40px to 80px */
+  }
+
   .playlist-cover {
     width: 200px;
     height: 200px;
     min-width: 200px;
     min-height: 200px;
   }
-  
+
   .playlist-info {
     height: auto;
     padding-top: 16px;
@@ -142,10 +195,23 @@
     width: 100%;
   }
 
-  .playlist-title {
-    font-size: 48px;
+  .playlist-header .playlist-info .playlist-title {
+    font-size: clamp(1.3rem, 4cqi, 2.5rem); /* 21px to 40px */
     line-height: 1.2;
     margin-bottom: 12px;
+  }
+
+  /* Allow short titles to be larger on tablet */
+  .playlist-info.short-title .playlist-title {
+    font-size: clamp(1.6rem, 6cqi, 3.2rem); /* 26px to 51px */
+  }
+
+  /* Disable sidebar effects on tablet for regular titles */
+  .playlist-info.library-collapsed
+    .playlist-title:not(.playlist-info.short-title .playlist-title),
+  .playlist-info.now-playing-expanded
+    .playlist-title:not(.playlist-info.short-title .playlist-title) {
+    font-size: clamp(1.3rem, 4cqi, 2.5rem);
   }
 
   .playlist-description {
@@ -180,11 +246,17 @@
     gap: 8px;
   }
 
-  .playlist-title {
-    font-size: 32px;
+  .playlist-header .playlist-info .playlist-title {
+    font-size: clamp(1.1rem, 3cqi, 1.8rem); /* 18px to 29px */
     text-align: center;
     line-height: 1.1;
     margin-bottom: 8px;
+  }
+
+  /* Disable all sidebar effects on mobile */
+  .playlist-info.library-collapsed .playlist-title,
+  .playlist-info.now-playing-expanded .playlist-title {
+    font-size: clamp(1.1rem, 3cqi, 1.8rem);
   }
 
   .playlist-metadata {
