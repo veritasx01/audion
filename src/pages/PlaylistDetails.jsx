@@ -105,7 +105,6 @@ export function PlaylistDetails() {
             playlist={playlist}
             onOpenModal={onOpenModal}
           />
-          <div className="playlist-header-separator" />
           <PlaylistDetailsHeaderControlls
             playlist={playlist}
             onOpenModal={onOpenModal}
@@ -129,7 +128,7 @@ export function PlaylistDetails() {
       {/* Song search section */}
       {isSearchExpanded && (
         <>
-          <div className="playlist-header-separator" />{" "}
+          <div className="playlist-section-separator" />{" "}
           <PlaylistSongSearch
             playlist={playlist}
             loadPlaylist={loadPlaylist}

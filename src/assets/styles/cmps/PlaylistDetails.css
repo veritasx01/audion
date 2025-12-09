@@ -17,18 +17,12 @@
   pointer-events: none;
 }
 
-.playlist-header-separator {
+.playlist-section-separator {
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.2) 80%,
-    transparent 100%
-  );
-  margin: 4px;
-  border-radius: 2px;
+  background: none;
+  border-bottom: 1px solid #333;
+  margin: 0 20px;
+  border-radius: 0;
 }
 
 .find-more-section {

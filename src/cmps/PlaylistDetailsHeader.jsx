@@ -1,7 +1,13 @@
+import { useSelector } from "react-redux";
 import { useEffect, useState, useMemo } from "react";
 import { formatPlaylistDuration } from "../services/playlist/playlist.service.js";
 
 export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
+  const libraryView = useSelector((state) => state.systemModule.libraryView);
+  const nowPlayingView = useSelector(
+    (state) => state.systemModule.nowPlayingView
+  );
+
   return (
     <>
       <div className="playlist-header">
@@ -10,7 +16,11 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
           src={playlist.thumbnail}
           alt={playlist.title}
         />
-        <div className="playlist-info">
+        <div
+          className={`playlist-info ${libraryView ? "" : "library-collapsed"} ${
+            nowPlayingView ? "now-playing-expanded" : ""
+          } ${playlist.title?.length <= 15 ? "short-title" : ""}`}
+        >
           <span className="playlist-type">Playlist</span>
           <h1
             className={`playlist-title ${

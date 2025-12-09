@@ -46,6 +46,7 @@ export function PlaylistDetailsEditModal({
                 }))
               }
               placeholder="Add a name"
+              maxLength={40}
               required
             />
             <label htmlFor="playlist-title">Title</label>
@@ -62,6 +63,7 @@ export function PlaylistDetailsEditModal({
               }
               placeholder="Add an optional description"
               rows={3}
+              maxLength={100}
             />
             <label htmlFor="playlist-description">Description</label>
           </div>
