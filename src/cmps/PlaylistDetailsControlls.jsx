@@ -129,7 +129,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
       menuItems.push({
         id: "remove-from-library",
         label: "Remove from Your Library",
-        icon: checkmarkIcon({}),
+        icon: checkmarkIcon({ fill: "var(--text-bright-accent)" }),
         onClick: () => removePlaylistFromLibrary(userId, playlistId),
       });
     }
@@ -223,7 +223,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
           </button>
         )}
         {/* More Options Button */}
-        {!(playlistId === likedSongs._id) && (
+        {!(playlistId === likedSongs?._id) && (
           <button
             className="playlist-options-btn hov-enlarge"
             title={`More options for ${playlist.title}`}
