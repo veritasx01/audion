@@ -167,13 +167,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1f1f1f;
   border: none;
   color: var(--text-subdued);
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 50px;
   transition: color 0.2s ease, background-color 0.2s ease;
   white-space: nowrap;
@@ -205,6 +205,9 @@
 
 .library-create-text {
   line-height: 16px;
+  color: var(--text-base);
+  font-size: 0.85rem;
+  font-family: "Manrope", sans-serif;
   margin: 0;
   padding: 0;
   display: inline-flex;
@@ -279,12 +282,13 @@
   background: var(--bg);
   color: var(--text-base);
   border: 0;
-  padding: var(--filter-vert) var(--filter-horz); /* equal top/bottom padding */
+  padding: 8px 12px; /* equal top/bottom padding */
   min-height: var(--filter-height);
   height: auto; /* allow padding to control vertical spacing */
   border-radius: 9999px; /* full pill shape */
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-family: "Manrope", sans-serif;
   font-weight: 500;
   margin: 4px;
   line-height: 1; /* important for perfect vertical centering */
@@ -384,7 +388,11 @@
   width: var(--search-icon-size);
   height: var(--search-icon-size);
   display: block;
-  fill: currentColor;
+  fill: #b2b2b2;
+  transition: fill 0.5s ease;
+}
+.library-search-btn svg:hover {
+  fill: white;
 }
 
 /* visible background when hovered/focused/active */
