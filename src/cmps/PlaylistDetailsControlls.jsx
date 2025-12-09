@@ -199,9 +199,9 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
               );
             }}
             title={
-              likedSongs?.playlists?.some((p) => p._id === playlist._id)
-                ? `Remove ${playlist.title} from Your Library`
-                : `Add ${playlist.title} to Your Library`
+              isPlaylistInLibrary
+                ? `Remove from Your Library`
+                : `Add to Your Library`
             }
           >
             <span className="size-32">
