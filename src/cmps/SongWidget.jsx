@@ -52,15 +52,17 @@ export function SongWidget() {
               : "Remove from your Liked Songs"
           }
         >
-          <span className="size-16" aria-hidden="true">
-            {isSongInLibrary
-              ? checkmarkIcon({ height: "16px", width: "16px" })
-              : addToCollectionIcon({
-                  height: "16px",
-                  width: "16px",
-                  fill: "#b0b0b0",
-                })}
-          </span>
+          {song?.thumbnail ? (
+            <span className="size-16" aria-hidden="true">
+              {isSongInLibrary
+                ? checkmarkIcon({ height: "16px", width: "16px" })
+                : addToCollectionIcon({
+                    height: "16px",
+                    width: "16px",
+                    fill: "#b0b0b0",
+                  })}
+            </span>
+          ) : null}
         </button>
       </div>
     </div>
