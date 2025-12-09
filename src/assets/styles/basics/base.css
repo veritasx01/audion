@@ -5,8 +5,8 @@
 body {
   margin: 0 auto;
   overflow: hidden;
-  font-family: "Helvetica Neue", sans-serif;
   color: --var(clr2);
+  font-family: "Manrope", sans-serif;
 }
 
 h1,
@@ -15,6 +15,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "montserrat", sans-serif;
   margin: 0 0 0.6em;
 }
 
