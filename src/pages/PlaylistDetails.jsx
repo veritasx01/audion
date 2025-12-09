@@ -105,7 +105,6 @@ export function PlaylistDetails() {
             playlist={playlist}
             onOpenModal={onOpenModal}
           />
-          <div className="playlist-header-separator" />
           <PlaylistDetailsHeaderControlls
             playlist={playlist}
             onOpenModal={onOpenModal}
