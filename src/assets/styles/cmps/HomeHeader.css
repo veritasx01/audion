@@ -48,6 +48,10 @@
   position: relative;
   transition: background-color 0.3s ease;
 }
+.playlist-card a {
+  font-weight: 550;
+  text-decoration: none;
+}
 
 .playlist-card > div > div {
   margin: 0 16px;
