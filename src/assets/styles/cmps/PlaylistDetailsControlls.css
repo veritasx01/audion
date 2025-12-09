@@ -122,6 +122,31 @@
   transform: translateX(-50%) scale(1.05);
 }
 
+.playlist-library-btn {
+  background: none;
+  border: none;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.playlist-library-btn:hover {
+  background: none;
+  opacity: 1;
+}
+
+.playlist-library-btn:focus,
+.playlist-library-btn:active {
+  background: none;
+  outline: none;
+}
+
 /* Context Menu */
 .playlist-header-context-menu {
   background: #282828;
