@@ -2,6 +2,7 @@
   height: 16px;
   width: 16px;
   margin: 8px;
+  margin-left: 4px;
   align-content: center;
 }
 
@@ -35,6 +36,7 @@
   display: flex;
   align-items: center;
   padding-left: 8px;
+  padding-bottom: 16px;
   > :first-child {
     margin-right: 8px;
   }
