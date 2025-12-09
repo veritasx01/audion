@@ -128,7 +128,7 @@ export function PlaylistDetails() {
       {/* Song search section */}
       {isSearchExpanded && (
         <>
-          <div className="playlist-header-separator" />{" "}
+          <div className="playlist-section-separator" />{" "}
           <PlaylistSongSearch
             playlist={playlist}
             loadPlaylist={loadPlaylist}
