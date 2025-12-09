@@ -316,11 +316,11 @@ export function checkmarkIcon({ height, width, fill, stroke, viewBox }) {
       viewBox="0 0 16 16"
       height={height || "24"}
       width={width || "24"}
-      fill={fill || "currentColor"}
+      fill={fill || "var(--text-bright-accent)"} /* #1ed760 */
       stroke={stroke || "none"}
     >
       {/* Green background circle */}
-      <circle cx="8" cy="8" r="8" fill="#1ed760" />
+      <circle cx="8" cy="8" r="8" fill={fill} />
       {/* Black checkmark */}
       <path
         d="M11.748 6.03a.75.75 0 0 0-1.06-1.06l-4.47 4.47-1.405-1.406a.75.75 0 1 0-1.061 1.06l2.466 2.467 5.53-5.53z"
@@ -367,11 +367,10 @@ export function removeIcon({ height, width, fill, stroke, viewBox }) {
 export function addToCollectionIcon({ height, width, fill, stroke, viewBox }) {
   return (
     <svg
-      role="img"
       aria-hidden="true"
       viewBox="0 0 16 16"
-      height={height || "16"}
-      width={width || "16"}
+      height={height || "24"}
+      width={width || "24"}
       fill={fill || "currentColor"}
       stroke={stroke || "none"}
     >
