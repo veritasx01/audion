@@ -26,17 +26,10 @@
   padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 8px 24px rgba(30, 215, 96, 0.3);
 }
 
 .playlist-play-pause-btn:hover {
   background: #1fdf64;
-  transform: scale(1.06);
-  box-shadow: 0 12px 32px rgba(30, 215, 96, 0.4);
-}
-
-.playlist-play-pause-btn:active {
-  transform: scale(0.98);
 }
 
 .playlist-play-pause-btn svg {
@@ -62,7 +55,6 @@
 .playlist-options-btn:hover {
   background: none;
   opacity: 1;
-  transform: scale(1.1);
 }
 
 .playlist-options-btn:focus,
@@ -108,8 +100,8 @@
 }
 
 .playlist-shuffle-btn svg {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   opacity: 1;
 }
 
@@ -120,6 +112,31 @@
 
 .playlist-shuffle-btn.green-button:hover::after {
   transform: translateX(-50%) scale(1.05);
+}
+
+.playlist-library-btn {
+  background: none;
+  border: none;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.playlist-library-btn:hover {
+  background: none;
+  opacity: 1;
+}
+
+.playlist-library-btn:focus,
+.playlist-library-btn:active {
+  background: none;
+  outline: none;
 }
 
 /* Context Menu */
