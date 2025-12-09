@@ -282,7 +282,7 @@
   background: var(--bg);
   color: var(--text-base);
   border: 0;
-  padding: var(--filter-vert) var(--filter-horz); /* equal top/bottom padding */
+  padding: 8px 12px; /* equal top/bottom padding */
   min-height: var(--filter-height);
   height: auto; /* allow padding to control vertical spacing */
   border-radius: 9999px; /* full pill shape */
