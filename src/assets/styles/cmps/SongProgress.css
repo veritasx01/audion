@@ -19,7 +19,7 @@
   width: 50px;
   min-width: 25px;
   height: 17px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-align: right;
   color: var(--text-subdued);
 }
@@ -28,7 +28,7 @@
   width: 50px;
   min-width: 25px;
   height: 17px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-align: left;
   color: var(--text-subdued);
 }
