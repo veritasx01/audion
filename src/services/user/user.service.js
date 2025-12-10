@@ -1,4 +1,5 @@
 import { storageService } from "../async-storage.service.js";
+import { httpService } from "../http.service.js";
 import { utilService } from "../util.service.js";
 
 export const userService = {
@@ -16,23 +17,17 @@ export const userService = {
 
 const STORAGE_KEY = "usersDB"; // temp for demo data
 
-function getDefaultUser() {
-  return {
-    _id: "123456789", // needs to be a constant for persistent demo data
-    username: "johndoe",
-    fullName: "John Doe",
-    email: "johndoe@example.com",
-    profileImg: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
-    library: { playlists: [] },
-  };
+async function getDefaultUser() {
+  const defaultUser = await httpService.get("user/defaultUser");
+  console.log("Default User:", defaultUser);
+  return defaultUser;
 }
 
-function getUserById(userId) {
-  return storageService.get(STORAGE_KEY, userId);
-  /*
-  const user = await httpService.get(`user/${userId}`)
-	return user
-  */
+async function getUserById(userId) {
+  console.log("Fetching User:", userId);
+  const user = await httpService.get(`user/${userId}`);
+  console.log("Fetched User:", user);
+  return user;
 }
 async function updateUser(userId, updatedFields) {
   const user = await getUserById(userId);
