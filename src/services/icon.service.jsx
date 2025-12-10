@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export const iconService = {
   sideBarToLeftIcon,
   sideBarToRightIcon,

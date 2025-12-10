@@ -1,27 +1,29 @@
 import { useEffect, useState } from "react";
 import { HomeHeader } from "../cmps/HomeHeader";
 import { SongCarousel } from "../cmps/SongCarousel";
-import { songService } from "../services/song/song.service";
+import { playlistService } from "../services/playlist/playlist.service";
 
 export function HomePage() {
-  const [songs, setSongs] = useState([]);
+  const [playlists, setplaylists] = useState([]);
   useEffect(() => {
-    const initSongs = async () => {
-      const queried = await songService.query();
-      setSongs(queried);
+    const initplaylists = async () => {
+      let playlists = await playlistService.query();
+      console.log(playlists)
+      playlists = playlists.filter((pl) => !pl.isLikedSongs) 
+      setplaylists(playlists ? playlists : []);
     };
-    initSongs();
+    initplaylists();
   }, []);
 
   return (
     <>
       <HomeHeader></HomeHeader>
       <div className="content-view">
-        <SongCarousel songs={songs} title="Made For You"></SongCarousel>
-        <SongCarousel songs={songs} title="Jump back in"></SongCarousel>
-        <SongCarousel songs={songs} title="Recently played"></SongCarousel>
+        <SongCarousel playlists={playlists} title="Made For You"></SongCarousel>
+        <SongCarousel playlists={playlists} title="Jump back in"></SongCarousel>
+        <SongCarousel playlists={playlists} title="Recently played"></SongCarousel>
         <SongCarousel
-          songs={songs}
+          playlists={playlists}
           title="Recommended for today"
         ></SongCarousel>
       </div>

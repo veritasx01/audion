@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 import {
-  addToCollectionIcon,
   bigAddToCollectionIcon,
   bigCheckmarkIcon,
-  checkmarkIcon,
 } from "../services/icon.service";
 import {
   addSongToLikedSongs,
