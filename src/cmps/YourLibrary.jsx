@@ -79,9 +79,7 @@ export function YourLibrary() {
   function handleOnCreatePlaylist() {
     // (1) create playlist object in-memory
     const newPlaylist = playlistService.createPlaylist(
-      `My Playlist #${libraryPlaylists.length + 1}`, // title
-      "", // description
-      userService.getDefaultUser() // createdBy
+      `My Playlist #${libraryPlaylists.length + 1}`
     );
 
     // (2) Save the playlist on backend storage & add it playlist store

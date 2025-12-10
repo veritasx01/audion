@@ -24,10 +24,12 @@ export const playlistService = {
 // create a new playlist
 function createPlaylist(title = "New Playlist", description = "", songs = []) {
   // add the current date as addedAt for each song
-  const playlistSongs = songs?.map((song) => ({
-    ...song,
-    addedAt: new Date(),
-  }));
+  const playlistSongs = Array.isArray(songs)
+    ? songs.map((song) => ({
+        ...song,
+        addedAt: new Date(),
+      }))
+    : [];
 
   const newPlaylist = {
     title,
