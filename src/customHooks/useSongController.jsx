@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  updateSongObject,
   setPlaying,
   togglePlaying,
 } from "../store/actions/song.action";
+import { clearSongQueue, setPlaylistId, setSongQueue } from "../store/actions/songQueue.action";
 
-export const useSongController = (song) => {
+export const useSongController = (song, playlistId = null) => {
   const dispatch = useDispatch();
   const currentSongId = useSelector((state) => state.songModule.songObj._id);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
@@ -20,7 +20,10 @@ export const useSongController = (song) => {
 
   const toggleSong = () => {
     const lastId = currentSongId;
-    dispatch(updateSongObject(song));
+    dispatch(clearSongQueue());
+    dispatch(setSongQueue([song]));
+    dispatch(setPlaylistId(playlistId));
+    //dispatch(updateSongObject(song));
     if (lastId !== song._id) {
       dispatch(setPlaying(true));
     } else {

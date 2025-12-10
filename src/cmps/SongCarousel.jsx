@@ -1,19 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { updateSongObject } from "../store/actions/song.action";
 import { SongCard } from "./SongCard";
 
 const SCROLL_PX = 585
 
-export function SongCarousel({ songs, title = "title" }) {
+export function SongCarousel({ playlists = [], title = "title" }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const dispatch = useDispatch();
-  const changeToSong = (song) => {
-    dispatch(updateSongObject(song));
-  };
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -32,7 +26,7 @@ export function SongCarousel({ songs, title = "title" }) {
     checkScrollButtons();
     window.addEventListener("resize", checkScrollButtons);
     return () => window.removeEventListener("resize", checkScrollButtons);
-  }, [songs]);
+  }, [playlists.length]);
 
   const scroll = (scrollOffset) => {
     if (scrollContainerRef.current) {
@@ -66,8 +60,8 @@ export function SongCarousel({ songs, title = "title" }) {
         onScroll={checkScrollButtons}
       >
         <div className="song-carousel">
-          {songs.map((song, idx) => (
-            <SongCard song={song} changeToSong={changeToSong} key={idx} />
+          {playlists.map((playlist, idx) => (
+            <SongCard playlist={playlist} key={idx} />
           ))}
         </div>
       </div>

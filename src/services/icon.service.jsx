@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export const iconService = {
   sideBarToLeftIcon,
   sideBarToRightIcon,
@@ -429,6 +430,39 @@ export function createPlaylistIcon({ height, width, fill, stroke, viewBox }) {
     >
       <path d="M2 0v2H0v1.5h2v2h1.5v-2h2V2h-2V0zm11.5 2.5H8.244A5.5 5.5 0 0 0 7.966 1H15v11.75A2.75 2.75 0 1 1 12.25 10h1.25zm0 9h-1.25a1.25 1.25 0 1 0 1.25 1.25zM4 8.107a5.5 5.5 0 0 0 1.5-.593v5.236A2.75 2.75 0 1 1 2.75 10H4zM4 11.5H2.75A1.25 1.25 0 1 0 4 12.75z"></path>
       ;
+    </svg>
+  );
+}
+
+export function bigAddToCollectionIcon({ height, width, fill, stroke }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      height={height || "24"}
+      width={width || "24"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+      viewBox="0 0 24 24"
+    >
+      <path d="M11.999 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18m-11 9c0-6.075 4.925-11 11-11s11 4.925 11 11-4.925 11-11 11-11-4.925-11-11"></path>
+      <path d="M17.999 12a1 1 0 0 1-1 1h-4v4a1 1 0 1 1-2 0v-4h-4a1 1 0 1 1 0-2h4V7a1 1 0 1 1 2 0v4h4a1 1 0 0 1 1 1"></path>
+    </svg>
+  );
+}
+
+export function bigCheckmarkIcon({ height, width, fill, stroke }) {
+  return (
+    <svg
+      role="img"
+      aria-hidden="true"
+      height={height || "24"}
+      width={width || "24"}
+      fill={fill || "currentColor"}
+      stroke={stroke || "none"}
+      viewBox="0 0 24 24"
+    >
+      <path d="M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12m16.398-2.38a1 1 0 0 0-1.414-1.413l-6.011 6.01-1.894-1.893a1 1 0 0 0-1.414 1.414l3.308 3.308z"></path>
     </svg>
   );
 }
