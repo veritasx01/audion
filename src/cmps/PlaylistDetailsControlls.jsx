@@ -4,7 +4,7 @@ import {
   addPlaylist,
   removePlaylist,
 } from "../store/actions/playlist.action.js";
-import { togglePlaying } from "../store/actions/song.action";
+import { setPlaying, togglePlaying } from "../store/actions/song.action";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
 import {
@@ -56,13 +56,13 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
 
   function handlePlayPause() {
     // If it's already the current playlist (regardless of play state), just toggle
-    if (isCurrentPlaylist) {
-      dispatch(togglePlaying());
-    } else {
+    if (!isCurrentPlaylist) {
       // Load this playlist and start playing
       dispatch(clearSongQueue());
       dispatch(setSongQueue([...playlist.songs]));
       dispatch(setPlaylistId(playlistId));
+      dispatch(setPlaying(true));
+    } else {
       dispatch(togglePlaying());
     }
   }

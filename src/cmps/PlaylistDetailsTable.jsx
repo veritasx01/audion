@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { togglePlaying } from "../store/actions/song.action";
+import { setPlaying, togglePlaying } from "../store/actions/song.action";
 import { addSong, removeSong } from "../store/actions/playlist.action.js";
 import {
   addSongToLikedSongs,
@@ -24,6 +24,7 @@ import {
   nowPlayingBarChartIcon,
 } from "../services/icon.service.jsx";
 import {
+  clearSongQueue,
   seekSongQueueIndex,
   setPlaylistId,
   setSongQueue,
@@ -83,6 +84,22 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
+
+  function handlePlayPause(song, index) {
+    if (playingPlaylistId !== playlist._id) {
+      dispatch(clearSongQueue());
+      dispatch(setSongQueue([...playlist.songs]));
+      dispatch(setPlaylistId(playlist._id));
+      dispatch(setPlaying(true));
+    }
+    const lastId = song._id;
+    dispatch(seekSongQueueIndex(index));
+    if (lastId !== playingSongId._id) {
+      dispatch(setPlaying(true));
+    } else {
+      dispatch(togglePlaying());
+    }
+  }
 
   function isSongInLikedSongs(songId) {
     return likedSongsCollection?.songs?.some((s) => s._id === songId);
@@ -240,7 +257,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   isPlaying ? (
                     <button
                       className="song-play-pause-btn"
-                      onClick={() => dispatch(togglePlaying())}
+                      onClick={() => handlePlayPause(song, idx)}
                       title="Pause"
                     >
                       {pauseIcon({})}
@@ -248,21 +265,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   ) : (
                     <button
                       className="song-play-pause-btn"
-                      onClick={() => {
-                        if (
-                          // if clicking play on the currently loaded song but it's paused, just toggle play
-                          playingPlaylistId === playlist._id &&
-                          playingSongId === song._id &&
-                          !isPlaying
-                        ) {
-                          dispatch(togglePlaying());
-                        } else {
-                          // otherwise, load the song queue starting from this song
-                          dispatch(setSongQueue([...playlist.songs]));
-                          dispatch(setPlaylistId(playlist._id));
-                          dispatch(seekSongQueueIndex(idx));
-                        }
-                      }}
+                      onClick={() => handlePlayPause(song, idx)}
                       title="Play"
                     >
                       {playIcon({})}
