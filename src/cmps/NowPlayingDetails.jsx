@@ -1,5 +1,10 @@
 import { useSelector } from "react-redux";
-import { addToCollectionIcon, checkmarkIcon } from "../services/icon.service";
+import {
+  addToCollectionIcon,
+  bigAddToCollectionIcon,
+  bigCheckmarkIcon,
+  checkmarkIcon,
+} from "../services/icon.service";
 import {
   addSongToLikedSongs,
   removeSongFromLikedSongs,
@@ -40,8 +45,8 @@ export function NowPlayingDetails({ songObj: song }) {
         >
           <span className="size-24">
             {isSongInLibrary
-              ? checkmarkIcon({})
-              : addToCollectionIcon({ fill: "#b2b2b2" })}
+              ? bigCheckmarkIcon({fill: "#1ed760"})
+              : bigAddToCollectionIcon({ fill: "#b2b2b2" })}
           </span>
         </button>
         <div className="now-playing-info">
