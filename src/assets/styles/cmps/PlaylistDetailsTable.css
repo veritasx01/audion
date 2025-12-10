@@ -83,7 +83,7 @@
 
 .playlist-table th,
 .playlist-table td {
-  padding: 0px 16px;
+  padding: 0px 8px;
   text-align: left;
   border-bottom: none;
   vertical-align: middle;
@@ -452,6 +452,7 @@
   outline: none;
   box-shadow: none;
   border-radius: 0;
+  margin-right: 10px;
 }
 
 /* Remove all button focus/active states that could cause black circles */
