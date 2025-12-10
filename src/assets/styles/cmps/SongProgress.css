@@ -3,7 +3,6 @@
   gap: 8px;
   margin: 0 auto;
   align-items: center;
-  width: 100%;
 }
 
 .progress-bar-container {
@@ -13,13 +12,14 @@
   height: 12px;
   position: relative;
   top: -2px;
+  margin-top: 4px;
 }
 
 .playback-position {
   width: 50px;
   min-width: 25px;
   height: 17px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-align: right;
   color: var(--text-subdued);
 }
@@ -28,7 +28,7 @@
   width: 50px;
   min-width: 25px;
   height: 17px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-align: left;
   color: var(--text-subdued);
 }

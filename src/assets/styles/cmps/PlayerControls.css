@@ -1,6 +1,7 @@
 .player-container {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   min-width: 500px;
+  flex-grow: 2;
 }
 .player-container > * {
   flex: 1;
@@ -9,7 +10,6 @@
 .generals-container {
   display: flex;
   flex-flow: row nowrap;
-  margin-bottom: 8px;
   gap: 0px;
   justify-content: center;
 }
