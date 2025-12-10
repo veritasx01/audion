@@ -10,7 +10,7 @@ export function HomePage() {
 
   useEffect(() => {
     const initplaylists = async () => {
-      let playlistsQuery = await playlistService.query();
+      let playlistsQuery = await playlistService.query({});
       playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs);
       setplaylists(playlistsQuery ? playlistsQuery : []);
       setLists([
@@ -21,6 +21,7 @@ export function HomePage() {
       ]);
     };
     initplaylists();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
