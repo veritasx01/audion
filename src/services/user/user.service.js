@@ -19,14 +19,11 @@ const STORAGE_KEY = "usersDB"; // temp for demo data
 
 async function getDefaultUser() {
   const defaultUser = await httpService.get("user/defaultUser");
-  console.log("Default User:", defaultUser);
   return defaultUser;
 }
 
 async function getUserById(userId) {
-  console.log("Fetching User:", userId);
   const user = await httpService.get(`user/${userId}`);
-  console.log("Fetched User:", user);
   return user;
 }
 async function updateUser(userId, updatedFields) {
