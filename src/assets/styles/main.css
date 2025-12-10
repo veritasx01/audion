@@ -53,6 +53,7 @@
 @import "cmps/HomeHeader.css";
 @import "cmps/ProfileCircle.css";
 @import "cmps/NowPlayingView.css";
+@import "cmps/NowPlayingDetails.css";
 @import "cmps/GlobalPlayer.css";
 @import "cmps/SearchHeader.css";
 @import "cmps/SongResultCard.css";

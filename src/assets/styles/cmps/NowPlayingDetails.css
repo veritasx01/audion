@@ -1,0 +1,31 @@
+.now-playing-details-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  max-height: 786px;
+  height: 100%;
+  padding-bottom: 5rem;
+}
+
+.now-playing-info {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-elevated-base);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0px;
+  margin-top: 16px;
+}
+
+.now-playing-info h4 {
+  margin: 0 0 0.75rem 0;
+  padding: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.now-playing-info span {
+  color: var(--text-subdued);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
