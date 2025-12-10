@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { addToCollectionIcon, checkmarkIcon } from "../services/icon.service";
 import {
@@ -45,6 +44,16 @@ export function NowPlayingDetails({ songObj: song }) {
               : addToCollectionIcon({ fill: "#b2b2b2" })}
           </span>
         </button>
+        <div className="now-playing-info">
+          <h4>About this artist</h4>
+          <span>
+            {song?.aboutArtist ? song.aboutArtist : "No description provided."}
+          </span>
+        </div>
+        <div className="now-playing-info">
+          <h4>Credits</h4>
+          <span>{song?.credits ? song.credits : "No credits provided."}</span>
+        </div>
       </div>
     </div>
   );
