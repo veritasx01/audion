@@ -14,8 +14,12 @@ export function PlayerControls() {
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const repeating = useSelector((state) => state.songQueueModule.isRepeating);
   const isShuffle = useSelector((state) => state.songQueueModule.isShuffle);
+  const songInPlayer = useSelector((state) => state.songModule.songObj);
   const dispatch = useDispatch();
 
+  const isPlayerEmpty = () => {
+    return !songInPlayer || Object.keys(songInPlayer).length === 0;
+  };
   const nextSong = () => dispatch(goToNextSong());
   const prevSong = () => dispatch(goToPreviousSong());
   const toggleSongRepeat = () => dispatch(toggleRepeat());
@@ -30,14 +34,23 @@ export function PlayerControls() {
             className={`smaller-button hov-enlarge${
               isShuffle ? " green-button" : ""
             }`}
-            onClick={toggleSongShuffle}
+            onClick={() => {
+              if (isPlayerEmpty()) return;
+              toggleSongShuffle();
+            }}
           >
             <span className="size-16" aria-hidden="true">
               {shuffleIcon(isShuffle)}
             </span>
           </button>
           {/* previous button */}
-          <button className="smaller-button hov-enlarge" onClick={prevSong}>
+          <button
+            className="smaller-button hov-enlarge"
+            onClick={() => {
+              if (isPlayerEmpty()) return;
+              prevSong();
+            }}
+          >
             <span className="size-16" aria-hidden="true">
               {prevIcon()}
             </span>
@@ -46,7 +59,10 @@ export function PlayerControls() {
         {/* play song button */}
         <button
           className="player-button hov-enlarge"
-          onClick={() => dispatch(togglePlaying())}
+          onClick={() => {
+            if (isPlayerEmpty()) return;
+            dispatch(togglePlaying());
+          }}
         >
           <span className="size-16" aria-hidden="true">
             {playIcon(isPlaying)}
@@ -54,7 +70,13 @@ export function PlayerControls() {
         </button>
         {/* next button */}
         <div className="right-buttons-container">
-          <button className="smaller-button hov-enlarge" onClick={nextSong}>
+          <button
+            className="smaller-button hov-enlarge"
+            onClick={() => {
+              if (isPlayerEmpty()) return;
+              nextSong;
+            }}
+          >
             <span className="size-16" aria-hidden="true">
               {nextIcon()}
             </span>
@@ -64,7 +86,10 @@ export function PlayerControls() {
             className={`smaller-button hov-enlarge${
               repeating ? " green-button" : ""
             }`}
-            onClick={toggleSongRepeat}
+            onClick={() => {
+              if (isPlayerEmpty()) return;
+              toggleSongRepeat;
+            }}
           >
             <span className="size-16" aria-hidden="true">
               {repeatIcon(repeating)}
