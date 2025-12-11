@@ -74,7 +74,7 @@ export function PlayerControls() {
             className="smaller-button hov-enlarge"
             onClick={() => {
               if (isPlayerEmpty()) return;
-              nextSong;
+              nextSong();
             }}
           >
             <span className="size-16" aria-hidden="true">
@@ -88,7 +88,7 @@ export function PlayerControls() {
             }`}
             onClick={() => {
               if (isPlayerEmpty()) return;
-              toggleSongRepeat;
+              toggleSongRepeat();
             }}
           >
             <span className="size-16" aria-hidden="true">
