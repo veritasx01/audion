@@ -57,10 +57,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     [libraryPlaylists, playlist._id]
   );
 
-  // refresh library playlists when playlist changes (e.g., song added/removed)
-  useEffect(() => {
-    loadLibraryPlaylists();
-  }, [playlist._id]);
+  // Library playlists are managed by other components and updated via store actions
 
   // Clear focused row when context menu closes
   useEffect(() => {
@@ -94,7 +91,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     }
     const lastId = song._id;
     dispatch(seekSongQueueIndex(index));
-    if (lastId !== playingSongId._id) {
+    if (lastId !== playingSongId?._id) {
       dispatch(setPlaying(true));
     } else {
       dispatch(togglePlaying());
@@ -106,13 +103,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   }
 
   function onAddSongToLikedSongs(song) {
-    addSongToLikedSongs(likedSongsCollection.createdBy?._id, song).then(() => {
-      loadLibraryPlaylists();
-    });
+    addSongToLikedSongs(likedSongsCollection.createdBy?._id, song);
   }
   function onRemoveSongFromLikedSongs(song) {
     removeSongFromLikedSongs(likedSongsCollection.createdBy._id, song._id);
-    loadLibraryPlaylists();
 
     // If currently viewing Liked Songs playlist, refresh it on playlist details view as well
     if (playlist._id === likedSongsCollection._id) {
@@ -175,7 +169,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   label: otherPlaylist.title,
                   onClick: () => {
                     addSong(otherPlaylist._id, song).then(() => {
-                      loadLibraryPlaylists();
                       loadPlaylist();
                     });
                     hideContextMenu();

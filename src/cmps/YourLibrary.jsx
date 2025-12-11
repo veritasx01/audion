@@ -79,9 +79,7 @@ export function YourLibrary() {
   function handleOnCreatePlaylist() {
     // (1) create playlist object in-memory
     const newPlaylist = playlistService.createPlaylist(
-      `My Playlist #${libraryPlaylists.length + 1}`, // title
-      "", // description
-      userService.getDefaultUser() // createdBy
+      `My Playlist #${libraryPlaylists.length + 1}`
     );
 
     // (2) Save the playlist on backend storage & add it playlist store
@@ -94,13 +92,7 @@ export function YourLibrary() {
         ).then(() => savedPlaylist); // Return the savedPlaylist for the next chain
       })
       .then((savedPlaylist) => {
-        // (4) reload user's library playlists
-        return loadLibraryPlaylists(savedPlaylist.createdBy?._id).then(
-          () => savedPlaylist
-        ); // Return the savedPlaylist for the next chain
-      })
-      .then((savedPlaylist) => {
-        // (5) navigate to the new playlist's page
+        // (4) navigate to the new playlist's page
         navigate(`/playlist/${savedPlaylist._id}`);
       })
       .catch((err) => {

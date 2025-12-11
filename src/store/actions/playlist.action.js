@@ -82,17 +82,15 @@ export function addSong(playlistId, song) {
   store.dispatch({ type: SET_IS_LOADING, payload: true });
   return playlistService
     .addSong(playlistId, song)
-    .then((updatedPlaylist) => {
+    .then(() => {
       store.dispatch({
         type: ADD_SONG,
         payload: {
           playlistId,
-          song: updatedPlaylist.songs.find((s) => s._id === song._id),
+          song: song,
         },
       });
-      showSuccessMsg(
-        `Song '${song.title}' successfully added to playlist '${updatedPlaylist.title}'`
-      );
+      showSuccessMsg(`Song '${song.title}' successfully added to playlist`);
     })
     .catch((err) => {
       console.log("Playlist Actions: Having issues with adding song:", err);

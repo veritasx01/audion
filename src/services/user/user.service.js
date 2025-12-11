@@ -1,4 +1,5 @@
 import { storageService } from "../async-storage.service.js";
+import { httpService } from "../http.service.js";
 import { utilService } from "../util.service.js";
 
 export const userService = {
@@ -16,23 +17,14 @@ export const userService = {
 
 const STORAGE_KEY = "usersDB"; // temp for demo data
 
-function getDefaultUser() {
-  return {
-    _id: "123456789", // needs to be a constant for persistent demo data
-    username: "johndoe",
-    fullName: "John Doe",
-    email: "johndoe@example.com",
-    profileImg: "https://randomuser.me/api/portraits/thumb/men/1.jpg",
-    library: { playlists: [] },
-  };
+async function getDefaultUser() {
+  const defaultUser = await httpService.get("user/defaultUser");
+  return defaultUser;
 }
 
-function getUserById(userId) {
-  return storageService.get(STORAGE_KEY, userId);
-  /*
-  const user = await httpService.get(`user/${userId}`)
-	return user
-  */
+async function getUserById(userId) {
+  const user = await httpService.get(`user/${userId}`);
+  return user;
 }
 async function updateUser(userId, updatedFields) {
   const user = await getUserById(userId);
@@ -89,23 +81,17 @@ async function save(user) {
 }
 
 async function addPlaylistToUserLibrary(userId, playlistId) {
-  const user = await getUserById(userId);
-  if (!user || !user.library) throw new Error("User or user library not found");
-
-  user.library = {
-    ...user.library,
-    playlists: [...user.library.playlists, playlistId],
-  };
-
-  await save(user);
+  const response = await httpService.post(
+    `user/${userId}/playlist/${playlistId}`,
+    playlistId
+  );
+  return response;
 }
 
 async function removePlaylistFromUserLibrary(userId, playlistId) {
-  const user = await getUserById(userId);
-  if (!user || !user.library) throw new Error("User or user library not found");
-
-  user.library.playlists = user.library.playlists.filter(
-    (id) => id !== playlistId
+  const response = await httpService.delete(
+    `user/${userId}/playlist/${playlistId}`,
+    playlistId
   );
-  await save(user);
+  return response;
 }

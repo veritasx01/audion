@@ -5,19 +5,19 @@ import { playlistService } from "../services/playlist/playlist.service";
 import { shuffleArray } from "../services/util.service";
 
 export function HomePage() {
-  const [playlists, setplaylists] = useState([]);
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
     const initplaylists = async () => {
       let playlistsQuery = await playlistService.query({});
       playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs);
-      setplaylists(playlistsQuery ? playlistsQuery : []);
+      const finalData = playlistsQuery ? playlistsQuery : [];
+      console.log(finalData);
       setLists([
-        playlists,
-        shuffleArray(playlists),
-        shuffleArray(playlists),
-        shuffleArray(playlists),
+        finalData,
+        shuffleArray(finalData),
+        shuffleArray(finalData),
+        shuffleArray(finalData),
       ]);
     };
     initplaylists();
@@ -28,6 +28,7 @@ export function HomePage() {
     <>
       <HomeHeader></HomeHeader>
       <div className="content-view">
+        {console.log("lists in render:", lists[0])}
         <SongCarousel playlists={lists[0]} title="Made For You"></SongCarousel>
         <SongCarousel playlists={lists[1]} title="Jump back in"></SongCarousel>
         <SongCarousel
