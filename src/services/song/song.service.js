@@ -1,66 +1,45 @@
-import { storageService } from "../async-storage.service.js";
-import {
-  getRandomValues,
-  getRandomIntInclusive,
-  makeId,
-  saveToStorage,
-  escapeRegexSpecialCharacters,
-} from "../util.service.js";
+import { httpService } from "../http.service.js";
 
 export const songService = {
   query,
   getById,
-  // remove,
-  // add,
-  //update,
+  remove,
+  add,
+  update,
 };
 
-const STORAGE_KEY = "songDB";
-
 // query playlists from storage with optional filtering by title or description
-export function query(filterBy) {
-  return storageService
-    .query(STORAGE_KEY)
-    .then((songs) => {
-      if (filterBy?.freeText) {
-        let { freeText } = filterBy;
-        // Create regex for word boundary matching (case insensitive)
-        const regexExpression = new RegExp(
-          `\\b${escapeRegexSpecialCharacters(freeText)}\\b`,
-          "i"
-        );
+export async function query(filterBy = {}, sortBy = "", sortDir = 1) {
+  const queryParams = {};
 
-        songs = songs.filter(
-          (song) =>
-            regexExpression.test(song.title) ||
-            regexExpression.test(song.artist) ||
-            regexExpression.test(song.albumName)
-        );
-      }
-      if (filterBy?.genre) {
-        const genre = filterBy.genre.toLowerCase();
-        songs = songs.filter((song) =>
-          song.genres.some((songGenre) => songGenre.toLowerCase() === genre)
-        );
-      }
-      return songs;
-    })
-    .catch((error) => {
-      console.log("Error retrieving songs:", error);
-      throw error;
-    });
+  if (filterBy.freeText) {
+    queryParams.q = filterBy.freeText;
+  }
+
+  if (filterBy.genre) {
+    queryParams.genre = filterBy.genre;
+  }
+
+  const songs = await httpService.get("song", queryParams);
+  return songs;
 }
 
 export async function getById(songId) {
-  song = await storageService.get(STORAGE_KEY, songId);
+  const song = await httpService.get(`song/${songId}`);
   return song;
-  /*
-  return httpService.get(`song/${songId}`);
-   */
 }
 
-// async function remove(songId) {}
+async function remove(songId) {
+  const response = await httpService.delete(`song/${songId}`);
+  return response;
+}
 
-//async function add(song) {}
+async function add(song) {
+  const newSong = await httpService.post(`song`, song);
+  return newSong;
+}
 
-//async function update(songId) {}
+async function update(songId) {
+  const response = await httpService.patch(`song/${songId}`);
+  return response;
+}
