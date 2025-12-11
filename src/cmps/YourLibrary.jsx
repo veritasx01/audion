@@ -92,13 +92,7 @@ export function YourLibrary() {
         ).then(() => savedPlaylist); // Return the savedPlaylist for the next chain
       })
       .then((savedPlaylist) => {
-        // (4) reload user's library playlists
-        return loadLibraryPlaylists(savedPlaylist.createdBy?._id).then(
-          () => savedPlaylist
-        ); // Return the savedPlaylist for the next chain
-      })
-      .then((savedPlaylist) => {
-        // (5) navigate to the new playlist's page
+        // (4) navigate to the new playlist's page
         navigate(`/playlist/${savedPlaylist._id}`);
       })
       .catch((err) => {
