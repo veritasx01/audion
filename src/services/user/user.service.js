@@ -84,20 +84,30 @@ async function addPlaylistToUserLibrary(userId, playlistId) {
   const user = await getUserById(userId);
   if (!user || !user.library) throw new Error("User or user library not found");
 
-  user.library = {
-    ...user.library,
-    playlists: [...user.library.playlists, playlistId],
-  };
+  const response = await httpService.post(
+    `user/${userId}/playlist/${playlistId}`,
+    playlistId
+  );
 
-  await save(user);
+  if (!user.library.playlists.includes(playlistId)) {
+    user.library.playlists.push(playlistId);
+
+    return response;
+  }
 }
 
 async function removePlaylistFromUserLibrary(userId, playlistId) {
   const user = await getUserById(userId);
   if (!user || !user.library) throw new Error("User or user library not found");
 
+  const response = await httpService.delete(
+    `user/${userId}/playlist/${playlistId}`,
+    playlistId
+  );
+
   user.library.playlists = user.library.playlists.filter(
     (id) => id !== playlistId
   );
-  await save(user);
+
+  return response;
 }
