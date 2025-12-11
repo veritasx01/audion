@@ -17,7 +17,6 @@ import {
 // load playlists from backend to the store
 export async function loadLibraryPlaylists(userId) {
   const defaultUser = await userService.getDefaultUser();
-  console.log("Default User in loadLibraryPlaylists:", defaultUser);
   store.dispatch({ type: SET_IS_LOADING, payload: true });
   var userId = userId || defaultUser._id;
   return userService
