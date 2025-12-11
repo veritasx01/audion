@@ -15,7 +15,6 @@ export const songService = {
   // remove,
   // add,
   //update,
-  formatSongDuration,
 };
 
 const STORAGE_KEY = "songDB";
@@ -69,12 +68,6 @@ export async function getById(songId) {
 //async function add(song) {}
 
 //async function update(songId) {}
-
-export function formatSongDuration(duration) {
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
 
 function _saveDemoSongsToLocalStorage(songs) {
   saveToStorage(STORAGE_KEY, songs);
