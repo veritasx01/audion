@@ -51,6 +51,5 @@ object {
 
 input::placeholder,
 textarea::placeholder {
-  font-family: "DM Sans", sans-serif;
   font-weight: 500;
 }
