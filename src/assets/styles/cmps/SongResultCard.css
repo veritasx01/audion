@@ -18,6 +18,8 @@
 
 .song-result-card-artist {
   color: var(--text-subdued);
+  font-weight: 500;
+  font-size: 0.85rem;
 }
 
 .song-result-options {
@@ -31,7 +33,10 @@
 
 .song-result-options p {
   color: var(--text-subdued);
+  font-variant-numeric: tabular-nums;
   margin: 0;
+  min-width: 50px;
+  font-size: 0.85rem;
   padding-left: 8px;
 }
 
