@@ -55,7 +55,7 @@ async function removeSong(playlistId, songId) {
 }
 
 // query playlists from storage with optional filtering by title or description
-function query(filterBy = {}, sortBy = "", sortOrder = 1) {
+async function query(filterBy = {}, sortBy = "", sortOrder = 1) {
   const queryParams = {};
 
   // Handle filterBy parameters
@@ -85,17 +85,18 @@ function query(filterBy = {}, sortBy = "", sortOrder = 1) {
     queryParams.sortDir = sortOrder;
   }
 
-  return httpService.get("playlist", queryParams);
+  const playlists = await httpService.get("playlist", queryParams);
+  return playlists;
 }
 
 // get playlist by id from storage
-function getById(id) {
-  return httpService.get(`playlist/${id}`);
+async function getById(id) {
+  return await httpService.get(`playlist/${id}`);
 }
 
 // delete playlist from storage
-function remove(id) {
-  return httpService.delete(`playlist/${id}`);
+async function remove(id) {
+  return await httpService.delete(`playlist/${id}`);
 }
 
 // save playlist to storage (add new or update existing)
