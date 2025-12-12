@@ -11,6 +11,9 @@
   padding-left: 8px;
   text-justify: left;
 }
+.song-result-card-text a {
+  cursor: pointer;
+}
 
 .song-result-card-title {
   margin-bottom: 2px;
