@@ -13,6 +13,7 @@ export function SongCard({ playlist }) {
   const dispatch = useDispatch();
   const song = playlist.songs[0];
   const playlistId = useSelector((state) => state.songQueueModule.playlistId);
+  const isPlaying = useSelector((state) => state.songModule.isPlaying);
   //const goToPlaylist = () => {};
 
   const handlePlayPause = (e) => {
@@ -38,7 +39,7 @@ export function SongCard({ playlist }) {
     <div className="song-card" onClick={goToPlaylistPage}>
       <button className="play-button-carousel" onClick={handlePlayPause}>
         <span className="size-48">
-          {playlistId === playlist._id
+          {playlistId === playlist._id && isPlaying
             ? pauseIcon({ height: "24px", width: "24px", fill: "black" })
             : playIcon({ height: "24px", width: "24px", fill: "black" })}
         </span>
