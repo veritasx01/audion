@@ -1,3 +1,4 @@
+import { useDebounce } from "../customHooks/useDebounce";
 import { togglePlaying } from "../store/actions/song.action";
 import {
   goToNextSong,
@@ -20,8 +21,8 @@ export function PlayerControls() {
   const isPlayerEmpty = () => {
     return !songInPlayer || Object.keys(songInPlayer).length === 0;
   };
-  const nextSong = () => dispatch(goToNextSong());
-  const prevSong = () => dispatch(goToPreviousSong());
+  const nextSong = useDebounce(() => dispatch(goToNextSong()), 100);
+  const prevSong = useDebounce(() => dispatch(goToPreviousSong()), 100);
   const toggleSongRepeat = () => dispatch(toggleRepeat());
   const toggleSongShuffle = () => dispatch(toggleShuffle());
 
