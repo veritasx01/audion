@@ -35,6 +35,16 @@ export function SongCard({ playlist }) {
     navigate(`playlist/${playlist._id}`);
   }
 
+  const handlePlayButtonClick = (e) => {
+    e.stopPropagation();
+    toggleSong(song);
+  };
+
+  function goToPlaylistPage() {
+    if (!playlist._id || playlist._id === "") return;
+    navigate(`playlist/${playlist._id}`);
+  }
+
   return (
     <div className="song-card" onClick={goToPlaylistPage}>
       <button className="play-button-carousel" onClick={handlePlayPause}>

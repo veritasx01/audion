@@ -6,6 +6,7 @@
   background: #1e1e1e;
   color: white;
   font-size: 1rem;
+  font-family: "Manrope", sans-serif;
   border: none;
   outline: 2px solid transparent;
   transition: box-shadow 0.22s ease-in, background 0.22s ease-in,

@@ -379,6 +379,7 @@
   width: 60px;
   text-align: right;
   color: #b3b3b3;
+  font-variant-numeric: tabular-nums;
   font-size: 0.97em;
 }
 

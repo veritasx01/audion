@@ -78,7 +78,7 @@ export function SearchHeader({ searchWord }) {
               </div>
             </div>
           </section>
-          <section className="songs-section">
+          <section className="songs-result-section">
             <h2>Songs</h2>
             {songsResult.map((song) => (
               <SongResultCard key={song._id} song={song}></SongResultCard>
