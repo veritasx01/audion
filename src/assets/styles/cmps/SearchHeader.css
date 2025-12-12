@@ -45,7 +45,7 @@
   height: 226px;
   max-width: 393px;
   transition: background-color 0.3s;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .top-result-card h1 {

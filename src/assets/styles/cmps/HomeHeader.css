@@ -47,6 +47,7 @@
   overflow: hidden;
   position: relative;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 .playlist-card a {
   font-weight: 550;

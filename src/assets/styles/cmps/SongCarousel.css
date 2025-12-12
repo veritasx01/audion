@@ -56,6 +56,7 @@
   padding: 10px;
   border-radius: 6px;
   transition: background 0.05s cubic-bezier(0.3, 0, 0, 1);
+  cursor: pointer;
 }
 .song-card img {
   width: 171.5px;
