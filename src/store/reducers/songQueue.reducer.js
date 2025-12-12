@@ -1,5 +1,6 @@
 import {
   getRandomExcept,
+  shuffleIndexArray,
 } from '../../services/util.service';
 
 /* eslint-disable no-case-declarations */
@@ -17,7 +18,7 @@ const initialState = {
   currentIndex: 0,
   playlistId: null,
   songQueue: [],
-  shuffleArray: [],
+  indexArray: [],
   isRepeating: false,
   isShuffle: false,
 };
@@ -26,23 +27,12 @@ export function songQueueReducer(state = initialState, action) {
   switch (action.type) {
     case CLEAR_QUEUE:
       return { ...state, currentIndex: 0, songQueue: [], playlistId: null };
+      
     case PREV_SONG:
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };
+
     case NEXT_SONG:
-      if (state.isShuffle) {
-        if (state.songQueue.length <= 1) {
-          return state;
-        }
-        return {
-          ...state,
-          currentIndex: getRandomExcept(
-            0,
-            state.songQueue.length - 1,
-            state.currentIndex
-          ),
-        };
-      }
       if (state.currentIndex === state.songQueue.length - 1) {
         if (state.isRepeating) {
           return { ...state, currentIndex: 0 };
@@ -50,8 +40,10 @@ export function songQueueReducer(state = initialState, action) {
         return { ...state, currentIndex: state.songQueue.length };
       }
       return { ...state, currentIndex: state.currentIndex + 1 };
+
     case SET_SONG_QUEUE:
       return { ...state, songQueue: action.payload };
+
     case SEEK_INDEX:
       if (
         typeof action.payload !== 'number' ||
@@ -61,12 +53,29 @@ export function songQueueReducer(state = initialState, action) {
         return state;
       }
       return { ...state, currentIndex: action.payload };
+
     case TOGGLE_REPEAT:
       return { ...state, isRepeating: !state.isRepeating };
+
     case TOGGLE_SHUFFLE:
-      return { ...state, isShuffle: !state.isShuffle };
+      if (!state.isShuffle) {
+        const arr = shuffleIndexArray(
+          state.currentIndex,
+          state.songQueue.length
+        );
+        const curIndex = arr[state.currentIndex];
+        return {
+          ...state,
+          isShuffle: true,
+          currentIndex: curIndex,
+          indexArray: arr,
+        };
+      }
+      return { ...state, isShuffle: false };
+
     case SET_PLAYLIST_ID:
       return { ...state, playlistId: action.payload };
+
     default:
       return state;
   }
