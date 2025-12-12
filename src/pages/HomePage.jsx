@@ -30,14 +30,14 @@ export function HomePage() {
       <div className="content-view">
         {console.log("lists in render:", lists[0])}
         <SongCarousel playlists={lists[0]} title="Made For You"></SongCarousel>
-        <SongCarousel playlists={lists[1]} title="Jump back in"></SongCarousel>
+        <SongCarousel playlists={lists[1]} title="Discover picks for you"></SongCarousel>
         <SongCarousel
           playlists={lists[2]}
-          title="Recently played"
+          title="Recommended for today"
         ></SongCarousel>
         <SongCarousel
           playlists={lists[3]}
-          title="Recommended for today"
+          title="Your top mixes"
         ></SongCarousel>
       </div>
     </>
