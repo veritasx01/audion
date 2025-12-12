@@ -19,6 +19,7 @@ const initialState = {
   playlistId: null,
   songQueue: [],
   indexArray: [],
+  shuffleIndex: 0,
   isRepeating: false,
   isShuffle: false,
 };
@@ -27,12 +28,32 @@ export function songQueueReducer(state = initialState, action) {
   switch (action.type) {
     case CLEAR_QUEUE:
       return { ...state, currentIndex: 0, songQueue: [], playlistId: null };
-      
+
     case PREV_SONG:
+      if (state.isShuffle) {
+        if (state.shuffleIndex === 0) return state;
+        return {
+          ...state,
+          shuffleIndex: state.shuffleIndex - 1,
+          currentIndex: state.indexArray[state.shuffleIndex - 1],
+        };
+      }
+
       if (state.currentIndex === 0) return state;
       return { ...state, currentIndex: state.currentIndex - 1 };
 
     case NEXT_SONG:
+      if (state.isShuffle) {
+        if (state.shuffleIndex === state.songQueue.length - 1) {
+          return { ...state, currentIndex: state.songQueue.length };
+        }
+        return {
+          ...state,
+          shuffleIndex: state.shuffleIndex + 1,
+          currentIndex: state.indexArray[state.shuffleIndex + 1],
+        };
+      }
+
       if (state.currentIndex === state.songQueue.length - 1) {
         if (state.isRepeating) {
           return { ...state, currentIndex: 0 };
@@ -69,6 +90,7 @@ export function songQueueReducer(state = initialState, action) {
           isShuffle: true,
           currentIndex: curIndex,
           indexArray: arr,
+          shuffleIndex: 0,
         };
       }
       return { ...state, isShuffle: false };
