@@ -1,7 +1,4 @@
-import {
-  getRandomExcept,
-  shuffleIndexArray,
-} from '../../services/util.service';
+import { shuffleIndexArray } from '../../services/util.service';
 
 /* eslint-disable no-case-declarations */
 export const CLEAR_QUEUE = 'CLEAR_QUEUE';

@@ -35,6 +35,8 @@ import { arraysEqual } from "../services/util.service.js";
 export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
+
   const isShuffleEnabled = useSelector(
     (state) => state.songQueueModule.isShuffle
   );
@@ -44,7 +46,8 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const libraryPlaylists = useSelector(
     (state) => state.userLibraryModule.playlists
   );
-  const { contextMenu, showContextMenu, hideContextMenu } = useContextMenu();
+  const songInPlayer = useSelector((state) => state.songModule.songObj);
+
   const userId = likedSongs?.createdBy?._id;
   const playlistId = playlist?._id;
   const isCurrentPlaylist = queueState?.playlistId === playlistId;
@@ -53,6 +56,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const isPlaylistInLibrary = libraryPlaylists?.some(
     (p) => p._id === playlistId
   );
+  const playerEmpty = !songInPlayer || Object.keys(songInPlayer).length === 0;
 
   function handlePlayPause() {
     // If it's already the current playlist (regardless of play state), just toggle
@@ -184,10 +188,14 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
             className={`playlist-shuffle-btn hov-enlarge ${
               isShuffleEnabled ? "green-button" : ""
             }`}
+            style={playerEmpty ? { opacity: "0.5", cursor: "not-allowed" } : {}}
             title={`${
               isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
             } for ${playlist.title}`}
             onClick={() => {
+              if (playerEmpty) {
+                return;
+              }
               dispatch(toggleShuffle());
               showSuccessMsg(
                 `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
