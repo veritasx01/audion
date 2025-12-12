@@ -14,7 +14,6 @@ export function SongCard({ playlist }) {
   const song = playlist.songs[0];
   const playlistId = useSelector((state) => state.songQueueModule.playlistId);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
-  //const goToPlaylist = () => {};
 
   const handlePlayPause = (e) => {
     e.stopPropagation();
@@ -34,11 +33,6 @@ export function SongCard({ playlist }) {
     if (!playlist._id || playlist._id === "") return;
     navigate(`playlist/${playlist._id}`);
   }
-
-  const handlePlayButtonClick = (e) => {
-    e.stopPropagation();
-    toggleSong(song);
-  };
 
   function goToPlaylistPage() {
     if (!playlist._id || playlist._id === "") return;

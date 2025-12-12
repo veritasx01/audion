@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import fallbackImage from "../assets/images/black_image.jpg";
-import { songService } from "../services/song/song.service";
 import { useExtractColors } from "react-extract-colors";
 import { sortColorsByBrightness } from "../services/util.service";
 import { pauseIcon, playIcon } from "../services/icon.service";
@@ -14,25 +13,21 @@ import { setPlaying, togglePlaying } from "../store/actions/song.action";
 import { playlistService } from "../services/playlist/playlist.service";
 import { useNavigate } from "react-router";
 
-const songs = await songService.query();
-
-let playlistsDemo = [];
-for (let i = 0; i < 8; i++) {
-  playlistsDemo.push({
-    _id: i + 1,
-    song: songs[i],
-    thumbnail: songs[i].thumbnail,
-  });
-}
-playlistsDemo = await playlistService.query();
-playlistsDemo = playlistsDemo.filter((pl) => !pl.isLikedSongs);
-playlistsDemo = playlistsDemo.slice(0, 8);
-
 const DEFAULT_COLOR = "#565656";
 
 export function HomeHeader() {
   const [headerColor, setHeaderColor] = useState(DEFAULT_COLOR);
-  const [playlists, setPlaylists] = useState(playlistsDemo);
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+    const loadPlaylists = async () => {
+      let playlistsQuery = await playlistService.query();
+      playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs);
+      playlistsQuery = playlistsQuery.slice(0, 8);
+      setPlaylists(playlistsQuery);
+    };
+    loadPlaylists();
+  }, []);
 
   return (
     <div className="gradient-header" style={{ backgroundColor: headerColor }}>
