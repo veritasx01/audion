@@ -11,6 +11,7 @@ import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls
 import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
 import { PlaylistDetailsTable } from "../cmps/PlaylistDetailsTable.jsx";
 import { PlaylistSongSearch } from "../cmps/PlaylistSongSearch.jsx";
+import { Loader } from "../cmps/Loader.jsx";
 
 export function PlaylistDetails() {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export function PlaylistDetails() {
     setShowEditModal(true);
   };
 
-  if (!playlist) return <div>Loading...</div>;
+  if (!playlist) return <Loader></Loader>;
 
   return (
     <div className="playlist-details">
