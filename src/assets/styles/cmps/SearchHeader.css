@@ -29,8 +29,9 @@
 }
 
 .top-result-section h2 {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: "Manrope", sans-serif;
   margin-bottom: 16px;
 }
 
@@ -51,6 +52,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-family: "Manrope", sans-serif;
 }
 
 .top-result-card:hover {
@@ -148,4 +150,11 @@
   height: 24px;
   fill: var(--text-base);
   margin-left: 2px;
+}
+
+.songs-results-section h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: "Manrope", sans-serif;
+  margin-bottom: 1.15rem;
 }

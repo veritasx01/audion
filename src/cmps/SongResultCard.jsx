@@ -21,7 +21,10 @@ export function SongResultCard({ song }) {
         </div>
       </div>
       <div className="song-result-options">
-        <button className={`add-button hov-enlarge`}>
+        <button
+          className={`add-button hov-enlarge`}
+          style={{ marginRight: "16px" }}
+        >
           <span className="size-16">{addToLikedIcon()}</span>
         </button>
         <p>{formatTimeFromSecs(song?.duration)}</p>
