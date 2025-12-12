@@ -1,17 +1,32 @@
-import { useSongController } from "../customHooks/useSongController";
+import { useDispatch, useSelector } from "react-redux";
 import { pauseIcon, playIcon } from "../services/icon.service";
 import { useNavigate } from "react-router-dom";
+import {
+  clearSongQueue,
+  setPlaylistId,
+  setSongQueue,
+} from "../store/actions/songQueue.action";
+import { setPlaying, togglePlaying } from "../store/actions/song.action";
 
 export function SongCard({ playlist }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const song = playlist.songs[0];
-  //const goToPlaylist = () => {};
+  const playlistId = useSelector((state) => state.songQueueModule.playlistId);
+  const isPlaying = useSelector((state) => state.songModule.isPlaying);
 
-  const { isCurrentSongPlaying, toggleSong } = useSongController(song);
-
-  const handlePlayButtonClick = (e) => {
+  const handlePlayPause = (e) => {
     e.stopPropagation();
-    toggleSong(song);
+    // If it's already the current playlist (regardless of play state), just toggle
+    if (playlist._id !== playlistId) {
+      // Load this playlist and start playing
+      dispatch(clearSongQueue());
+      dispatch(setSongQueue([...playlist.songs]));
+      dispatch(setPlaylistId(playlist._id));
+      dispatch(setPlaying(true));
+    } else {
+      dispatch(togglePlaying());
+    }
   };
 
   function goToPlaylistPage() {
@@ -21,9 +36,9 @@ export function SongCard({ playlist }) {
 
   return (
     <div className="song-card" onClick={goToPlaylistPage}>
-      <button className="play-button-carousel" onClick={handlePlayButtonClick}>
+      <button className="play-button-carousel" onClick={handlePlayPause}>
         <span className="size-48">
-          {isCurrentSongPlaying
+          {playlistId === playlist._id && isPlaying
             ? pauseIcon({ height: "24px", width: "24px", fill: "black" })
             : playIcon({ height: "24px", width: "24px", fill: "black" })}
         </span>

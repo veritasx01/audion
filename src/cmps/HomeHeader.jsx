@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
 import fallbackImage from "../assets/images/black_image.jpg";
-import { useSongController } from "../customHooks/useSongController";
-import { songService } from "../services/song/song.service";
 import { useExtractColors } from "react-extract-colors";
 import { sortColorsByBrightness } from "../services/util.service";
 import { pauseIcon, playIcon } from "../services/icon.service";
-
-const songs = await songService.query();
-
-const playlistsDemo = [];
-for (let i = 0; i < 8; i++) {
-  playlistsDemo.push({
-    _id: i + 1,
-    song: songs[i],
-    thumbnail: songs[i].thumbnail,
-  });
-}
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearSongQueue,
+  setPlaylistId,
+  setSongQueue,
+} from "../store/actions/songQueue.action";
+import { setPlaying, togglePlaying } from "../store/actions/song.action";
+import { playlistService } from "../services/playlist/playlist.service";
+import { useNavigate } from "react-router";
 
 const DEFAULT_COLOR = "#565656";
 
 export function HomeHeader() {
   const [headerColor, setHeaderColor] = useState(DEFAULT_COLOR);
-  const [playlists, setPlaylists] = useState(playlistsDemo);
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+    const loadPlaylists = async () => {
+      let playlistsQuery = await playlistService.query();
+      playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs);
+      playlistsQuery = playlistsQuery.slice(0, 8);
+      setPlaylists(playlistsQuery);
+    };
+    loadPlaylists();
+  }, []);
 
   return (
     <div className="gradient-header" style={{ backgroundColor: headerColor }}>
@@ -30,7 +36,7 @@ export function HomeHeader() {
           {/* 2. Map over data */}
           {playlists.map((playlist) => (
             <PlaylistCard
-              song={playlist.song}
+              playlist={playlist}
               key={playlist._id}
               setHeaderColor={setHeaderColor}
             />
@@ -41,20 +47,42 @@ export function HomeHeader() {
   );
 }
 
-function PlaylistCard({ song, setHeaderColor }) {
+function PlaylistCard({ playlist, setHeaderColor }) {
   const [mainColor, setMainColor] = useState("#fff");
-  const { colors } = useExtractColors(song.thumbnail);
+  const { colors } = useExtractColors(playlist.thumbnail);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const playlistId = useSelector((state) => state.songQueueModule.playlistId);
+  const isPlaying = useSelector((state) => state.songModule.isPlaying);
 
   useEffect(() => {
     let sortedColors = sortColorsByBrightness(colors, 3);
     setMainColor(sortedColors[0]);
   }, [colors]);
 
-  const { isCurrentSongPlaying, toggleSong } = useSongController(song);
+  const handlePlayPause = (e) => {
+    e.stopPropagation();
+    // If it's already the current playlist (regardless of play state), just toggle
+    if (playlist._id !== playlistId) {
+      // Load this playlist and start playing
+      dispatch(clearSongQueue());
+      dispatch(setSongQueue([...playlist.songs]));
+      dispatch(setPlaylistId(playlist._id));
+      dispatch(setPlaying(true));
+    } else {
+      dispatch(togglePlaying());
+    }
+  };
+
+  function goToPlaylistPage() {
+    if (!playlist._id || playlist._id === "") return;
+    navigate(`playlist/${playlist._id}`);
+  }
 
   return (
     <div
       className="playlist-card"
+      onClick={goToPlaylistPage}
       onMouseEnter={() => {
         setHeaderColor(mainColor);
       }}
@@ -62,18 +90,18 @@ function PlaylistCard({ song, setHeaderColor }) {
     >
       <img
         className="playlist-image"
-        src={song.thumbnail || fallbackImage}
+        src={playlist?.thumbnail || fallbackImage}
       ></img>
-      <button className="play-button" onClick={() => toggleSong(song)}>
+      <button className="play-button" onClick={handlePlayPause}>
         <span className="play-button-span">
-          {isCurrentSongPlaying
+          {playlist._id === playlistId && isPlaying
             ? pauseIcon({ height: "24px", width: "24px", fill: "black" })
             : playIcon({ height: "24px", width: "24px", fill: "black" })}
         </span>
       </button>
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <div>
-          <a>{song.title}</a>
+          <a>{playlist.title}</a>
         </div>
       </div>
     </div>
