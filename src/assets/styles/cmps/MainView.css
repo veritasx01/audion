@@ -3,7 +3,7 @@
   height: 100%;
   grid-template-columns: auto 1fr minmax(284px, 26.25rem);
   grid-template-areas: "leftpanel mainview rightpanel";
-  padding: 0px 8px 8px 8px;
+  padding: 0px 8px 0px 8px;
   gap: 8px;
   background: black;
   > * {
@@ -30,6 +30,10 @@
   min-height: 0;
   scrollbar-color: hsla(0, 0%, 100%, 0.3) transparent;
   scrollbar-width: thin;
+}
+
+.song-view {
+  border-radius: 8px;
 }
 
 .os-scroll-container {
