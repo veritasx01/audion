@@ -115,37 +115,6 @@ export function loadFromStorage(key) {
   return data ? JSON.parse(data) : undefined;
 }
 
-function extractYouTubeId(url) {
-  if (!url) return null;
-  const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
-  return match ? match[1] : null;
-}
-const key = import.meta.env.VITE_YOUTUBE_API_KEY;
-export async function fetchYouTubeDuration(videoUrl, apiKey = key) {
-  if (!videoUrl || videoUrl === '') return 0;
-  const videoId = extractYouTubeId(videoUrl);
-  if (!videoId) throw new Error('Invalid YouTube URL');
-
-  const response = await fetch(
-    `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${apiKey}`
-  );
-  const data = await response.json();
-
-  const isoDuration = data.items?.[0]?.contentDetails?.duration;
-  if (!isoDuration) throw new Error('Duration not found');
-
-  // Convert ISO 8601 duration (e.g., PT4M13S) → seconds
-  return isoDurationToSeconds(isoDuration);
-}
-
-function isoDurationToSeconds(iso) {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  const hours = parseInt(match[1] || 0);
-  const minutes = parseInt(match[2] || 0);
-  const seconds = parseInt(match[3] || 0);
-  return hours * 3600 + minutes * 60 + seconds;
-}
-
 export function getRandomValues(arr, m = 1) {
   if (m > arr.length) {
     throw new Error('m cannot be larger than array length');
@@ -257,7 +226,7 @@ export function shuffleIndexArray(startIndex, arrayLength) {
     [arr[startIndex], arr[0]] = [arr[0], arr[startIndex]];
   }
   for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i)+1;
+    const j = Math.floor(Math.random() * i) + 1;
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 

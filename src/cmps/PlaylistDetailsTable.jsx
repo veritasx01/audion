@@ -1,17 +1,17 @@
-import { useState, useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setPlaying, togglePlaying } from "../store/actions/song.action";
-import { addSong, removeSong } from "../store/actions/playlist.action.js";
+import { useState, useEffect, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPlaying, togglePlaying } from '../store/actions/song.action';
+import { addSong, removeSong } from '../store/actions/playlist.action.js';
 import {
   addSongToLikedSongs,
   removeSongFromLikedSongs,
   loadLibraryPlaylists,
-} from "../store/actions/userLibrary.action.js";
+} from '../store/actions/userLibrary.action.js';
 import {
   ContextMenu,
   useContextMenu,
   calculateMenuPosition,
-} from "./ContextMenu.jsx";
+} from './ContextMenu.jsx';
 import {
   playIcon,
   pauseIcon,
@@ -22,22 +22,24 @@ import {
   removeIcon,
   addToCollectionIcon,
   nowPlayingBarChartIcon,
-} from "../services/icon.service.jsx";
+} from '../services/icon.service.jsx';
 import {
   clearSongQueue,
   seekSongQueueIndex,
   setPlaylistId,
   setSongQueue,
-} from "../store/actions/songQueue.action.js";
-import { showSuccessMsg } from "../services/event-bus.service.js";
-import { formatTimeFromSecs } from "../services/util.service.js";
+} from '../store/actions/songQueue.action.js';
+import { showSuccessMsg } from '../services/event-bus.service.js';
+import { formatTimeFromSecs } from '../services/util.service.js';
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
   const [hoveredRow, setHoveredRow] = useState(null);
   const [focusedRow, setFocusedRow] = useState(null);
   const isPlaying = useSelector((store) => store.songModule.isPlaying);
-  const playingSongId = useSelector((store) => store.songModule.songObj._id);
+  const playingSongId = useSelector(
+    (store) => store.songModule.currentSong._id
+  );
   const playingPlaylistId = useSelector(
     (store) => store.songQueueModule.playlistId
   );
@@ -70,15 +72,15 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   useEffect(() => {
     const handleDocumentClick = (e) => {
       // Clear focus if clicking outside the table wrapper
-      if (!e.target.closest(".playlist-table-wrapper")) {
+      if (!e.target.closest('.playlist-table-wrapper')) {
         setFocusedRow(null);
       }
     };
 
-    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener('click', handleDocumentClick);
 
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
+      document.removeEventListener('click', handleDocumentClick);
     };
   }, []);
 
@@ -91,7 +93,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     }
     const lastId = song._id;
     dispatch(seekSongQueueIndex(index));
-    console.log(lastId, playingSongId)
+    console.log(lastId, playingSongId);
     if (lastId !== playingSongId) {
       dispatch(setPlaying(true));
     } else {
@@ -137,8 +139,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
 
     if (isSongInLikedSongs(song._id)) {
       libraryMenuItem = {
-        id: "remove-from-liked-songs",
-        label: "Remove from your Liked Songs",
+        id: 'remove-from-liked-songs',
+        label: 'Remove from your Liked Songs',
         icon: checkmarkIcon({}),
         onClick: () => {
           onRemoveSongFromLikedSongs(song);
@@ -147,8 +149,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       };
     } else {
       libraryMenuItem = {
-        id: "add-to-liked-songs",
-        label: "Save to your Liked Songs",
+        id: 'add-to-liked-songs',
+        label: 'Save to your Liked Songs',
         icon: addToCollectionIcon({}),
         onClick: () => {
           onAddSongToLikedSongs(song);
@@ -159,8 +161,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
 
     const songMenuItems = [
       {
-        id: "add-to-playlist",
-        label: "Add to playlist",
+        id: 'add-to-playlist',
+        label: 'Add to playlist',
         icon: addIcon({}),
         submenu:
           availablePlaylists.length > 0
@@ -178,15 +180,15 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               })
             : [
                 {
-                  id: "no-playlists-available",
-                  label: "No relevant playlists found",
+                  id: 'no-playlists-available',
+                  label: 'No relevant playlists found',
                   disabled: true,
                 },
               ],
       },
       {
-        id: "remove-from-playlist",
-        label: "Remove from this playlist",
+        id: 'remove-from-playlist',
+        label: 'Remove from this playlist',
         icon: removeIcon({}),
         onClick: () => {
           removeSong(playlist._id, song._id).then(() => loadPlaylist());
@@ -195,7 +197,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         disabled:
           playlist.createdBy?._id !== likedSongsCollection.createdBy?._id,
       },
-      { type: "separator" },
+      { type: 'separator' },
 
       libraryMenuItem,
     ];
@@ -204,10 +206,10 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   }
 
   function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
+    return new Date(dateString).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
   }
 
@@ -235,8 +237,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
           {playlist.songs.map((song, idx) => (
             <tr
               key={song._id}
-              className={`${hoveredRow === idx ? "hovered" : ""} ${
-                focusedRow === idx ? "focused" : ""
+              className={`${hoveredRow === idx ? 'hovered' : ''} ${
+                focusedRow === idx ? 'focused' : ''
               }`.trim()}
               onMouseEnter={() => setHoveredRow(idx)}
               onMouseLeave={() => setHoveredRow(null)}
@@ -244,7 +246,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                 setFocusedRow(idx);
               }}
             >
-              <td className={"song-number-col"} key="num">
+              <td className={'song-number-col'} key="num">
                 {hoveredRow === idx ? (
                   playingPlaylistId === playlist._id &&
                   playingSongId === song._id &&
@@ -276,8 +278,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                     className={`song-number-col ${
                       playingPlaylistId === playlist._id &&
                       playingSongId === song._id
-                        ? "active"
-                        : ""
+                        ? 'active'
+                        : ''
                     }`}
                   >
                     {idx + 1}
@@ -296,8 +298,8 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                       className={`playlist-song-title ${
                         playingPlaylistId === playlist._id &&
                         playingSongId === song._id
-                          ? "active"
-                          : ""
+                          ? 'active'
+                          : ''
                       }`}
                     >
                       {song.title}
@@ -311,19 +313,19 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               </td>
               <td key="dateAdded">
                 <div className="playlist-song-date-added">
-                  {song.addedAt ? formatDate(song.addedAt) : ""}
+                  {song.addedAt ? formatDate(song.addedAt) : ''}
                 </div>
               </td>
 
               <td className="playlist-song-add-action" key="add-action">
                 <button
                   className={`add-btn ${
-                    isSongInLikedSongs(song._id) ? "liked" : ""
+                    isSongInLikedSongs(song._id) ? 'liked' : ''
                   }`}
                   title={
                     !isSongInLikedSongs(song._id)
-                      ? "Save to your Liked Songs"
-                      : "Remove from your Liked Songs"
+                      ? 'Save to your Liked Songs'
+                      : 'Remove from your Liked Songs'
                   }
                   onClick={(e) => {
                     e.preventDefault();
@@ -341,7 +343,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                 </button>
               </td>
               <td className="playlist-song-duration" key="duration">
-                {song.duration ? formatTimeFromSecs(song.duration) : ""}
+                {song.duration ? formatTimeFromSecs(song.duration) : ''}
               </td>
               <td className="playlist-table-actions" key="actions">
                 <div className="playlist-row-actions">
