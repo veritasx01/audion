@@ -23,6 +23,12 @@ export function SearchBar() {
     navigate(`/search/${value.trim()}`);
   };
 
+  const updateSearchParamsSubmit = (e) => {
+    const value = e.target.querySelector("input").value;
+    setTerm(value);
+    navigate(`/search/${value.trim()}`);
+  };
+
   // using hook that uses a ref instead of remaking the debounced function each rerender
   const delayedSearch = useDebounce(updateSearchParams, 100);
 
@@ -32,7 +38,7 @@ export function SearchBar() {
       style={{ position: "relative" }}
       onSubmit={(e) => {
         e.preventDefault();
-        updateSearchParams(e);
+        updateSearchParamsSubmit(e);
       }}
     >
       {/* search button */}

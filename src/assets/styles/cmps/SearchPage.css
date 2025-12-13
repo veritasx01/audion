@@ -1,0 +1,9 @@
+.search-playlists-container {
+  padding: 0 24px;
+}
+.search-playlists-container h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: "Manrope", sans-serif;
+  margin-bottom: 16px;
+}

@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { SongCard } from "./SongCard";
 
-const SCROLL_PX = 585
+const SCROLL_PX = 585;
 
-export function SongCarousel({ playlists = [], title = "title" }) {
+export function SongCarousel({ playlists = [], title = "" }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -44,9 +43,11 @@ export function SongCarousel({ playlists = [], title = "title" }) {
 
   return (
     <div className="carousel-inner" style={{ overflow: "hidden" }}>
-      <h2 className="carousel-title">
-        <a>{title}</a>
-      </h2>
+      {title !== "" ? (
+        <h2 className="carousel-title">
+          <a>{title}</a>
+        </h2>
+      ) : null}
       <button
         className="left-button carousel-button hov-enlarge"
         onClick={() => scroll(-SCROLL_PX)}
