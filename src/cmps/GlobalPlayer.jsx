@@ -51,7 +51,7 @@ export function GlobalPlayer() {
       <div className="global-player-container">
         <ReactPlayer
           ref={playerRef}
-          src={globalSong.url}
+          src={globalSong?.url}
           playing={ended ? false : isPlaying}
           volume={volume}
           loop={false}
