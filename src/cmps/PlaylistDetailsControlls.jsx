@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   addPlaylist,
   removePlaylist,
-} from "../store/actions/playlist.action.js";
-import { setPlaying, togglePlaying } from "../store/actions/song.action";
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
-import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
+} from '../store/actions/playlist.action.js';
+import { setPlaying, togglePlaying } from '../store/actions/song.action';
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
+import { ContextMenu, useContextMenu } from './ContextMenu.jsx';
 import {
   playIcon,
   pauseIcon,
@@ -19,18 +19,18 @@ import {
   disableShuffleIcon,
   addToCollectionIcon,
   checkmarkIcon,
-} from "../services/icon.service.jsx";
+} from '../services/icon.service.jsx';
 import {
   addPlaylistToLibrary,
   removePlaylistFromLibrary,
-} from "../store/actions/userLibrary.action.js";
+} from '../store/actions/userLibrary.action.js';
 import {
   clearSongQueue,
   setPlaylistId,
   setSongQueue,
   toggleShuffle,
-} from "../store/actions/songQueue.action.js";
-import { arraysEqual } from "../services/util.service.js";
+} from '../store/actions/songQueue.action.js';
+import { arraysEqual } from '../services/util.service.js';
 
 export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   const libraryPlaylists = useSelector(
     (state) => state.userLibraryModule.playlists
   );
-  const songInPlayer = useSelector((state) => state.songModule.songObj);
+  const songInPlayer = useSelector((state) => state.songModule.currentSong);
 
   const userId = likedSongs?.createdBy?._id;
   const playlistId = playlist?._id;
@@ -97,17 +97,17 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
   async function onSharePlaylistURL() {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      showSuccessMsg("Link copied to clipboard");
+      showSuccessMsg('Link copied to clipboard');
     } catch (err) {
-      console.error("Failed to copy URL: ", err);
-      showErrorMsg("Failed to copy link");
+      console.error('Failed to copy URL: ', err);
+      showErrorMsg('Failed to copy link');
     }
   }
 
   function onDeletePlaylist() {
-    if (window.confirm("Are you sure you want to delete this playlist?")) {
+    if (window.confirm('Are you sure you want to delete this playlist?')) {
       removePlaylist(playlistId).then(() => {
-        navigate("/");
+        navigate('/');
       });
     }
   }
@@ -121,8 +121,8 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     // Add playlist to library option if not owned by user and not already in library
     if (!isPlaylistOwnedByUser && !isPlaylistInLibrary) {
       menuItems.push({
-        id: "add-to-library",
-        label: "Add to Your Library",
+        id: 'add-to-library',
+        label: 'Add to Your Library',
         icon: addToCollectionIcon({}),
         onClick: () => addPlaylistToLibrary(userId, playlistId),
       });
@@ -131,9 +131,9 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     // Remove playlist from library option if not owned by user and is in library
     if (!isPlaylistOwnedByUser && isPlaylistInLibrary) {
       menuItems.push({
-        id: "remove-from-library",
-        label: "Remove from Your Library",
-        icon: checkmarkIcon({ fill: "var(--text-bright-accent)" }),
+        id: 'remove-from-library',
+        label: 'Remove from Your Library',
+        icon: checkmarkIcon({ fill: 'var(--text-bright-accent)' }),
         onClick: () => removePlaylistFromLibrary(userId, playlistId),
       });
     }
@@ -141,25 +141,25 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
     // Edit and Delete options if playlist is editable
     if (isPlaylistEditable) {
       menuItems.push({
-        id: "edit",
-        label: "Edit details",
+        id: 'edit',
+        label: 'Edit details',
         icon: editDetailsIcon({}),
         onClick: onOpenModal,
       });
       menuItems.push({
-        id: "delete",
-        label: "Delete",
+        id: 'delete',
+        label: 'Delete',
         icon: deleteIcon({}),
         danger: true,
         onClick: onDeletePlaylist,
       });
     }
 
-    if (menuItems.length > 0) menuItems.push({ type: "separator" });
+    if (menuItems.length > 0) menuItems.push({ type: 'separator' });
 
     menuItems.push({
-      id: "share",
-      label: "Copy link to playlist",
+      id: 'share',
+      label: 'Copy link to playlist',
       icon: copyIcon({}),
       onClick: onSharePlaylistURL,
     });
@@ -175,8 +175,8 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {/* Play/Pause Button */}
         {!isPlaylistEmpty && (
           <button
-            className={"playlist-play-pause-btn hov-enlarge"}
-            title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${playlist.title}`}
+            className={'playlist-play-pause-btn hov-enlarge'}
+            title={`${isCurrentlyPlaying ? 'Pause' : 'Play'} ${playlist.title}`}
             onClick={() => handlePlayPause()}
           >
             {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
@@ -186,11 +186,11 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {!isPlaylistEmpty && (
           <button
             className={`playlist-shuffle-btn hov-enlarge ${
-              isShuffleEnabled ? "green-button" : ""
+              isShuffleEnabled ? 'green-button' : ''
             }`}
-            style={playerEmpty ? { opacity: "0.5", cursor: "not-allowed" } : {}}
+            style={playerEmpty ? { opacity: '0.5', cursor: 'not-allowed' } : {}}
             title={`${
-              isShuffleEnabled ? "Disable Shuffle" : "Enable Shuffle"
+              isShuffleEnabled ? 'Disable Shuffle' : 'Enable Shuffle'
             } for ${playlist.title}`}
             onClick={() => {
               if (playerEmpty) {
@@ -198,7 +198,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
               }
               dispatch(toggleShuffle());
               showSuccessMsg(
-                `Shuffle ${isShuffleEnabled ? "disabled" : "enabled"} for ${
+                `Shuffle ${isShuffleEnabled ? 'disabled' : 'enabled'} for ${
                   playlist.title
                 }`
               );
@@ -210,7 +210,7 @@ export function PlaylistDetailsHeaderControlls({ playlist, onOpenModal }) {
         {/* Add/Remove from Library Button */}
         {!isPlaylistOwnedByUser && (
           <button
-            className={"playlist-library-btn hov-enlarge"}
+            className={'playlist-library-btn hov-enlarge'}
             onClick={() => {
               onAddOrRemoveFromLibrary();
             }}

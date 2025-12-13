@@ -1,13 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { setPlaying, togglePlaying } from '../store/actions/song.action';
 import {
-  setPlaying,
-  togglePlaying,
-} from "../store/actions/song.action";
-import { clearSongQueue, setPlaylistId, setSongQueue } from "../store/actions/songQueue.action";
+  clearSongQueue,
+  setPlaylistId,
+  setSongQueue,
+} from '../store/actions/songQueue.action';
 
 export const useSongController = (song, playlistId = null) => {
   const dispatch = useDispatch();
-  const currentSongId = useSelector((state) => state.songModule.songObj._id);
+  const currentSongId = useSelector(
+    (state) => state.songModule.currentSong._id
+  );
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   if (!song) {
     const falseConst = false;

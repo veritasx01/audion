@@ -2,7 +2,6 @@ import {
   SET_SONG,
   SET_VOLUME,
   TOGGLE_PLAYING,
-  SET_SONG_OBJ,
   SET_ENDED,
   SET_SECS,
   SET_IS_READY,
@@ -19,10 +18,6 @@ export function togglePlaying() {
 
 export function updateVolume(volume) {
   return { type: SET_VOLUME, payload: volume };
-}
-
-export function updateSongObject(songObject) {
-  return { type: SET_SONG_OBJ, payload: songObject };
 }
 
 export function updateSecs(secs) {

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ReactPlayer from 'react-player';
 import {
   setAudioEnded,
-  updateSongObject,
+  updateCurrentSong,
   togglePlaying,
   updateSecs,
 } from '../store/actions/song.action';
@@ -35,7 +35,7 @@ export function GlobalPlayer() {
       const nextSong = songQueue[index];
       if (nextSong) {
         dispatch(setAudioEnded(false));
-        dispatch(updateSongObject(nextSong));
+        dispatch(updateCurrentSong(nextSong));
       }
     }
   }, [index, songQueue, dispatch]);
@@ -51,7 +51,7 @@ export function GlobalPlayer() {
       <div className="global-player-container">
         <ReactPlayer
           ref={playerRef}
-          src={globalSong}
+          src={globalSong.url}
           playing={ended ? false : isPlaying}
           volume={volume}
           loop={false}

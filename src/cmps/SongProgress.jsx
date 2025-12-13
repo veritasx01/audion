@@ -7,8 +7,10 @@ export function SongProgress() {
   const [progress, setProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
   const progressRef = useRef(null);
-  const duration = useSelector((state) => state.songModule.songObj.duration);
-  const song = useSelector((state) => state.songModule.currentSong);
+  const duration = useSelector(
+    (state) => state.songModule.currentSong.duration
+  );
+  const songUrl = useSelector((state) => state.songModule.currentSong.url);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const dispatch = useDispatch();
 
@@ -53,7 +55,7 @@ export function SongProgress() {
     setSecs(0);
     setProgress(0);
     lastTimeRef.current = 0;
-  }, [song]);
+  }, [songUrl]);
 
   const updateProgressFromClientX = (clientX) => {
     if (!progressRef.current) return;
@@ -94,7 +96,7 @@ export function SongProgress() {
             <div
               className={`bar ${dragging ? 'active' : ''}`}
               style={{
-                transform: song
+                transform: songUrl
                   ? `translateX(calc(-100% + ${progress}%))`
                   : `translateX(calc(-100%))`,
               }}
@@ -103,7 +105,7 @@ export function SongProgress() {
           <div
             className="ball"
             style={{
-              left: song ? `calc(${progress}% - 6px)` : `calc(0% - 6px)`,
+              left: songUrl ? `calc(${progress}% - 6px)` : `calc(0% - 6px)`,
               display: dragging ? 'block' : undefined,
               cursor: 'pointer',
             }}
