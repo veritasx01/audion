@@ -32,6 +32,10 @@
   scrollbar-width: thin;
 }
 
+.song-view {
+  border-radius: 8px;
+}
+
 .os-scroll-container {
   height: 100%;
   width: 100%;
