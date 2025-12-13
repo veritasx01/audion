@@ -31,7 +31,7 @@ export function SongCard({ playlist }) {
 
   function goToPlaylistPage() {
     if (!playlist._id || playlist._id === "") return;
-    navigate(`playlist/${playlist._id}`);
+    navigate(`/playlist/${playlist._id}`);
   }
 
   return (
