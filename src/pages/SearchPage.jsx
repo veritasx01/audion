@@ -24,7 +24,7 @@ export function SearchPage() {
       <SearchHeader searchWord={searchWord}></SearchHeader>
       <div className="search-playlists-container">
         <h2>Playlists</h2>
-        <SongCarousel playlists={playlists.slice(0,5)}></SongCarousel>
+        {/*<SongCarousel playlists={playlists.slice(0,5)}></SongCarousel>*/}
       </div>
     </div>
   );
