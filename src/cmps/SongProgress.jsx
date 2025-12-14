@@ -8,9 +8,9 @@ export function SongProgress() {
   const [dragging, setDragging] = useState(false);
   const progressRef = useRef(null);
   const duration = useSelector(
-    (state) => state.songModule.currentSong.duration
+    (state) => state.songModule.currentSong?.duration || 0
   );
-  const songUrl = useSelector((state) => state.songModule.currentSong.url);
+  const songUrl = useSelector((state) => state.songModule.currentSong?.url);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const dispatch = useDispatch();
 
