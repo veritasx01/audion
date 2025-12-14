@@ -145,18 +145,13 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
             ))}
           </ul>
         ) : (
-          searchQuery &&
-          debouncedSearchQuery && (
-            <div className="no-results">
-              <h3>No results found for "{debouncedSearchQuery}"</h3>
-              <p>
-                Please make sure your words are spelled correctly, or use fewer
-                or different keywords.
-              </p>
-            </div>
-          )
+          searchQuery && debouncedSearchQuery && <SmallSearchSkelletonLoader />
         )}
       </div>
     </div>
   );
+}
+
+function SmallSearchSkelletonLoader() {
+  return <div className="small-search-skeleton-loader"></div>;
 }
