@@ -1,13 +1,13 @@
-import { useDebounce } from "../customHooks/useDebounce";
-import { togglePlaying } from "../store/actions/song.action";
+import { useDebounce } from '../customHooks/useDebounce';
+import { togglePlaying } from '../store/actions/song.action';
 import {
   goToNextSong,
   goToPreviousSong,
   toggleRepeat,
   toggleShuffle,
-} from "../store/actions/songQueue.action";
-import { SongProgress } from "./SongProgress";
-import { useDispatch, useSelector } from "react-redux";
+} from '../store/actions/songQueue.action';
+import { SongProgress } from './SongProgress';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function PlayerControls() {
   // TODO: spotify has a diffrent div for the smaller buttons on each side for different gaps from the play button
@@ -15,7 +15,7 @@ export function PlayerControls() {
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const repeating = useSelector((state) => state.songQueueModule.isRepeating);
   const isShuffle = useSelector((state) => state.songQueueModule.isShuffle);
-  const songInPlayer = useSelector((state) => state.songModule.songObj);
+  const songInPlayer = useSelector((state) => state.songModule.currentSong);
   const dispatch = useDispatch();
 
   const isPlayerEmpty = () => {
@@ -33,7 +33,7 @@ export function PlayerControls() {
         <div className="left-buttons-container">
           <button
             className={`smaller-button hov-enlarge${
-              isShuffle ? " green-button" : ""
+              isShuffle ? ' green-button' : ''
             }`}
             onClick={() => {
               if (isPlayerEmpty()) return;
@@ -85,7 +85,7 @@ export function PlayerControls() {
           {/* enable repeat button */}
           <button
             className={`smaller-button hov-enlarge${
-              repeating ? " green-button" : ""
+              repeating ? ' green-button' : ''
             }`}
             onClick={() => {
               if (isPlayerEmpty()) return;

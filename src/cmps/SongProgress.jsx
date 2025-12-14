@@ -1,14 +1,16 @@
-import { useRef, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { formatTimeFromSecs } from "../services/util.service";
-import { updateSecs } from "../store/actions/song.action";
+import { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatTimeFromSecs } from '../services/util.service';
+import { updateSecs } from '../store/actions/song.action';
 
 export function SongProgress() {
   const [progress, setProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
   const progressRef = useRef(null);
-  const duration = useSelector((state) => state.songModule.currentDuration);
-  const song = useSelector((state) => state.songModule.currentSong);
+  const duration = useSelector(
+    (state) => state.songModule.currentSong?.duration || 0
+  );
+  const songUrl = useSelector((state) => state.songModule.currentSong?.url);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const dispatch = useDispatch();
 
@@ -53,7 +55,7 @@ export function SongProgress() {
     setSecs(0);
     setProgress(0);
     lastTimeRef.current = 0;
-  }, [song]);
+  }, [songUrl]);
 
   const updateProgressFromClientX = (clientX) => {
     if (!progressRef.current) return;
@@ -77,12 +79,12 @@ export function SongProgress() {
 
     const onUp = () => {
       setDragging(false);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
     };
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
   };
 
   return (
@@ -92,9 +94,9 @@ export function SongProgress() {
         <div className="progress-bar" ref={progressRef}>
           <div className="bar-container">
             <div
-              className={`bar ${dragging ? "active" : ""}`}
+              className={`bar ${dragging ? 'active' : ''}`}
               style={{
-                transform: song
+                transform: songUrl
                   ? `translateX(calc(-100% + ${progress}%))`
                   : `translateX(calc(-100%))`,
               }}
@@ -103,9 +105,9 @@ export function SongProgress() {
           <div
             className="ball"
             style={{
-              left: song ? `calc(${progress}% - 6px)`: `calc(0% - 6px)`,
-              display: dragging ? "block" : undefined,
-              cursor: "pointer",
+              left: songUrl ? `calc(${progress}% - 6px)` : `calc(0% - 6px)`,
+              display: dragging ? 'block' : undefined,
+              cursor: 'pointer',
             }}
             onMouseDown={handleMouseDown}
           ></div>
