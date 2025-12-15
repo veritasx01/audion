@@ -1,11 +1,11 @@
-import { storageService } from "../async-storage.service.js";
-import { userService } from "../user/user.service.js";
-import { httpService } from "../http.service.js";
-import { makeId, utilService } from "../util.service.js";
-import { faker } from "@faker-js/faker";
-import { songs } from "../../assets/data/songs.js";
-import defaultThumbnail from "../../assets/images/default-playlist-thumbnail.svg";
-import likedSongsThumbnail from "../../assets/images/liked-songs.jpg";
+import { storageService } from '../async-storage.service.js';
+import { userService } from '../user/user.service.js';
+import { httpService } from '../http.service.js';
+import { makeId, utilService } from '../util.service.js';
+import { faker } from '@faker-js/faker';
+import { songs } from '../../assets/data/songs.js';
+import defaultThumbnail from '../../assets/images/default-playlist-thumbnail.svg';
+import likedSongsThumbnail from '../../assets/images/liked-songs.jpg';
 
 export const playlistService = {
   createPlaylist,
@@ -19,10 +19,11 @@ export const playlistService = {
   isLikedSongsPlaylist,
   getLikedSongsPlaylistForUser,
   formatPlaylistDuration,
+  getPlaylistSongFullDetails,
 };
 
 // create a new playlist
-function createPlaylist(title = "New Playlist", description = "", songs = []) {
+function createPlaylist(title = 'New Playlist', description = '', songs = []) {
   // add the current date as addedAt for each song
   const playlistSongs = Array.isArray(songs)
     ? songs.map((song) => ({
@@ -55,12 +56,12 @@ async function removeSong(playlistId, songId) {
 }
 
 // query playlists from storage with optional filtering by title or description
-async function query(filterBy = {}, sortBy = "", sortOrder = 1) {
+async function query(filterBy = {}, sortBy = '', sortOrder = 1) {
   const queryParams = {};
 
   // Handle filterBy parameters
   if (filterBy.playlistIds && Array.isArray(filterBy.playlistIds)) {
-    queryParams.playlistIds = filterBy.playlistIds.join(",");
+    queryParams.playlistIds = filterBy.playlistIds.join(',');
   }
 
   if (filterBy.userId) {
@@ -85,7 +86,7 @@ async function query(filterBy = {}, sortBy = "", sortOrder = 1) {
     queryParams.sortDir = sortOrder;
   }
 
-  const playlists = await httpService.get("playlist", queryParams);
+  const playlists = await httpService.get('playlist', queryParams);
   return playlists;
 }
 
@@ -108,15 +109,15 @@ async function save(playlistToSave) {
       playlistToSave
     );
   } else {
-    response = await httpService.post("playlist", playlistToSave);
+    response = await httpService.post('playlist', playlistToSave);
   }
   return response;
 }
 
 export function createLikedSongsCollectionForUser(user) {
   const likedSongsPlaylist = createPlaylist(
-    "Liked Songs",
-    "Your collection of liked songs",
+    'Liked Songs',
+    'Your collection of liked songs',
     []
   );
   likedSongsPlaylist.thumbnail = likedSongsThumbnail;
@@ -129,11 +130,21 @@ export function isLikedSongsPlaylist(playlist) {
 }
 
 export async function getLikedSongsPlaylistForUser(userId) {
-  if (userId === undefined || userId === null || userId === "")
+  if (userId === undefined || userId === null || userId === '')
     return Promise.resolve(null);
   return query({ userId, isLikedSongs: true }).then((playlists) => {
     return playlists.length > 0 ? playlists[0] : null;
   });
+}
+
+export async function getPlaylistSongFullDetails(playlistId, songId) {
+  try {
+    const song = await httpService.get(`playlist/${playlistId}/song/${songId}`);
+    return song;
+  } catch (err) {
+    console.error('Failed to get song details:', err);
+    throw err;
+  }
 }
 
 // util function for formatting total duration of playlist songs
@@ -145,9 +156,9 @@ export function formatPlaylistDuration(playlist) {
   const hours = Math.floor(totalDurationSeconds / 3600);
   const minutes = Math.floor((totalDurationSeconds % 3600) / 60);
   const seconds = totalDurationSeconds % 60;
-  const hoursStr = hours > 0 ? `${hours} hr${hours > 1 ? "s" : ""} ` : "";
-  const minutesStr = minutes > 0 ? `${minutes} min ` : "";
-  const secondsStr = seconds > 0 ? `${seconds} sec` : "";
+  const hoursStr = hours > 0 ? `${hours} hr${hours > 1 ? 's' : ''} ` : '';
+  const minutesStr = minutes > 0 ? `${minutes} min ` : '';
+  const secondsStr = seconds > 0 ? `${seconds} sec` : '';
   return `${hoursStr}${minutesStr}${secondsStr}`.trim();
 }
 
