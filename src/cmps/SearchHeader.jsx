@@ -19,23 +19,21 @@ export function SearchHeader({ songs }) {
                 src={songs[0]?.thumbnail || fallbackImage}
               ></img>
               <h1>{songs[0]?.title || ""}</h1>
-              <div style={{ position: "absolute" }}>
-                <button className="results-play-button" onClick={toggleSong}>
-                  <span className="play-button-span">
-                    {isCurrentSongPlaying
-                      ? pauseIcon({
-                          height: "24px",
-                          width: "24px",
-                          fill: "black",
-                        })
-                      : playIcon({
-                          height: "24px",
-                          width: "24px",
-                          fill: "black",
-                        })}
-                  </span>
-                </button>
-              </div>
+              <button className="results-play-button" onClick={toggleSong}>
+                <span className="play-button-span">
+                  {isCurrentSongPlaying
+                    ? pauseIcon({
+                        height: "24px",
+                        width: "24px",
+                        fill: "black",
+                      })
+                    : playIcon({
+                        height: "24px",
+                        width: "24px",
+                        fill: "black",
+                      })}
+                </span>
+              </button>
             </div>
           </section>
           <section className="songs-result-section">
