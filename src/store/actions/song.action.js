@@ -1,3 +1,5 @@
+import { store } from '../store';
+import { getPlaylistSongFullDetails } from '../../services/playlist/playlist.service';
 import {
   SET_SONG,
   SET_VOLUME,
@@ -8,8 +10,24 @@ import {
   SET_PLAYING,
 } from '../reducers/song.reducer';
 
-export function updateCurrentSong(song) {
-  return { type: SET_SONG, payload: song };
+export async function updateCurrentSong(song, playlistId = null) {
+  if (!song.url && playlistId) {
+    console.debug(
+      `song.action.js: Song ${song.title} missing URL: ${JSON.stringify(
+        song
+      )} fetching details from youtube...`
+    );
+    getPlaylistSongFullDetails(playlistId, song._id).then((fullSong) => {
+      console.debug(
+        `song.action.js: Fetched full song details including URL & duration: ${JSON.stringify(
+          fullSong
+        )}`
+      );
+      console.log('Dispatching SET_SONG with full song details');
+      store.dispatch({ type: SET_SONG, payload: fullSong });
+    });
+    return;
+  } else store.dispatch({ type: SET_SONG, payload: song });
 }
 
 export function togglePlaying() {
