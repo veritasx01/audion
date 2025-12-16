@@ -39,7 +39,7 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
           <div className="playlist-metadata">
             <span className="creator">
               <img
-                src={playlist.createdBy.profileImg}
+                src={playlist?.createdBy?.profileImg || "https://icon2.cleanpng.com/20190616/toj/kisspng-computer-icons-scalable-vector-graphics-the-noun-p-45-png-and-svg-self-icons-for-free-download-uihere-5d06e4d371e7f7.4084182615607328834666.jpg"}
                 alt={playlist.createdBy.username}
               />
               {playlist.createdBy.fullName}
