@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { formatPlaylistDuration } from "../services/playlist/playlist.service.js";
-import { profileImageFallback } from "../assets/images/profile-image-fallback.webp";
+import profileImageFallback from "../assets/images/profile-image-fallback.webp";
 
 export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
   const libraryView = useSelector((state) => state.systemModule.libraryView);
