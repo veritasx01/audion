@@ -12,18 +12,7 @@ import {
 
 export async function updateCurrentSong(song, playlistId = null) {
   if (!song.url && playlistId) {
-    console.debug(
-      `song.action.js: Song ${song.title} missing URL: ${JSON.stringify(
-        song
-      )} fetching details from youtube...`
-    );
     getPlaylistSongFullDetails(playlistId, song._id).then((fullSong) => {
-      console.debug(
-        `song.action.js: Fetched full song details including URL & duration: ${JSON.stringify(
-          fullSong
-        )}`
-      );
-      console.log('Dispatching SET_SONG with full song details');
       store.dispatch({ type: SET_SONG, payload: fullSong });
     });
     return;
