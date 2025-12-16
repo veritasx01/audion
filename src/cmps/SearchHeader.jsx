@@ -38,7 +38,7 @@ export function SearchHeader({ songs }) {
           </section>
           <section className="songs-result-section">
             <h2>Songs</h2>
-            {songs.map((song) => (
+            {songs.slice(0,4).map((song) => (
               <SongResultCard key={song._id} song={song}></SongResultCard>
             ))}
           </section>
