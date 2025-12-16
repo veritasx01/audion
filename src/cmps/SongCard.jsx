@@ -7,6 +7,7 @@ import {
   setSongQueue,
 } from "../store/actions/songQueue.action";
 import { setPlaying, togglePlaying } from "../store/actions/song.action";
+import { aggregateArtistsFromPlaylist } from "../services/util.service";
 
 export function SongCard({ playlist }) {
   const navigate = useNavigate();
@@ -44,9 +45,9 @@ export function SongCard({ playlist }) {
         </span>
       </button>
       <div style={{ width: "100%" }}>
-        <img src={playlist?.thumbnail} alt={playlist?.title} />
-        <p className="card-title">{song?.title}</p>
-        <p className="card-artist">{song?.artist}</p>
+        <img src={playlist?.thumbnail} alt={playlist?.title} onClick={() => console.log(playlist)}/>
+        {playlist?.title ?<p className="card-title">{playlist?.title}</p> : null}
+        <p className="card-artist">{aggregateArtistsFromPlaylist(playlist)}</p>
       </div>
     </div>
   );

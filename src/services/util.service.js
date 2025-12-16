@@ -237,3 +237,11 @@ export function shuffleIndexArray(startIndex, arrayLength) {
 export function escapeRegexSpecialCharacters(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+export function aggregateArtistsFromPlaylist(playlist) {
+  if (!playlist || playlist?.songs.length === 0) return "";
+  let artistArray = playlist.songs.map((song) => song.artist);
+  artistArray = [...new Set(artistArray)]; // remove dups
+  let artistsString = artistArray.join(', ');
+  return artistsString;
+}
