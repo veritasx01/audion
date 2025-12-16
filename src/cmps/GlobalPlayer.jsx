@@ -14,6 +14,7 @@ export function GlobalPlayer() {
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
   const volume = useSelector((state) => state.songModule.volume);
   const globalSong = useSelector((state) => state.songModule.currentSong);
+  const gPlaylistId = useSelector((state) => state.songQueueModule.playlistId);
   const secs = useSelector((state) => state.songModule.secs);
   const ended = useSelector((state) => state.songModule.hasEnded);
   const songQueue = useSelector((state) => state.songQueueModule.songQueue);
@@ -35,7 +36,7 @@ export function GlobalPlayer() {
       const nextSong = songQueue[index];
       if (nextSong) {
         dispatch(setAudioEnded(false));
-        dispatch(updateCurrentSong(nextSong));
+        updateCurrentSong(nextSong, gPlaylistId);
       }
     }
   }, [index, songQueue, dispatch]);

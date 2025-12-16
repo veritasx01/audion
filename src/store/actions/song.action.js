@@ -1,3 +1,5 @@
+import { store } from '../store';
+import { getPlaylistSongFullDetails } from '../../services/playlist/playlist.service';
 import {
   SET_SONG,
   SET_VOLUME,
@@ -8,8 +10,13 @@ import {
   SET_PLAYING,
 } from '../reducers/song.reducer';
 
-export function updateCurrentSong(song) {
-  return { type: SET_SONG, payload: song };
+export async function updateCurrentSong(song, playlistId = null) {
+  if (!song.url && playlistId) {
+    getPlaylistSongFullDetails(playlistId, song._id).then((fullSong) => {
+      store.dispatch({ type: SET_SONG, payload: fullSong });
+    });
+    return;
+  } else store.dispatch({ type: SET_SONG, payload: song });
 }
 
 export function togglePlaying() {
