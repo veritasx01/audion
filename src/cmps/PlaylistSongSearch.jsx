@@ -5,6 +5,7 @@ import { searchIcon, clearIcon } from "../services/icon.service.jsx";
 import { songService } from "../services/song/song.service.js";
 import { formatTimeFromSecs } from "../services/util.service.js";
 import { useDebounce } from "../customHooks/useDebounce.js";
+import { SmallSearchSkelletonLoader } from "./SmallSearchSkelletonLoader.jsx";
 
 export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -144,17 +145,16 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
               </li>
             ))}
           </ul>
+        ) : isLoading ? (
+          <SmallSearchSkelletonLoader></SmallSearchSkelletonLoader>
         ) : (
-          searchQuery &&
-          debouncedSearchQuery && (
-            <div className="no-results">
-              <h3>No results found for "{debouncedSearchQuery}"</h3>
-              <p>
-                Please make sure your words are spelled correctly, or use fewer
-                or different keywords.
-              </p>
-            </div>
-          )
+          searchQuery && debouncedSearchQuery && <div className="no-results">
+            <h3>{`No results found for "${debouncedSearchQuery}"`}</h3>
+            <p>
+              Please make sure your words are spelled correctly, or use fewer or
+              different keywords.
+            </p>
+          </div>
         )}
       </div>
     </div>
