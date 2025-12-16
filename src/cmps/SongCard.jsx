@@ -12,7 +12,6 @@ import { aggregateArtistsFromPlaylist } from "../services/util.service";
 export function SongCard({ playlist }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const song = playlist.songs[0];
   const playlistId = useSelector((state) => state.songQueueModule.playlistId);
   const isPlaying = useSelector((state) => state.songModule.isPlaying);
 
