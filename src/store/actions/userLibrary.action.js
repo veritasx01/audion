@@ -1,10 +1,10 @@
-import { playlistService } from "../../services/playlist/playlist.service.js";
-import { userService } from "../../services/user/user.service.js";
+import { playlistService } from '../../services/playlist/playlist.service.js';
+import { userService } from '../../services/user/user.service.js';
 import {
   showErrorMsg,
   showSuccessMsg,
-} from "../../services/event-bus.service.js";
-import { store } from "../store.js";
+} from '../../services/event-bus.service.js';
+import { store } from '../store.js';
 import {
   SET_IS_LOADING,
   ADD_PLAYLIST_TO_LIBRARY,
@@ -12,7 +12,7 @@ import {
   SET_PLAYLISTS_IN_LIBRARY,
   ADD_SONG_TO_LIKED_SONGS,
   REMOVE_SONG_FROM_LIKED_SONGS,
-} from "../reducers/userLibrary.reducer.js";
+} from '../reducers/userLibrary.reducer.js';
 
 // load playlists from backend to the store
 export async function loadLibraryPlaylists(userId) {
@@ -23,7 +23,10 @@ export async function loadLibraryPlaylists(userId) {
     .getUserById(userId)
     .then((user) => {
       playlistService
-        .query({ playlistIds: user.library?.playlists || [] })
+        .query({
+          playlistIds: user.library?.playlists || [],
+          includeLikedSongs: true,
+        })
         .then((userLibraryPlaylists) => {
           store.dispatch({
             type: SET_PLAYLISTS_IN_LIBRARY,
@@ -36,7 +39,7 @@ export async function loadLibraryPlaylists(userId) {
         `Playlist Actions: Having issues with loading playlists for user ${userId}:`,
         err
       );
-      showErrorMsg("Having issues with loading library playlists");
+      showErrorMsg('Having issues with loading library playlists');
       throw err;
     })
     .finally(() => {
@@ -53,14 +56,14 @@ export function removePlaylistFromLibrary(userId, playlistId) {
         type: REMOVE_PLAYLIST_FROM_LIBRARY, // remove from store
         payload: playlistId,
       });
-      showSuccessMsg("Playlist sucessfully removed from your library");
+      showSuccessMsg('Playlist sucessfully removed from your library');
     })
     .catch((err) => {
       console.log(
         `Playlist Actions: Having issues with removing playlist ${playlistId} from library of user ${userId}:`,
         err
       );
-      showErrorMsg("Having issues with removing playlist from library");
+      showErrorMsg('Having issues with removing playlist from library');
       throw err;
     })
     .finally(() => {
@@ -88,7 +91,7 @@ export function addPlaylistToLibrary(userId, playlistId) {
         `Playlist Actions: Having issues with adding playlist ${playlistId} to library of user ${userId}:`,
         err
       );
-      showErrorMsg("Having issues with adding playlist to library");
+      showErrorMsg('Having issues with adding playlist to library');
       throw err;
     })
     .finally(() => {

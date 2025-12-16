@@ -67,8 +67,8 @@ async function query(filterBy = {}, sortBy = '', sortOrder = 1) {
   if (filterBy.userId) {
     queryParams.userId = filterBy.userId;
   }
-  if (filterBy.isLikedSongs !== undefined) {
-    queryParams.isLikedSongs = filterBy.isLikedSongs;
+  if (filterBy.includeLikedSongs !== undefined) {
+    queryParams.includeLikedSongs = filterBy.includeLikedSongs;
   }
 
   if (filterBy.freeText) {
