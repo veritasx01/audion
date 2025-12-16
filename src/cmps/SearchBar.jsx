@@ -30,7 +30,7 @@ export function SearchBar() {
   };
 
   // using hook that uses a ref instead of remaking the debounced function each rerender
-  const delayedSearch = useDebounce(updateSearchParams, 100);
+  const delayedSearch = useDebounce(updateSearchParams, 500);
 
   return (
     <form

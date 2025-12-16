@@ -13,7 +13,6 @@ export function HomePage() {
       let playlistsQuery = await playlistService.query({});
       playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs && pl.songs.length > 0);
       const finalData = playlistsQuery ? playlistsQuery : [];
-      console.log("final data:", finalData);
       setLists([
         finalData,
         shuffleArray(finalData),
@@ -33,7 +32,6 @@ export function HomePage() {
     <>
       <HomeHeader></HomeHeader>
       <div className="content-view">
-        {console.log("lists in render:", lists[0])}
         <SongCarousel playlists={lists[0]} title="Made For You"></SongCarousel>
         <SongCarousel playlists={lists[1]} title="Discover picks for you"></SongCarousel>
         <SongCarousel

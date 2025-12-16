@@ -26,14 +26,14 @@ export function SearchPage() {
     };
     loadPlaylists();
   }, [searchWord]);
-  
-  if(isLoading) {
-    return <Loader></Loader>
+
+  if (isLoading) {
+    return <Loader></Loader>;
   }
 
   return (
     <div>
-      <SearchHeader songs={songs}></SearchHeader>
+      <SearchHeader songs={songs.slice(0, 4)}></SearchHeader>
       <div className="search-playlists-container">
         <h2>Playlists</h2>
         <SongCarousel playlists={playlists.slice(0, 5)}></SongCarousel>

@@ -236,7 +236,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         <tbody>
           {playlist.songs.map((song, idx) => (
             <tr
-              key={song._id}
+              key={song._id || idx}
               className={`${hoveredRow === idx ? 'hovered' : ''} ${
                 focusedRow === idx ? 'focused' : ''
               }`.trim()}

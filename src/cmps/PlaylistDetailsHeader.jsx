@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState, useMemo } from "react";
 import { formatPlaylistDuration } from "../services/playlist/playlist.service.js";
+import { profileImageFallback } from "../assets/images/profile-image-fallback.webp";
 
 export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
   const libraryView = useSelector((state) => state.systemModule.libraryView);
@@ -39,7 +39,7 @@ export function PlaylistDetailsHeader({ playlist, onOpenModal }) {
           <div className="playlist-metadata">
             <span className="creator">
               <img
-                src={playlist.createdBy.profileImg}
+                src={playlist?.createdBy?.profileImg || profileImageFallback}
                 alt={playlist.createdBy.username}
               />
               {playlist.createdBy.fullName}
