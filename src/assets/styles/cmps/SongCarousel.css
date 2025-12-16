@@ -1,10 +1,12 @@
 .carousel-inner {
   position: relative;
+  margin-bottom: 16px;
 }
 
 .song-carousel-container {
   width: 100%;
   max-width: 100%;
+  min-height: 250px;
   transition: transform 0.22s ease;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -40,7 +42,7 @@
   gap: 0px;
   width: max-content;
   max-width: 1400px;
-  align-items: start; 
+  align-items: start;
 }
 
 .carousel-title {
@@ -64,6 +66,7 @@
 .song-card img {
   width: 171.5px;
   height: 171.5px;
+  max-height: 300px;
   object-fit: cover;
   border-radius: 6px;
 }
@@ -80,6 +83,10 @@
   margin-bottom: 0.5rem;
   margin-top: 0.75rem;
   font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-artist {
@@ -88,9 +95,9 @@
   font-size: 0.85rem;
   margin-bottom: 0;
   font-weight: 500;
-  display: -webkit-box; 
-  -webkit-line-clamp: 3; 
-  -webkit-box-orient: vertical; 
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
