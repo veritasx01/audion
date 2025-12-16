@@ -44,7 +44,7 @@ export function SongCard({ playlist }) {
         </span>
       </button>
       <div style={{ width: "100%" }}>
-        <img src={song?.thumbnail} alt={song?.title} />
+        <img src={playlist?.thumbnail} alt={playlist?.title} />
         <p className="card-title">{song?.title}</p>
         <p className="card-artist">{song?.artist}</p>
       </div>
