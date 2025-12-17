@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { HomeHeader } from "../cmps/HomeHeader";
 import { SongCarousel } from "../cmps/SongCarousel";
 import { playlistService } from "../services/playlist/playlist.service";
-import { shuffleArray } from "../services/util.service";
 import { Loader } from "../cmps/Loader";
 
 export function HomePage() {
@@ -11,13 +10,12 @@ export function HomePage() {
   useEffect(() => {
     const initplaylists = async () => {
       let playlistsQuery = await playlistService.query({});
-      playlistsQuery = playlistsQuery.filter((pl) => !pl.isLikedSongs && pl.songs.length > 0);
       const finalData = playlistsQuery ? playlistsQuery : [];
       setLists([
-        finalData,
-        shuffleArray(finalData),
-        shuffleArray(finalData),
-        shuffleArray(finalData),
+        finalData.slice(0,12),
+        finalData.slice(12,24),
+        finalData.slice(24,36),
+        finalData.slice(36,48),
       ]);
     };
     initplaylists();
