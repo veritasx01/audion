@@ -132,7 +132,7 @@ export function isLikedSongsPlaylist(playlist) {
 export async function getLikedSongsPlaylistForUser(userId) {
   if (userId === undefined || userId === null || userId === '')
     return Promise.resolve(null);
-  return query({ userId, isLikedSongs: true }).then((playlists) => {
+  return query({ userId, includeLikedSongs: true }).then((playlists) => {
     return playlists.length > 0 ? playlists[0] : null;
   });
 }
