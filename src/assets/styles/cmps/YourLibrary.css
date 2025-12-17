@@ -66,7 +66,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: margin-left 140ms ease;
-  margin-left: 0; /* default: no left offset (toggle takes space only when visible) */
+  margin-left: 6px; /* default: 6px left offset (toggle takes space only when visible) */
 }
 
 /* Expanded & NOT hovered -> collapse the toggle so title shifts left */
@@ -178,6 +178,7 @@
   transition: color 0.2s ease, background-color 0.2s ease;
   white-space: nowrap;
   margin-left: 8px;
+  margin-right: 16px;
   line-height: 1;
 }
 

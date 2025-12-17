@@ -21,8 +21,8 @@ export function PlayerControls() {
   const isPlayerEmpty = () => {
     return !songInPlayer || Object.keys(songInPlayer).length === 0;
   };
-  const nextSong = useDebounce(() => dispatch(goToNextSong()), 100);
-  const prevSong = useDebounce(() => dispatch(goToPreviousSong()), 100);
+  const nextSong = useDebounce(() => dispatch(goToNextSong()), 50);
+  const prevSong = useDebounce(() => dispatch(goToPreviousSong()), 50);
   const toggleSongRepeat = () => dispatch(toggleRepeat());
   const toggleSongShuffle = () => dispatch(toggleShuffle());
 
