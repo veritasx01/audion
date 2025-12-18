@@ -98,7 +98,7 @@ export function PlaylistDetails() {
       {/* Header section with gradient background */}
       <div className="playlist-header-section" style={{ position: "relative" }}>
         {/* Gradient background for header */}
-        <div className="playlist-header-bg" style={createGradientStyle(0)} />
+        <div className="playlist-header-bg" style={createGradientStyle()} />
 
         {/* Header content on top of gradient */}
         <div style={{ position: "relative", zIndex: 1 }}>

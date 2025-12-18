@@ -44,8 +44,10 @@ export function SongCard({ playlist }) {
         </span>
       </button>
       <div style={{ width: "100%" }}>
-        <img src={playlist?.thumbnail} alt={playlist?.title}/>
-        {playlist?.title ?<p className="card-title">{playlist?.title}</p> : null}
+        <img src={playlist?.thumbnail} alt={playlist?.title} />
+        {playlist?.title ? (
+          <p className="card-title">{playlist?.title}</p>
+        ) : null}
         <p className="card-artist">{aggregateArtistsFromPlaylist(playlist)}</p>
       </div>
     </div>
