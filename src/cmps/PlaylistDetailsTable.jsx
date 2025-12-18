@@ -5,7 +5,6 @@ import { addSong, removeSong } from '../store/actions/playlist.action.js';
 import {
   addSongToLikedSongs,
   removeSongFromLikedSongs,
-  loadLibraryPlaylists,
 } from '../store/actions/userLibrary.action.js';
 import {
   ContextMenu,
@@ -29,7 +28,6 @@ import {
   setPlaylistId,
   setSongQueue,
 } from '../store/actions/songQueue.action.js';
-import { showSuccessMsg } from '../services/event-bus.service.js';
 import { formatTimeFromSecs } from '../services/util.service.js';
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
@@ -241,7 +239,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               }`.trim()}
               onMouseEnter={() => setHoveredRow(idx)}
               onMouseLeave={() => setHoveredRow(null)}
-              onClick={(e) => {
+              onClick={() => {
                 setFocusedRow(idx);
               }}
             >

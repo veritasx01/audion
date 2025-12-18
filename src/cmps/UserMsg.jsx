@@ -1,4 +1,4 @@
-import { eventBus, showSuccessMsg } from "../services/event-bus.service";
+import { eventBus } from "../services/event-bus.service";
 import { useState, useEffect, useRef } from "react";
 
 export function UserMsg() {

@@ -4,17 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { toggleLibrary } from "../store/actions/system.action";
 import {
-  loadPlaylists,
   addPlaylist,
 } from "../store/actions/playlist.action.js";
 import {
   loadLibraryPlaylists,
   addPlaylistToLibrary,
-  removePlaylistFromLibrary,
 } from "../store/actions/userLibrary.action.js";
-
 import { showErrorMsg } from "../services/event-bus.service.js";
-import { userService } from "../services/user/user.service.js";
 import { playlistService } from "../services/playlist/playlist.service.js";
 import { YourLibraryList } from "./YourLibraryList.jsx";
 import {
@@ -54,7 +50,7 @@ export function YourLibrary() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadLibraryPlaylists().catch((err) => {
+    loadLibraryPlaylists().catch(() => {
       showErrorMsg("Error occurred while loading your library");
     });
   }, [itemTypeFilter, searchString]);

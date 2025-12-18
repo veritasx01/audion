@@ -37,7 +37,6 @@ export function loadPlaylists() {
 
 // remove playlist from backend and update store
 export function removePlaylist(playlistId) {
-  const lastPlaylists = store.getState().playlistModule.playlists;
   store.dispatch({ type: SET_IS_LOADING, payload: true });
   return playlistService
     .remove(playlistId)
