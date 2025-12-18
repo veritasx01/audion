@@ -93,7 +93,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     }
     const lastId = song._id;
     dispatch(seekSongQueueIndex(index));
-    console.log(lastId, playingSongId);
     if (lastId !== playingSongId) {
       dispatch(setPlaying(true));
     } else {
