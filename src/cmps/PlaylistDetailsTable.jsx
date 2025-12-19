@@ -28,7 +28,10 @@ import {
   setPlaylistId,
   setSongQueue,
 } from '../store/actions/songQueue.action.js';
-import { formatTimeFromSecs } from '../services/util.service.js';
+import {
+  formatTimeFromSecs,
+  formatRelativeTime,
+} from '../services/util.service.js';
 
 export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
   const dispatch = useDispatch();
@@ -202,14 +205,6 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     showContextMenu(modifiedEvent, songMenuItems);
   }
 
-  function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  }
-
   if (!playlist.songs || playlist.songs.length === 0) {
     return;
   }
@@ -310,7 +305,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               </td>
               <td key="dateAdded">
                 <div className="playlist-song-date-added">
-                  {song.addedAt ? formatDate(song.addedAt) : ''}
+                  {song.addedAt ? formatRelativeTime(song.addedAt) : ''}
                 </div>
               </td>
 

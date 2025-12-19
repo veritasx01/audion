@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const utilService = {
   makeId,
   makeLorem,
@@ -9,6 +11,8 @@ export const utilService = {
   sortColorsByBrightness,
   updateRgbaColorsAlpha,
   escapeRegexSpecialCharacters,
+  formatTimeFromSecs,
+  formatRelativeTime,
 };
 
 export function makeId(length = 16) {
@@ -239,9 +243,22 @@ export function escapeRegexSpecialCharacters(string) {
 }
 
 export function aggregateArtistsFromPlaylist(playlist) {
-  if (!playlist || playlist?.songs.length === 0) return "";
+  if (!playlist || playlist?.songs.length === 0) return '';
   let artistArray = playlist.songs.map((song) => song.artist);
   artistArray = [...new Set(artistArray)]; // remove dups
   let artistsString = artistArray.join(', ');
   return artistsString;
+}
+
+export function formatRelativeTime(timestamp) {
+  const momentDate = moment(timestamp);
+  const oneMonthAgo = moment().subtract(1, 'month');
+
+  // Only use relative format if more than a month ago
+  if (momentDate.isAfter(oneMonthAgo)) {
+    return momentDate.fromNow();
+  } else {
+    // For dates within the last month, show absolute date format
+    return moment(timestamp).format('D MMM, YYYY');
+  }
 }
