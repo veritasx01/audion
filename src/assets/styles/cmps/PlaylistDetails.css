@@ -43,6 +43,7 @@
   transition: all 0.2s ease;
   margin-left: auto; /* Ensure it's pushed to the right */
   flex-shrink: 0; /* Prevent shrinking */
+  margin-top: 1rem;
 }
 
 .find-more-btn:hover {

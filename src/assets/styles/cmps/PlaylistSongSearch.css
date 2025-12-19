@@ -15,6 +15,7 @@
 
 .search-header h3 {
   color: var(--text-base);
+  font-family: "Manrope", sans-serif;
   font-size: 24px;
   font-weight: 700;
   margin: 0;

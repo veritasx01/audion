@@ -105,7 +105,7 @@ export function PlaylistSongSearch({ playlist, loadPlaylist, onClose }) {
           }}
           title="Close search"
         >
-          {clearIcon({ height: 24, width: 24, fill: "var(--text-base)" })}
+          {clearIcon({ height: 24, width: 24, fill: "var(--text-subdued)" })}
         </button>
       </div>
 
