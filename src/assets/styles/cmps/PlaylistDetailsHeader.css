@@ -87,6 +87,10 @@
 .playlist-info.short-title.library-collapsed:not(.now-playing-expanded)
   .playlist-title {
   font-size: clamp(3.5rem, 14cqi, 7rem); /* 56px to 112px */
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
 }
 
 .playlist-header .playlist-info .playlist-title.disabled {

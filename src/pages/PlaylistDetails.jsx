@@ -27,6 +27,7 @@ export function PlaylistDetails() {
 
   useEffect(() => {
     loadPlaylist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistId]);
 
   // Update playlist when liked songs change in store (for immediate UI updates)

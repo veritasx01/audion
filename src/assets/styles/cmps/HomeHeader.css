@@ -63,6 +63,7 @@
 }
 
 .playlist-image {
+  object-fit: cover;
   height: 64px;
   aspect-ratio: 1;
 }

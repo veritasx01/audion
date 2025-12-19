@@ -80,7 +80,6 @@ export function playlistReducer(state = initialState, action) {
         isLoading: action.payload,
       };
     case UNDO_CHANGES: // for rollingback an optimistic update implementation
-      console.log("UNDO");
       return {
         ...state,
         playlists: [...state.lastPlaylists],
