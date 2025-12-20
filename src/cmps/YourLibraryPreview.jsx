@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, generatePath } from 'react-router-dom';
+import { Link, useNavigate, useLocation, generatePath } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ContextMenu, useContextMenu } from './ContextMenu.jsx';
 import { userService } from '../services/user/user.service.js';
@@ -43,6 +43,7 @@ export function YourLibraryPreview({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const isNowPlaying = useSelector((state) => state.songModule.isPlaying);
   const queueState = useSelector((state) => state.songQueueModule);
   const likedSongs = useSelector((state) => state.userLibraryModule.likedSongs);
@@ -113,6 +114,8 @@ export function YourLibraryPreview({
 
   function getContextMenuItems() {
     const menuItems = [];
+    const isPlaylistEditable =
+      likedSongs._id !== _id && createdBy._id === likedSongs?.createdBy?._id; // not liked songs and created by current user
 
     menuItems.push({
       id: 'add-to-queue',
@@ -126,7 +129,9 @@ export function YourLibraryPreview({
       },
     });
     menuItems.push({ type: 'separator' });
-    if (likedSongs._id !== _id && createdBy._id === likedSongs?.createdBy?._id)
+
+    // edit playlist details
+    if (isPlaylistEditable) {
       menuItems.push({
         id: 'edit-details',
         label: 'Edit details',
@@ -137,18 +142,28 @@ export function YourLibraryPreview({
           hideContextMenu();
         },
       });
-    menuItems.push({
-      id: 'delete',
-      label: 'Delete playlist',
-      icon: deleteIcon({}),
-      danger: true,
-      disabled:
-        likedSongs._id === _id || createdBy._id !== likedSongs?.createdBy?._id,
-      onClick: () => {
-        removePlaylist(_id);
-        removePlaylistFromLibrary(likedSongs.createdBy._id, _id);
-      },
-    });
+    }
+
+    // delete playlist
+    if (isPlaylistEditable) {
+      menuItems.push({
+        id: 'delete',
+        label: 'Delete playlist',
+        icon: deleteIcon({}),
+        danger: true,
+        onClick: () => {
+          const isCurrentlyViewingThisPlaylist =
+            location.pathname === `/Playlist/${_id}`;
+          removePlaylist(_id);
+          removePlaylistFromLibrary(likedSongs.createdBy._id, _id);
+
+          // Navigate to home if currently viewing the deleted playlist
+          if (isCurrentlyViewingThisPlaylist) {
+            navigate('/');
+          }
+        },
+      });
+    }
     menuItems.push({ type: 'separator' });
     menuItems.push({
       id: 'create',
