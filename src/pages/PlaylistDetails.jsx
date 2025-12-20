@@ -18,6 +18,7 @@ export function PlaylistDetails() {
   const { playlistId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [playlist, setPlaylist] = useState(null);
+  const [shouldOpenEditModal, setShouldOpenEditModal] = useState(false);
   const likedSongsFromStore = useSelector(
     (state) => state.userLibraryModule.likedSongs
   );
@@ -27,6 +28,7 @@ export function PlaylistDetails() {
   const { colors } = useExtractColors(playlist?.thumbnail); // extract colors from playlist thumbnail for gradient background
 
   useEffect(() => {
+    setPlaylist(null); // Clear previous playlist data
     loadPlaylist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistId]);
@@ -34,14 +36,22 @@ export function PlaylistDetails() {
   useEffect(() => {
     // Check if edit parameter is present in URL
     if (searchParams.get('edit') === 'true') {
-      setShowEditModal(true);
+      setShouldOpenEditModal(true);
       // Remove the parameter from URL to clean it up
       setSearchParams((prev) => {
         prev.delete('edit');
         return prev;
       });
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams]);
+
+  // Open edit modal after playlist has loaded (if requested)
+  useEffect(() => {
+    if (shouldOpenEditModal && playlist) {
+      setShowEditModal(true);
+      setShouldOpenEditModal(false);
+    }
+  }, [shouldOpenEditModal, playlist]);
 
   // Update playlist when liked songs change in store (for immediate UI updates)
   useEffect(() => {
