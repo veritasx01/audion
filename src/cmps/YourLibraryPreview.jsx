@@ -1,25 +1,25 @@
-import { useState } from "react";
-import { Link, useNavigate, generatePath } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { ContextMenu, useContextMenu } from "./ContextMenu.jsx";
-import { userService } from "../services/user/user.service.js";
-import { playlistService } from "../services/playlist/playlist.service.js";
+import { useState } from 'react';
+import { Link, useNavigate, generatePath } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { ContextMenu, useContextMenu } from './ContextMenu.jsx';
+import { userService } from '../services/user/user.service.js';
+import { playlistService } from '../services/playlist/playlist.service.js';
 import {
   addPlaylist,
   removePlaylist,
-} from "../store/actions/playlist.action.js";
+} from '../store/actions/playlist.action.js';
 import {
   addPlaylistToLibrary,
   removePlaylistFromLibrary,
   loadLibraryPlaylists,
-} from "../store/actions/userLibrary.action.js";
-import { setPlaying, togglePlaying } from "../store/actions/song.action";
+} from '../store/actions/userLibrary.action.js';
+import { setPlaying, togglePlaying } from '../store/actions/song.action';
 import {
   clearSongQueue,
   setPlaylistId,
   setSongQueue,
   toggleShuffle,
-} from "../store/actions/songQueue.action.js";
+} from '../store/actions/songQueue.action.js';
 import {
   playIcon,
   pauseIcon,
@@ -29,8 +29,8 @@ import {
   deleteIcon,
   createPlaylistIcon,
   copyIcon,
-} from "../services/icon.service.jsx";
-import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
+} from '../services/icon.service.jsx';
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js';
 
 export function YourLibraryPreview({
   _id,
@@ -56,7 +56,7 @@ export function YourLibraryPreview({
 
   function handlePlayPause() {
     if (songs.length === 0) {
-      showErrorMsg("The playlist you are trying to play is empty.");
+      showErrorMsg('The playlist you are trying to play is empty.');
       return;
     }
     if (!isCurrentPlaylist) {
@@ -72,14 +72,14 @@ export function YourLibraryPreview({
   async function onSharePlaylistURL() {
     try {
       // Generate URL for this specific playlist
-      const playlistPath = generatePath("/playlist/:id", { id: _id });
+      const playlistPath = generatePath('/playlist/:id', { id: _id });
       const playlistUrl = `${window.location.origin}${playlistPath}`;
 
       await navigator.clipboard.writeText(playlistUrl);
-      showSuccessMsg("Link copied to clipboard");
+      showSuccessMsg('Link copied to clipboard');
     } catch (err) {
-      console.error("Failed to copy URL: ", err);
-      showErrorMsg("Failed to copy link");
+      console.error('Failed to copy URL: ', err);
+      showErrorMsg('Failed to copy link');
     }
   }
 
@@ -102,8 +102,8 @@ export function YourLibraryPreview({
         navigate(`/playlist/${savedPlaylist._id}`);
       })
       .catch((err) => {
-        console.error("Error creating playlist:", err);
-        showErrorMsg("Failed to create playlist");
+        console.error('Error creating playlist:', err);
+        showErrorMsg('Failed to create playlist');
       });
   }
 
@@ -115,8 +115,8 @@ export function YourLibraryPreview({
     const menuItems = [];
 
     menuItems.push({
-      id: "add-to-queue",
-      label: "Add to queue",
+      id: 'add-to-queue',
+      label: 'Add to queue',
       icon: addToQueueIcon({}),
       disabled: true, // TODO: enable when queue merging is implemented
       onClick: () => {
@@ -125,17 +125,21 @@ export function YourLibraryPreview({
         // dispatch(setPlaylistId(_id));
       },
     });
-    menuItems.push({ type: "separator" });
+    menuItems.push({ type: 'separator' });
+    if (likedSongs._id !== _id && createdBy._id === likedSongs?.createdBy?._id)
+      menuItems.push({
+        id: 'edit-details',
+        label: 'Edit details',
+        icon: editDetailsIcon({}),
+        disabled: false,
+        onClick: () => {
+          navigate(`/playlist/${_id}?edit=true`);
+          hideContextMenu();
+        },
+      });
     menuItems.push({
-      id: "edit-details",
-      label: "Edit details",
-      icon: editDetailsIcon({}),
-      disabled: true,
-      onClick: () => {},
-    });
-    menuItems.push({
-      id: "delete",
-      label: "Delete playlist",
+      id: 'delete',
+      label: 'Delete playlist',
       icon: deleteIcon({}),
       danger: true,
       disabled:
@@ -145,19 +149,19 @@ export function YourLibraryPreview({
         removePlaylistFromLibrary(likedSongs.createdBy._id, _id);
       },
     });
-    menuItems.push({ type: "separator" });
+    menuItems.push({ type: 'separator' });
     menuItems.push({
-      id: "create",
-      label: "Create playlist",
+      id: 'create',
+      label: 'Create playlist',
       icon: createPlaylistIcon({}),
       onClick: () => {
         handleOnCreatePlaylist();
       },
     });
-    menuItems.push({ type: "separator" });
+    menuItems.push({ type: 'separator' });
     menuItems.push({
-      id: "share",
-      label: "Copy link to playlist",
+      id: 'share',
+      label: 'Copy link to playlist',
       icon: copyIcon({}),
       onClick: onSharePlaylistURL,
     });
@@ -166,7 +170,7 @@ export function YourLibraryPreview({
 
   return (
     <div
-      className={`your-library-preview${isCollapsed ? " collapsed" : ""}`}
+      className={`your-library-preview${isCollapsed ? ' collapsed' : ''}`}
       onContextMenu={handleContextMenu}
     >
       <Link to={`/${itemType}/${_id}`} className="your-library-preview-link">
@@ -175,14 +179,14 @@ export function YourLibraryPreview({
             src={thumbnail}
             alt={`${title} thumbnail`}
             className={`your-library-thumbnail${
-              isCollapsed ? " collapsed" : ""
+              isCollapsed ? ' collapsed' : ''
             }`}
           />
-          {!isCollapsed && itemType === "Playlist" && (
+          {!isCollapsed && itemType === 'Playlist' && (
             <button
               className="your-library-play-btn"
               onClick={handlePlayPause}
-              title={`${isCurrentlyPlaying ? "Pause" : "Play"} ${title}`}
+              title={`${isCurrentlyPlaying ? 'Pause' : 'Play'} ${title}`}
             >
               {isCurrentlyPlaying ? pauseIcon({}) : playIcon({})}
             </button>
@@ -192,7 +196,7 @@ export function YourLibraryPreview({
           <div className="your-library-info">
             <h4
               className={`your-library-title ${
-                isCurrentPlaylist ? "current-playlist" : ""
+                isCurrentPlaylist ? 'current-playlist' : ''
               }`}
             >
               {title}
@@ -207,7 +211,7 @@ export function YourLibraryPreview({
             {fullSpeakerIcon({
               width: 14,
               height: 14,
-              fill: "var(--text-bright-accent)",
+              fill: 'var(--text-bright-accent)',
             })}
           </div>
         )}
