@@ -29,6 +29,7 @@ import {
   deleteIcon,
   createPlaylistIcon,
   copyIcon,
+  checkmarkIcon,
 } from '../services/icon.service.jsx';
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js';
 
@@ -114,9 +115,20 @@ export function YourLibraryPreview({
 
   function getContextMenuItems() {
     const menuItems = [];
+    const userId = likedSongs?.createdBy._id;
     const isPlaylistEditable =
-      likedSongs._id !== _id && createdBy._id === likedSongs?.createdBy?._id; // not liked songs and created by current user
+      likedSongs._id !== _id && createdBy._id === userId; // not liked songs and created by current user
 
+    if (_id !== likedSongs._id) {
+      menuItems.push({
+        id: 'remove-from-library',
+        label: 'Remove from Your Library',
+        icon: checkmarkIcon({ fill: 'var(--text-bright-accent)' }),
+        onClick: () => removePlaylistFromLibrary(userId, _id),
+      });
+    }
+
+    // add to queue
     menuItems.push({
       id: 'add-to-queue',
       label: 'Add to queue',
@@ -128,10 +140,11 @@ export function YourLibraryPreview({
         // dispatch(setPlaylistId(_id));
       },
     });
+
     menuItems.push({ type: 'separator' });
 
-    // edit playlist details
     if (isPlaylistEditable) {
+      // edit playlist details
       menuItems.push({
         id: 'edit-details',
         label: 'Edit details',
@@ -142,10 +155,8 @@ export function YourLibraryPreview({
           hideContextMenu();
         },
       });
-    }
 
-    // delete playlist
-    if (isPlaylistEditable) {
+      // delete playlist
       menuItems.push({
         id: 'delete',
         label: 'Delete playlist',
@@ -155,7 +166,7 @@ export function YourLibraryPreview({
           const isCurrentlyViewingThisPlaylist =
             location.pathname === `/Playlist/${_id}`;
           removePlaylist(_id);
-          removePlaylistFromLibrary(likedSongs.createdBy._id, _id);
+          removePlaylistFromLibrary(userId, _id);
 
           // Navigate to home if currently viewing the deleted playlist
           if (isCurrentlyViewingThisPlaylist) {
@@ -163,8 +174,11 @@ export function YourLibraryPreview({
           }
         },
       });
+
+      menuItems.push({ type: 'separator' });
     }
-    menuItems.push({ type: 'separator' });
+
+    // create new playlist
     menuItems.push({
       id: 'create',
       label: 'Create playlist',
@@ -174,6 +188,8 @@ export function YourLibraryPreview({
       },
     });
     menuItems.push({ type: 'separator' });
+
+    // share playlist link
     menuItems.push({
       id: 'share',
       label: 'Copy link to playlist',
