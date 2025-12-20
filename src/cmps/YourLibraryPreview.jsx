@@ -119,7 +119,7 @@ export function YourLibraryPreview({
     const isPlaylistEditable =
       likedSongs._id !== _id && createdBy._id === userId; // not liked songs and created by current user
 
-    if (_id !== likedSongs._id) {
+    if (createdBy?._id !== userId) {
       menuItems.push({
         id: 'remove-from-library',
         label: 'Remove from Your Library',
