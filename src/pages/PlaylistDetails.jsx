@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useExtractColors } from "react-extract-colors";
-import { playlistService } from "../services/playlist/playlist.service.js";
-import { sortColorsByBrightness } from "../services/util.service.js";
-import { updatePlaylistDetails } from "../store/actions/playlist.action.js";
-import { loadLibraryPlaylists } from "../store/actions/userLibrary.action.js";
-import { PlaylistDetailsHeader } from "../cmps/PlaylistDetailsHeader.jsx";
-import { PlaylistDetailsHeaderControlls } from "../cmps/PlaylistDetailsControlls.jsx";
-import { PlaylistDetailsEditModal } from "../cmps/PlaylistDetailsEditModal.jsx";
-import { PlaylistDetailsTable } from "../cmps/PlaylistDetailsTable.jsx";
-import { PlaylistSongSearch } from "../cmps/PlaylistSongSearch.jsx";
-import { Loader } from "../cmps/Loader.jsx";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useExtractColors } from 'react-extract-colors';
+import { playlistService } from '../services/playlist/playlist.service.js';
+import { sortColorsByBrightness } from '../services/util.service.js';
+import { updatePlaylistDetails } from '../store/actions/playlist.action.js';
+import { loadLibraryPlaylists } from '../store/actions/userLibrary.action.js';
+import { PlaylistDetailsHeader } from '../cmps/PlaylistDetailsHeader.jsx';
+import { PlaylistDetailsHeaderControlls } from '../cmps/PlaylistDetailsControlls.jsx';
+import { PlaylistDetailsEditModal } from '../cmps/PlaylistDetailsEditModal.jsx';
+import { PlaylistDetailsTable } from '../cmps/PlaylistDetailsTable.jsx';
+import { PlaylistSongSearch } from '../cmps/PlaylistSongSearch.jsx';
+import { Loader } from '../cmps/Loader.jsx';
 
 export function PlaylistDetails() {
   const navigate = useNavigate();
   const { playlistId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [playlist, setPlaylist] = useState(null);
+  const [shouldOpenEditModal, setShouldOpenEditModal] = useState(false);
   const likedSongsFromStore = useSelector(
     (state) => state.userLibraryModule.likedSongs
   );
@@ -26,9 +28,30 @@ export function PlaylistDetails() {
   const { colors } = useExtractColors(playlist?.thumbnail); // extract colors from playlist thumbnail for gradient background
 
   useEffect(() => {
+    setPlaylist(null); // Clear previous playlist data
     loadPlaylist();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistId]);
+
+  useEffect(() => {
+    // Check if edit parameter is present in URL
+    if (searchParams.get('edit') === 'true') {
+      setShouldOpenEditModal(true);
+      // Remove the parameter from URL to clean it up
+      setSearchParams((prev) => {
+        prev.delete('edit');
+        return prev;
+      });
+    }
+  }, [searchParams]);
+
+  // Open edit modal after playlist has loaded (if requested)
+  useEffect(() => {
+    if (shouldOpenEditModal && playlist) {
+      setShowEditModal(true);
+      setShouldOpenEditModal(false);
+    }
+  }, [shouldOpenEditModal, playlist]);
 
   // Update playlist when liked songs change in store (for immediate UI updates)
   useEffect(() => {
@@ -53,7 +76,7 @@ export function PlaylistDetails() {
     const sortedColors = sortColorsByBrightness(colors, 3);
 
     // override darkest color with background color for better blending
-    sortedColors[sortedColors.length - 1] = "var(--background-base)";
+    sortedColors[sortedColors.length - 1] = 'var(--background-base)';
 
     setGradientColors(sortedColors);
   }, [colors]);
@@ -63,8 +86,8 @@ export function PlaylistDetails() {
       .getById(playlistId)
       .then(setPlaylist)
       .catch((err) => {
-        console.error("Error loading playlist to playlist details:", err);
-        navigate("/");
+        console.error('Error loading playlist to playlist details:', err);
+        navigate('/');
       });
   }
 
@@ -72,10 +95,10 @@ export function PlaylistDetails() {
   function createGradientStyle() {
     const colorPalette =
       gradientColors?.length > 0
-        ? gradientColors.join(", ")
+        ? gradientColors.join(', ')
         : `var(--gray1), var(--background-base)`; // default fallback if playlist has no thumbnail
     return {
-      position: "absolute",
+      position: 'absolute',
       inset: 0,
       background: `linear-gradient(to bottom, ${colorPalette})`,
       zIndex: 0,
@@ -97,12 +120,12 @@ export function PlaylistDetails() {
   return (
     <div className="playlist-details">
       {/* Header section with gradient background */}
-      <div className="playlist-header-section" style={{ position: "relative" }}>
+      <div className="playlist-header-section" style={{ position: 'relative' }}>
         {/* Gradient background for header */}
         <div className="playlist-header-bg" style={createGradientStyle(0)} />
 
         {/* Header content on top of gradient */}
-        <div style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <PlaylistDetailsHeader
             playlist={playlist}
             onOpenModal={onOpenModal}
@@ -130,7 +153,7 @@ export function PlaylistDetails() {
       {/* Song search section */}
       {isSearchExpanded && (
         <>
-          <div className="playlist-section-separator" />{" "}
+          <div className="playlist-section-separator" />{' '}
           <PlaylistSongSearch
             playlist={playlist}
             loadPlaylist={loadPlaylist}

@@ -5,6 +5,7 @@ import { addSong, removeSong } from '../store/actions/playlist.action.js';
 import {
   addSongToLikedSongs,
   removeSongFromLikedSongs,
+  loadLibraryPlaylists,
 } from '../store/actions/userLibrary.action.js';
 import {
   ContextMenu,
@@ -56,7 +57,12 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     () =>
       libraryPlaylists
         .filter((pl) => pl._id !== playlist._id)
-        .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
+        .map((pl) => ({
+          _id: pl._id,
+          title: pl.title,
+          songs: pl.songs || [],
+          userId: pl.createdBy?._id,
+        })),
     [libraryPlaylists, playlist._id]
   );
 
@@ -129,9 +135,21 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       clientY: menuY,
     };
 
+    showSongContextMenu(modifiedEvent, song);
+  }
+
+  function handleRowRightClick(e, song, idx) {
+    e.preventDefault();
+    setFocusedRow(idx);
+    showSongContextMenu(e, song);
+  }
+
+  function showSongContextMenu(e, song) {
     // construct relevant playlists that the selected song could be added to, for displaying them in submenu. Exclude playlists that already contain the song
     const availablePlaylists = otherPlaylists.filter(
-      (pl) => !pl.songs?.some((s) => s._id === song._id)
+      (pl) =>
+        !pl.songs?.some((s) => s._id === song._id) &&
+        pl.userId === likedSongsCollection.createdBy?._id
     );
 
     // Create menu items specific to the selected song
@@ -141,7 +159,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       libraryMenuItem = {
         id: 'remove-from-liked-songs',
         label: 'Remove from your Liked Songs',
-        icon: checkmarkIcon({}),
+        icon: checkmarkIcon({ fill: 'var(--text-bright-accent)' }),
         onClick: () => {
           onRemoveSongFromLikedSongs(song);
           hideContextMenu();
@@ -173,6 +191,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   onClick: () => {
                     addSong(otherPlaylist._id, song).then(() => {
                       loadPlaylist();
+                      loadLibraryPlaylists();
                     });
                     hideContextMenu();
                   },
@@ -192,6 +211,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         icon: removeIcon({}),
         onClick: () => {
           removeSong(playlist._id, song._id).then(() => loadPlaylist());
+          loadLibraryPlaylists();
           hideContextMenu();
         },
         disabled:
@@ -202,7 +222,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       libraryMenuItem,
     ];
 
-    showContextMenu(modifiedEvent, songMenuItems);
+    showContextMenu(e, songMenuItems);
   }
 
   if (!playlist.songs || playlist.songs.length === 0) {
@@ -237,6 +257,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               onClick={() => {
                 setFocusedRow(idx);
               }}
+              onContextMenu={(e) => handleRowRightClick(e, song, idx)}
             >
               <td className={'song-number-col'} key="num">
                 {hoveredRow === idx ? (
