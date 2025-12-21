@@ -1,9 +1,9 @@
-export const SET_IS_LOADING = "SET_IS_LOADING";
-export const SET_PLAYLISTS_IN_LIBRARY = "SET_PLAYLISTS_IN_LIBRARY";
-export const REMOVE_PLAYLIST_FROM_LIBRARY = "REMOVE_PLAYLIST_FROM_LIBRARY";
-export const ADD_PLAYLIST_TO_LIBRARY = "ADD_PLAYLIST_TO_LIBRARY";
-export const ADD_SONG_TO_LIKED_SONGS = "ADD_SONG_TO_LIKED_SONGS";
-export const REMOVE_SONG_FROM_LIKED_SONGS = "REMOVE_SONG_FROM_LIKED_SONGS";
+export const SET_IS_LOADING = 'SET_IS_LOADING';
+export const SET_PLAYLISTS_IN_LIBRARY = 'SET_PLAYLISTS_IN_LIBRARY';
+export const REMOVE_PLAYLIST_FROM_LIBRARY = 'REMOVE_PLAYLIST_FROM_LIBRARY';
+export const ADD_PLAYLIST_TO_LIBRARY = 'ADD_PLAYLIST_TO_LIBRARY';
+export const ADD_SONG_TO_LIKED_SONGS = 'ADD_SONG_TO_LIKED_SONGS';
+export const REMOVE_SONG_FROM_LIKED_SONGS = 'REMOVE_SONG_FROM_LIKED_SONGS';
 
 export const userLibraryActions = {
   SET_IS_LOADING,
@@ -22,19 +22,19 @@ const initialState = {
 
 export function userLibraryReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_PLAYLISTS_IN_LIBRARY:
+    case SET_PLAYLISTS_IN_LIBRARY: {
       const allPlaylists = action.payload;
       const likedSongs =
         allPlaylists.find((pl) => pl.isLikedSongs === true) || null;
       const regularPlaylists = allPlaylists.filter(
         (pl) => pl.isLikedSongs !== true
       );
-
       return {
         ...state,
         playlists: regularPlaylists,
         likedSongs: likedSongs,
       };
+    }
     case REMOVE_PLAYLIST_FROM_LIBRARY:
       return {
         ...state,
