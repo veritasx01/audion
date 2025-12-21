@@ -56,7 +56,12 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
     () =>
       libraryPlaylists
         .filter((pl) => pl._id !== playlist._id)
-        .map((pl) => ({ _id: pl._id, title: pl.title, songs: pl.songs || [] })),
+        .map((pl) => ({
+          _id: pl._id,
+          title: pl.title,
+          songs: pl.songs || [],
+          userId: pl.createdBy?._id,
+        })),
     [libraryPlaylists, playlist._id]
   );
 
@@ -131,7 +136,9 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
 
     // construct relevant playlists that the selected song could be added to, for displaying them in submenu. Exclude playlists that already contain the song
     const availablePlaylists = otherPlaylists.filter(
-      (pl) => !pl.songs?.some((s) => s._id === song._id)
+      (pl) =>
+        !pl.songs?.some((s) => s._id === song._id) &&
+        pl.userId === likedSongsCollection.createdBy?._id
     );
 
     // Create menu items specific to the selected song
@@ -141,7 +148,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       libraryMenuItem = {
         id: 'remove-from-liked-songs',
         label: 'Remove from your Liked Songs',
-        icon: checkmarkIcon({}),
+        icon: checkmarkIcon({ fill: 'var(--text-bright-accent)' }),
         onClick: () => {
           onRemoveSongFromLikedSongs(song);
           hideContextMenu();
