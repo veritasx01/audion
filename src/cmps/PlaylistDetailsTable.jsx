@@ -5,6 +5,7 @@ import { addSong, removeSong } from '../store/actions/playlist.action.js';
 import {
   addSongToLikedSongs,
   removeSongFromLikedSongs,
+  loadLibraryPlaylists,
 } from '../store/actions/userLibrary.action.js';
 import {
   ContextMenu,
@@ -134,6 +135,16 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       clientY: menuY,
     };
 
+    showSongContextMenu(modifiedEvent, song);
+  }
+
+  function handleRowRightClick(e, song, idx) {
+    e.preventDefault();
+    setFocusedRow(idx);
+    showSongContextMenu(e, song);
+  }
+
+  function showSongContextMenu(e, song) {
     // construct relevant playlists that the selected song could be added to, for displaying them in submenu. Exclude playlists that already contain the song
     const availablePlaylists = otherPlaylists.filter(
       (pl) =>
@@ -180,6 +191,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
                   onClick: () => {
                     addSong(otherPlaylist._id, song).then(() => {
                       loadPlaylist();
+                      loadLibraryPlaylists();
                     });
                     hideContextMenu();
                   },
@@ -199,6 +211,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
         icon: removeIcon({}),
         onClick: () => {
           removeSong(playlist._id, song._id).then(() => loadPlaylist());
+          loadLibraryPlaylists();
           hideContextMenu();
         },
         disabled:
@@ -209,7 +222,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
       libraryMenuItem,
     ];
 
-    showContextMenu(modifiedEvent, songMenuItems);
+    showContextMenu(e, songMenuItems);
   }
 
   if (!playlist.songs || playlist.songs.length === 0) {
@@ -244,6 +257,7 @@ export function PlaylistDetailsTable({ playlist, loadPlaylist }) {
               onClick={() => {
                 setFocusedRow(idx);
               }}
+              onContextMenu={(e) => handleRowRightClick(e, song, idx)}
             >
               <td className={'song-number-col'} key="num">
                 {hoveredRow === idx ? (
