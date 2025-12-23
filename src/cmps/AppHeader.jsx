@@ -8,7 +8,7 @@ export function AppHeader() {
     <header className="app-header full">
       <div className="flex align-center">
         <img
-          style={{ width: '32px', height: '32px', marginLeft: '28px' }}
+          style={{ width: '32px', height: '32px', marginLeft: '28px', objectFit: "cover" }}
           src={audionLogo}
           title="Audion"
         ></img>
